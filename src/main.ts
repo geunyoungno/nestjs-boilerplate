@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
@@ -19,6 +20,19 @@ function getPort() {
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {});
+
+  /**
+   * DTO validation 활성화
+   * * transformOptions.enableImplicitConversion: 묵시적 형변환
+   * * validateCustomDecorators: custom param decorator 들도 validate 하도록 설정
+   */
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+      validateCustomDecorators: true,
+    }),
+  );
 
   await app.listen(
     getPort(),
