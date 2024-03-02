@@ -22,7 +22,7 @@ const config: Config = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths , { prefix: '<rootDir>/' } ),
 
   // The root directory that Jest should scan for tests and modules within
-  rootDir: "src",
+  // rootDir: "src",
 
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
@@ -44,7 +44,7 @@ const config: Config = {
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
-  "testRegex": ".*\\.spec\\.ts$",
+  // "testRegex": ".*\\.spec\\.ts$",
 
   // A map from regular expressions to paths to transformers
   transform: {

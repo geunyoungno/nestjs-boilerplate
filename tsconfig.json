@@ -1,77 +1,42 @@
 {
-  // 확장 설정: Node.js 20 환경을 기반으로 하는 tsconfig.json 확장
   "extends": "@tsconfig/node20/tsconfig.json",
-  // ts-node 설정: 타입 체크 생략하여 실행 속도 향상
   "ts-node": {
-    // 타입 체크 생략
     "transpileOnly": true,
-    // 파일 사용 여부
     "files": true,
-    "compilerOptions": {
-      // 여기에 지정된 compilerOptions는 아래에 선언된 옵션을 재정의하지만,
-      // 오직 ts-node에서만 적용됩니다.
-      // 하나의 tsconfig.json으로 ts-node와 tsc가 서로 다른 옵션을 사용하도록 하려면 유용합니다.
-    },
+    "compilerOptions": {}
   },
-  // 컴파일러 옵션 설정
   "compilerOptions": {
-    // "module": "commonjs",
-    // 사용할 라이브러리 추가
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "lib": ["ES2022"],
-    // 선언 파일 생성
     "declaration": true,
-    // 주석 제거
     "removeComments": true,
-    // 데코레이터 메타데이터 출력
     "emitDecoratorMetadata": true,
-    // 실험적 데코레이터 활성화
     "experimentalDecorators": true,
-    // 합성된 기본 가져오기 허용
     "allowSyntheticDefaultImports": true,
-    // "target": "ES2021",
-    // 소스 맵 생성
     "sourceMap": true,
-    // 출력 디렉터리 지정
     "outDir": "./dist",
-    // baseUrl 설정
     "baseUrl": "./",
-    // 증분 컴파일 활성화
     "incremental": true,
-    // 라이브러리 검사 생략
     "skipLibCheck": true,
-    // 엄격한 모드 활성화
     "strict": true,
-    // null 체크 엄격화
     "strictNullChecks": true,
-    // 암시적 any 금지
     "noImplicitAny": false,
-    // 엄격한 함수 호출/바인딩/적용 규칙 미적용
     "strictBindCallApply": false,
-    // 파일 이름에서 일관된 캐싱 강제 적용
     "forceConsistentCasingInFileNames": true,
-    // switch 문에서 fallthrough 금지
     "noFallthroughCasesInSwitch": true,
-    // 사용되지 않는 로컬 변수 사용 금지
     "noUnusedLocals": true,
-    // 사용되지 않는 매개변수 사용 금지
     "noUnusedParameters": true,
-    // 암시적 반환 금지
     "noImplicitReturns": true,
-    // JSON 모듈 해석 활성화
     "resolveJsonModule": true,
-    // path alias 설정
-    // #을 prefix 로 설정한 이유는 아래 내용을 참조하였습니다
-    // NOTE: https://github.com/nodejs/node/issues/49182
     "paths": {
       "#app.module": ["src/app.module"],
-      //
+
       "#controllers/*": ["src/controllers/*"],
       "#dtos/*": ["src/dtos/*"],
-      "#providers/*": ["src/providers/*"],
-    },
+      "#providers/*": ["src/providers/*"]
+    }
   },
-  // 포함할 파일 경로 설정
   "include": ["src/**/*"],
-  // 제외할 파일 경로 설정
-  "exclude": ["dist/**", "test/**"],
+  "exclude": ["dist/**", "test/**"]
 }

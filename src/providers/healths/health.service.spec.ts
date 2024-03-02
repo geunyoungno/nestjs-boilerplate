@@ -11,13 +11,14 @@ describe('HealthService', () => {
       providers: [HealthService],
     }).compile();
 
+    jest.useFakeTimers();
     jest.setSystemTime(now);
 
     service = module.get<HealthService>(HealthService);
   });
 
   it('should be "IResHealthDto"', () => {
-    expect(service.read()).toBe({
+    expect(service.read()).toStrictEqual({
       runMode: 'local',
       timestamp: now.toISOString(),
     } satisfies IResHealthDto);
