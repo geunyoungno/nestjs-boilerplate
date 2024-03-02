@@ -12,15 +12,10 @@
       }
     },
     {
-      "files": [
-        ".vscode/launch.json",
-        ".vscode/settings.json",
-        "tsconfig.prod.json",
-        "tsconfig.json",
-        ".prettierrc"
-      ],
+      "files": [".vscode/launch.json", ".vscode/settings.json", "tsconfig.prod.json", "tsconfig.json", ".prettierrc"],
       "options": {
-        "parser": "jsonc"
+        "parser": "json",
+        "trailingComma": "none"
       }
     }
   ]

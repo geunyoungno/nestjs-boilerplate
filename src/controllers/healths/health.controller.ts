@@ -8,6 +8,6 @@ export class HealthController {
 
   @Get('/')
   getHealth(): ResHealthDto {
-    return this.healthService.read();
+    return new ResHealthDto(this.healthService.read());
   }
 }
