@@ -1,7 +1,7 @@
+import { AppModule } from '#app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { AppModule } from './app.module';
 
 /**
  * 포트 번호를 가져오는 함수

@@ -17,7 +17,7 @@
   "compilerOptions": {
     // "module": "commonjs",
     // 사용할 라이브러리 추가
-    "lib": ["dom.iterable"],
+    "lib": ["ES2022"],
     // 선언 파일 생성
     "declaration": true,
     // 주석 제거
@@ -59,8 +59,16 @@
     "noImplicitReturns": true,
     // JSON 모듈 해석 활성화
     "resolveJsonModule": true,
-    // 경로 별칭 설정
-    "paths": {},
+    // path alias 설정
+    // #을 prefix 로 설정한 이유는 아래 내용을 참조하였습니다
+    // NOTE: https://github.com/nodejs/node/issues/49182
+    "paths": {
+      "#app.module": ["src/app.module"],
+      //
+      "#controllers/*": ["src/controllers/*"],
+      "#dtos/*": ["src/dtos/*"],
+      "#providers/*": ["src/providers/*"],
+    },
   },
   // 포함할 파일 경로 설정
   "include": ["src/**/*"],
