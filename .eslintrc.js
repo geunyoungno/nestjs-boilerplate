@@ -108,4 +108,13 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['src/**/CE_*.ts'],
+      rules: {
+        '@typescript-eslint/no-redeclare': ['off'],
+        '@typescript-eslint/naming-convention': ['off'],
+      },
+    },
+  ],
 };

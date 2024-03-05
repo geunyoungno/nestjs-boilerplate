@@ -32,5 +32,6 @@
     "source.fixAll": "always",
     "source.organizeImports": "always"
   },
-  "eslint.validate": ["typescript", "typescriptreact"]
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "jest.runMode": { "type": "on-demand", "deferred": true }
 }

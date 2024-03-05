@@ -6,7 +6,7 @@
     "compilerOptions": {}
   },
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "lib": ["ES2022"],
     "declaration": true,
@@ -32,9 +32,12 @@
     "paths": {
       "#app.module": ["src/app.module"],
 
+      "#const-enums/*": ["src/const-enums/*"],
       "#controllers/*": ["src/controllers/*"],
       "#dtos/*": ["src/dtos/*"],
-      "#providers/*": ["src/providers/*"]
+      "#plugins/*": ["src/plugins/*"],
+      "#providers/*": ["src/providers/*"],
+      "#tools/*": ["src/tools/*"]
     }
   },
   "include": ["src/**/*"],
