@@ -1,10 +1,13 @@
 import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString } from 'class-validator';
 
 export class ResHealthDto implements IResHealthDto {
+  @ApiProperty()
   @IsString()
   runMode: string;
 
+  @ApiProperty()
   @IsISO8601()
   timestamp: string;
 

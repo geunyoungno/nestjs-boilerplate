@@ -1,4 +1,5 @@
 import { AppModule } from '#app.module';
+import { SwaggerService } from '#common/swagger/swagger.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
@@ -33,6 +34,9 @@ async function bootstrap() {
       validateCustomDecorators: true,
     }),
   );
+
+  // swagger 사용
+  app.get(SwaggerService).bootstrap(app);
 
   await app.listen(
     getPort(),
