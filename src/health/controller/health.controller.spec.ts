@@ -1,6 +1,6 @@
 import { AppModule } from '#app.module';
-import { HealthController } from '#controllers/healths/health.controller';
-import { ResHealthDto } from '#dtos/healths/ResHealthDto';
+import { HealthController } from '#health/controller/health.controller';
+import { ResHealthDto } from '#health/dto/res-health.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('HealthController', () => {
@@ -9,7 +9,7 @@ describe('HealthController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule]
+      imports: [AppModule],
     }).compile();
 
     jest.useFakeTimers();
@@ -19,6 +19,6 @@ describe('HealthController', () => {
   });
 
   it('should be "ResHealthDto"', () => {
-    expect(controller.getHealth()).toStrictEqual(new ResHealthDto({runMode: 'local', 'timestamp': now.toISOString()}));
+    expect(controller.getHealth()).toStrictEqual(new ResHealthDto({ runMode: 'local', timestamp: now.toISOString() }));
   });
 });

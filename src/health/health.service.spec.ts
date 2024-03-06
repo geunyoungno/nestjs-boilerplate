@@ -1,4 +1,4 @@
-import { IResHealthDto } from '#dtos/healths/interfaces/IResHealthDto';
+import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthService } from './health.service';
 
@@ -18,7 +18,7 @@ describe('HealthService', () => {
   });
 
   it('should be "IResHealthDto"', () => {
-    expect(service.read()).toStrictEqual({
+    expect(service.check()).toStrictEqual({
       runMode: 'local',
       timestamp: now.toISOString(),
     } satisfies IResHealthDto);

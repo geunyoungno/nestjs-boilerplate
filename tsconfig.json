@@ -33,7 +33,8 @@
       "#app.module": ["src/app.module"],
 
       "#common/*": ["src/common/*"],
-      "#health/*": ["src/health/*"]
+      "#health/*": ["src/health/*"],
+      "#user/*": ["src/user/*"]
     }
   },
   "include": ["src/**/*"],
