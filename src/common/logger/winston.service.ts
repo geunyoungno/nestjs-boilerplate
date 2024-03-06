@@ -1,4 +1,4 @@
-import { CE_LOG_COLOR, CE_LOG_LEVEL, CE_LOG_LEVEL_KEY } from '#const-enums/tools/CE_LOG_LEVEL';
+import { CE_LOG_COLOR, CE_LOG_LEVEL, CE_LOG_LEVEL_KEY } from '#common/const-enum/CE_LOG_LEVEL';
 import { Injectable, LoggerService } from '@nestjs/common';
 import { existsSync } from 'fs';
 import * as os from 'os';

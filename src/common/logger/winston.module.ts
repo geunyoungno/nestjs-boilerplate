@@ -1,4 +1,4 @@
-import { WinstonService } from '#plugins/winston/winston.service';
+import { WinstonService } from '#common/logger/winston.service';
 import { Global, Module } from '@nestjs/common';
 
 @Global()
@@ -7,4 +7,4 @@ import { Global, Module } from '@nestjs/common';
   providers: [WinstonService],
   exports: [WinstonService],
 })
-export class WinstonPluginModule {}
+export class WinstonModule {}

@@ -1,4 +1,4 @@
-import { IResHealthDto } from '#dtos/healths/interfaces/IResHealthDto';
+import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
 import { IsISO8601, IsString } from 'class-validator';
 
 export class ResHealthDto implements IResHealthDto {

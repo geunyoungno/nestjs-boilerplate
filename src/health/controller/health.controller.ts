@@ -1,5 +1,5 @@
-import { ResHealthDto } from '#dtos/healths/ResHealthDto';
-import { HealthService } from '#providers/healths/health.service';
+import { ResHealthDto } from '#health/dto/res-health.dto';
+import { HealthService } from '#health/health.service';
 import { Controller, Get } from '@nestjs/common';
 
 @Controller(['/', 'healths'])
@@ -8,6 +8,6 @@ export class HealthController {
 
   @Get('/')
   getHealth(): ResHealthDto {
-    return new ResHealthDto(this.healthService.read());
+    return new ResHealthDto(this.healthService.check());
   }
 }

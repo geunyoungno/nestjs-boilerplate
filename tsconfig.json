@@ -32,12 +32,8 @@
     "paths": {
       "#app.module": ["src/app.module"],
 
-      "#const-enums/*": ["src/const-enums/*"],
-      "#controllers/*": ["src/controllers/*"],
-      "#dtos/*": ["src/dtos/*"],
-      "#plugins/*": ["src/plugins/*"],
-      "#providers/*": ["src/providers/*"],
-      "#tools/*": ["src/tools/*"]
+      "#common/*": ["src/common/*"],
+      "#health/*": ["src/health/*"]
     }
   },
   "include": ["src/**/*"],
