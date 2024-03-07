@@ -1,10 +1,10 @@
 import { TypeormModule } from '#common/database/typeorm.module';
-import { userProviders } from '#user/user.providers';
+import { userProvider } from '#user/provider/user.provider';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [TypeormModule],
-  providers: [...userProviders],
+  providers: [userProvider],
   controllers: [],
 })
 export class UserModule {}

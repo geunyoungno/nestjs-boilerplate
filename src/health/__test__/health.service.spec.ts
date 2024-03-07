@@ -1,6 +1,6 @@
 import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
+import { HealthService } from '#health/health.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { HealthService } from './health.service';
 
 describe('HealthService', () => {
   let service: HealthService;

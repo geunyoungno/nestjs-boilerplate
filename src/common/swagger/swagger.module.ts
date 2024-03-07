@@ -1,6 +1,6 @@
+import swaggerConfiguration, { swaggerOptions } from '#common/swagger/swagger.configuration';
+import { SwaggerService } from '#common/swagger/swagger.service';
 import { Module } from '@nestjs/common';
-import swaggerConfiguration, { swaggerOptions } from './swagger.configuration';
-import { SwaggerService } from './swagger.service';
 
 @Module({
   providers: [
