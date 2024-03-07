@@ -1,0 +1,21 @@
+{
+  "server": {
+    "runMode": "local",
+    "envId": "N/A",
+    "port": 3001
+  },
+  "mysql": {
+    "nestDB": {
+      "replication": {
+        "master": {
+          "host": "localhost",
+          "port": 9301,
+          "database": "nest_db",
+          "username": "root",
+          "password": "testadmin"
+        },
+        "slaves": []
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
-import { typeormProvider } from '#common/database/typeorm.provider';
+import { nestDbProvider } from '#common/database/typeorm.provider';
 import { Module } from '@nestjs/common';
 
 @Module({
-  providers: [...typeormProvider],
-  exports: [...typeormProvider],
+  providers: [nestDbProvider],
+  exports: [nestDbProvider],
 })
 export class TypeormModule {}

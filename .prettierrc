@@ -12,7 +12,14 @@
       }
     },
     {
-      "files": [".vscode/launch.json", ".vscode/settings.json", "tsconfig.prod.json", "tsconfig.json", ".prettierrc"],
+      "files": [
+        ".vscode/launch.json",
+        ".vscode/settings.json",
+        "tsconfig.prod.json",
+        "tsconfig.json",
+        ".prettierrc",
+        "nest-cli.json"
+      ],
       "options": {
         "parser": "json",
         "trailingComma": "none"
