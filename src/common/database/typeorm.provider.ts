@@ -23,6 +23,12 @@ export const nestDbProvider: Provider = {
       password: process.env.NEST_DB_PASSWORD,
       database: nestDBConfig.replication.master.database,
       entities: [UserEntity],
+      // bigint 자료형 지원
+      supportBigNumbers: true,
+      // bigint 컬럼을 무조건 string 타입으로 전달받음
+      bigNumberStrings: true,
+      // timezone을 UTC로 설정
+      timezone: 'Z',
       // synchronize: true,
     });
 

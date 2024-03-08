@@ -10,7 +10,7 @@ export default (): Omit<OpenAPIObject, 'paths'> => ({
   },
   tags: [
     {
-      name: 'health',
+      name: 'healths',
     },
   ],
   servers: [],

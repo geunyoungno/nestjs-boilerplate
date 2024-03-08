@@ -3,8 +3,10 @@ import { HealthService } from '#health/health.service';
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('health')
-@Controller(['/', 'healths'])
+@ApiTags('healths')
+@Controller({
+  path: ['/', 'healths'],
+})
 export class HealthController {
   constructor(private readonly healthService: HealthService) {}
 
@@ -15,7 +17,7 @@ export class HealthController {
     type: ResHealthDto,
   })
   @Get('/')
-  getHealth(): ResHealthDto {
+  check(): ResHealthDto {
     return new ResHealthDto(this.healthService.check());
   }
 }
