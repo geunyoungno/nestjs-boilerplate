@@ -1,10 +1,10 @@
-import { WinstonService } from '#common/logger/winston.service';
+import { LoggerService } from '#common/logger/logger.service';
 import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class HealthService {
-  constructor(private logger: WinstonService) {}
+  constructor(private logger: LoggerService) {}
 
   check() {
     const health = {
