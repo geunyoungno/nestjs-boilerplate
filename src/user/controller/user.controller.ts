@@ -31,7 +31,7 @@ export class UserController {
     return { user: new ResUserDto(userEntity) };
   }
 
-  @ApiOperation({ summary: `${CE_TABLE_INFO.USER_SUMMARY} 조회`, tags: [CE_TABLE_INFO.USER] })
+  @ApiOperation({ summary: `${CE_TABLE_INFO.USER_SUMMARY} 목록 조회`, tags: [CE_TABLE_INFO.USER] })
   @ApiOkJsend({
     status: HttpStatus.OK,
     description: `${CE_TABLE_INFO.USER_SUMMARY} 목록 조회, 성공`,

@@ -3,6 +3,8 @@
 import 'reflect-metadata';
 
 import { AppModule } from '#app.module';
+import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
+import { HelmetService } from '#common/helmet/helmet.service';
 import { SwaggerService } from '#common/swagger/swagger.service';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -28,6 +30,12 @@ function getPort(undefinedPort?: number) {
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {});
 
+  // cors 설정 추가
+  app.enableCors();
+
+  // helmet 사용
+  await app.get(HelmetService).bootstrap(app);
+
   /**
    * DTO validation 활성화
    * * transformOptions.enableImplicitConversion: 묵시적 형변환
@@ -45,7 +53,10 @@ async function bootstrap() {
   app.enableVersioning({ type: VersioningType.URI });
 
   // swagger 사용
-  app.get(SwaggerService).bootstrap(app);
+  const runMode = app.get(ConfigService).get<CE_RUN_MODE>('server.runMode');
+  if (runMode !== CE_RUN_MODE.PRODUCTION) {
+    app.get(SwaggerService).bootstrap(app);
+  }
 
   const port = getPort(app.get(ConfigService).get('server.port'));
 
