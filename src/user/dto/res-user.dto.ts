@@ -3,7 +3,7 @@ import IUserEntity from '#user/entity/interface/IUserEntity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString, IsUUID } from 'class-validator';
 
-export class ResUserhDto implements IResUserDto {
+export class ResUserDto implements IResUserDto {
   @ApiProperty()
   @IsUUID(4)
   uuid: string;

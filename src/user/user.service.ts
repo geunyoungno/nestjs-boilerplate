@@ -58,4 +58,14 @@ export class UserService {
       uuid: args.uuid,
     };
   }
+
+  async reads() {
+    const userEntities = await this.userRepository
+      .createQueryBuilder(this.alias)
+      .select()
+      .orderBy(`${this.alias}.id`, 'DESC')
+      .getMany();
+
+    return userEntities;
+  }
 }

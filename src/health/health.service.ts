@@ -1,14 +1,18 @@
 import { LoggerService } from '#common/logger/logger.service';
 import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class HealthService {
-  constructor(private logger: LoggerService) {}
+  constructor(
+    private logger: LoggerService,
+    private config: ConfigService,
+  ) {}
 
   check() {
     const health = {
-      runMode: 'local',
+      runMode: this.config.get('runMode') ?? 'local',
       timestamp: new Date().toISOString(),
     } satisfies IResHealthDto;
 

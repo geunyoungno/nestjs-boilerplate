@@ -12,11 +12,6 @@ import * as uuid from 'uuid';
         idGenerator: (req: Request) => {
           const requestId = req.headers['X-Request-Id'] ?? req.headers['x-request-id'] ?? `auto:${uuid.v4()}`;
 
-          console.log('cls', {
-            headers: req.headers,
-            requestId,
-          });
-
           return requestId;
         },
       },
