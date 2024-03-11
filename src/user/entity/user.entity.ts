@@ -1,5 +1,5 @@
 import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
-import IUserEntity from '#user/entity/interface/IUserEntity';
+import type IUserEntity from '#user/interface/IUserEntity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as uuid from 'uuid';
 
@@ -14,7 +14,7 @@ export class UserEntity implements IUserEntity {
   id!: string;
 
   @Column({
-    // typeorm 의 uuid 타입의 경우 uuid v4로 자동 입력이 된다.
+    // typeorm 의 uuid 타입의 경우 uuid v4로 자동 입력이 된지 않는다.
     // @see https://github.com/typeorm/typeorm/blob/master/src/query-builder/InsertQueryBuilder.ts#L827-L833
     // 자동 입력되는 경우 auto generate 가 되는 primary key일 경우만이다
     // 아닐 경우 직접 입력해 주어야 한다.
@@ -55,13 +55,13 @@ export class UserEntity implements IUserEntity {
   static draft(args?: Readonly<Partial<IUserEntity>>): Omit<IUserEntity, 'id'> {
     const now = new Date();
 
-    const partialUser = {
+    const darftUser = {
       uuid: args?.uuid ?? uuid.v4(),
       fullName: args?.fullName ?? '',
       createdAt: args?.createdAt ?? now,
       updatedAt: args?.updatedAt ?? now,
     } satisfies Omit<IUserEntity, 'id'>;
 
-    return partialUser;
+    return darftUser;
   }
 }

@@ -1,6 +1,6 @@
 import { ClsModule } from '#common/cls/cls.module';
 import { ConfigModule } from '#common/config/config.module';
-import { TypeormModule } from '#common/database/typeorm.module';
+import { DatabaseModule } from '#common/database/database.module';
 import { FilterModule } from '#common/filter/filter.module';
 import { InterceptorModule } from '#common/interceptor/interceptor.module';
 import { LoggerModule } from '#common/logger/logger.module';
@@ -12,11 +12,11 @@ import { Module } from '@nestjs/common';
     //
     ClsModule,
     ConfigModule,
+    DatabaseModule,
     FilterModule,
     InterceptorModule,
     LoggerModule,
     SwaggerModule,
-    TypeormModule,
   ],
 })
 export class CommonModule {}

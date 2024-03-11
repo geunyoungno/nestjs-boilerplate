@@ -1,5 +1,5 @@
 import { LoggerService } from '#common/logger/logger.service';
-import { IResHealthDto } from '#health/dto/interface/IResHealthDto';
+import { type IResHealthDto } from '#health/interface/IResHealthDto';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 

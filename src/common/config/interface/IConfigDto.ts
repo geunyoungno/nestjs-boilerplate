@@ -1,5 +1,5 @@
-import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
-import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { type CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
+import { type MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 export interface IServerDto {
   runMode: CE_RUN_MODE;

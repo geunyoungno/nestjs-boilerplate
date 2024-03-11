@@ -1,6 +1,6 @@
 import { UserEntity } from '#user/entity/user.entity';
-import { Provider } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { type Provider } from '@nestjs/common';
+import { type DataSource } from 'typeorm';
 
 export const userProvider: Provider = {
   provide: 'USER_REPOSITORY',

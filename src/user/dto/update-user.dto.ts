@@ -21,7 +21,7 @@ export class UpdateUserBodyDto {
   @ApiProperty({
     description: `${CE_TABLE_INFO.USER_SUMMARY} 성명`,
     type: 'string',
-    nullable: true,
+    required: false,
     default: `${CE_TABLE_INFO.USER_SUMMARY} 성명`,
   })
   @IsString()

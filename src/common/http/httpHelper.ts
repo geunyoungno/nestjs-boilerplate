@@ -1,5 +1,5 @@
-import { ArgumentsHost, ExecutionContext } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { type ArgumentsHost, type ExecutionContext } from '@nestjs/common';
+import { type FastifyReply, type FastifyRequest } from 'fastify';
 
 type TContext = ArgumentsHost | ExecutionContext;
 

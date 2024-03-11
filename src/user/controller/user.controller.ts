@@ -23,7 +23,7 @@ export class UserController {
     type: { user: ResUserDto },
   })
   @Get('/:userUuid')
-  async readUser(@Param() param: ReadUserParamDto): Promise<{ user: ResUserDto }> {
+  async read(@Param() param: ReadUserParamDto): Promise<{ user: ResUserDto }> {
     const userEntity = await this.userService.read({
       uuid: param.userUuid,
     });
@@ -38,7 +38,7 @@ export class UserController {
     type: { users: [ResUserDto] },
   })
   @Get('/')
-  async readsUser(): Promise<{ users: Array<ResUserDto> }> {
+  async reads(): Promise<{ users: Array<ResUserDto> }> {
     const userEntities = await this.userService.reads();
 
     return { users: userEntities.map((userEntity) => new ResUserDto(userEntity)) };
@@ -51,7 +51,7 @@ export class UserController {
     type: { user: ResUserDto },
   })
   @Post('/')
-  async createUser(@Body() body: CreateUserBodyDto): Promise<{ user: ResUserDto }> {
+  async create(@Body() body: CreateUserBodyDto): Promise<{ user: ResUserDto }> {
     const userResult = await this.userService.create({ ...body });
 
     const userEntity = await this.userService.read({
@@ -61,14 +61,14 @@ export class UserController {
     return { user: new ResUserDto(userEntity) };
   }
 
-  @ApiOperation({ summary: `${CE_TABLE_INFO.USER_SUMMARY} 생성`, tags: [CE_TABLE_INFO.USER] })
+  @ApiOperation({ summary: `${CE_TABLE_INFO.USER_SUMMARY} 수정`, tags: [CE_TABLE_INFO.USER] })
   @ApiOkJsend({
     status: HttpStatus.OK,
-    description: `${CE_TABLE_INFO.USER_SUMMARY} 생성, 성공`,
+    description: `${CE_TABLE_INFO.USER_SUMMARY} 수정, 성공`,
     type: { user: ResUserDto },
   })
   @Put('/:userUuid')
-  async updateUser(@Param() param: UpdateUserParamDto, @Body() body: UpdateUserBodyDto): Promise<{ user: ResUserDto }> {
+  async update(@Param() param: UpdateUserParamDto, @Body() body: UpdateUserBodyDto): Promise<{ user: ResUserDto }> {
     const userResult = await this.userService.update({ uuid: param.userUuid, ...body });
 
     const userEntity = await this.userService.read({

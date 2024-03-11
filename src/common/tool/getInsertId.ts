@@ -1,4 +1,4 @@
-import { InsertResult } from 'typeorm';
+import { type InsertResult } from 'typeorm';
 
 export function getInsertId(insertResult: InsertResult) {
   if ('raw' in insertResult) {

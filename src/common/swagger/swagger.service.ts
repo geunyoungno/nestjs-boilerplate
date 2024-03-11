@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import { OpenAPIObject, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import { type NestFastifyApplication } from '@nestjs/platform-fastify';
+import { type OpenAPIObject, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
 
 @Injectable()
 export class SwaggerService {

@@ -4,10 +4,10 @@ import 'reflect-metadata';
 
 import { AppModule } from '#app.module';
 import { SwaggerService } from '#common/swagger/swagger.service';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 
 /**
  * 포트 번호를 가져오는 함수
@@ -40,6 +40,9 @@ async function bootstrap() {
       validateCustomDecorators: true,
     }),
   );
+
+  // 버저닝 추가
+  app.enableVersioning({ type: VersioningType.URI });
 
   // swagger 사용
   app.get(SwaggerService).bootstrap(app);

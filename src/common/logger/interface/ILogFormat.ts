@@ -31,13 +31,13 @@ export interface ILogFormat {
   err?: Partial<{
     message: string;
     stack: string;
-    cause: string;
+    cause?: unknown;
     line?: string;
   }>;
   payload:
     | {
         req: Partial<Record<'header' | 'query' | 'param' | 'body', unknown>>;
-        res: Partial<Record<'data' | 'error' | 'header', string>>;
+        reply: Partial<Record<'data' | 'error' | 'header', unknown>>;
       } // http 시 정보
     | Record<string, unknown>; // 그 외 정보
 }

@@ -1,7 +1,7 @@
 import { getReply, getReq } from '#common/http/httpHelper';
 import { LoggerService } from '#common/logger/logger.service';
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { Injectable, type CallHandler, type ExecutionContext, type NestInterceptor } from '@nestjs/common';
+import { type FastifyReply, type FastifyRequest } from 'fastify';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     this.request(req);
 
-    return next.handle().pipe(tap((resBody) => this.response(getReq(context), getReply(context), resBody)));
+    return next.handle().pipe(tap((replyData) => this.response(getReq(context), getReply(context), replyData)));
   }
 
   // request 시 동작
@@ -26,14 +26,16 @@ export class LoggingInterceptor implements NestInterceptor {
   }
 
   // response 시 동작
-  response(req: FastifyRequest, _reply: FastifyReply, _replyData: unknown, _err?: Error) {
-    // addResponseTime(req);
-
+  response(req: FastifyRequest, reply: FastifyReply, replyData: unknown) {
     if (this.isReqWithoutLogging(req)) {
       return;
     }
 
-    this.logger.httpRes();
+    this.logger.httpRes({
+      req,
+      reply,
+      replyData,
+    });
   }
 
   /**

@@ -1,11 +1,11 @@
-import { JsendDto } from '#common/dto/res-jsend.dto';
-import { applyDecorators, Type } from '@nestjs/common';
+import { ResJsendDto } from '#common/http/dto/res-jsend.dto';
+import { applyDecorators, type Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
-import { ReferenceObject, SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { LastArrayElement, Merge } from 'type-fest';
+import { type ReferenceObject, type SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { type LastArrayElement, type Merge } from 'type-fest';
 
 /**
- * OK 응답에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
+ * OK 응답에 대해 ResJsendDto 기반 Swagger 데코레이터를 제공합니다.
  * @param okOptions - 정상적인 응답의 설정 옵션입니다.
  */
 export const ApiOkJsend = <TRecordDto extends Record<string, Type<unknown> | Array<Type<unknown>>>>(
@@ -34,7 +34,7 @@ export const ApiOkJsend = <TRecordDto extends Record<string, Type<unknown> | Arr
         const dto = dtos.at(0);
 
         if (dto != null) {
-          acc.extraModels.push(ApiExtraModels(JsendDto, dto));
+          acc.extraModels.push(ApiExtraModels(ResJsendDto, dto));
           acc.properties[key] = {
             type: 'array',
             items: { $ref: getSchemaPath(dto) },
@@ -46,7 +46,7 @@ export const ApiOkJsend = <TRecordDto extends Record<string, Type<unknown> | Arr
 
       // 배열이 아닐 경우
       const dto = dtos;
-      acc.extraModels.push(ApiExtraModels(JsendDto, dto));
+      acc.extraModels.push(ApiExtraModels(ResJsendDto, dto));
       acc.properties[key] = {
         $ref: getSchemaPath(dto),
       };
@@ -65,9 +65,9 @@ export const ApiOkJsend = <TRecordDto extends Record<string, Type<unknown> | Arr
     ApiOkResponse({
       ...options,
       schema: {
-        // 기본적인 JsendDto 스키마와 데이터 속성을 합친 응답 스키마를 생성
+        // 기본적인 ResJsendDto 스키마와 데이터 속성을 합친 응답 스키마를 생성
         allOf: [
-          { $ref: getSchemaPath(JsendDto) },
+          { $ref: getSchemaPath(ResJsendDto) },
           {
             properties: {
               data: {

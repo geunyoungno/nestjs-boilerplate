@@ -1,7 +1,7 @@
-import { IResUserDto } from '#user/dto/interface/IResUserDto';
-import IUserEntity from '#user/entity/interface/IUserEntity';
+import { type IResUserDto } from '#user/interface/IResUserDto';
+import type IUserEntity from '#user/interface/IUserEntity';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsISO8601, IsString, IsUUID } from 'class-validator';
+import { IsISO8601, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class ResUserDto implements IResUserDto {
   @ApiProperty()
@@ -12,13 +12,16 @@ export class ResUserDto implements IResUserDto {
   @IsString()
   fullName: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+  })
   @IsISO8601()
-  createdAt: Date;
+  @IsOptional()
+  createdAt?: Date;
 
   constructor(args: IResUserDto | IUserEntity) {
     this.uuid = args.uuid;
     this.fullName = args.fullName;
-    this.createdAt = 'createdAt' in args ? new Date(args.createdAt) : new Date();
+    this.createdAt = 'createdAt' in args ? new Date(args.createdAt) : undefined;
   }
 }

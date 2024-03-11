@@ -8,11 +8,11 @@ import * as uuid from 'uuid';
       global: true,
       middleware: {
         mount: true,
-        generateId: true,
-        idGenerator: (req: Request) => {
+        // requestId 추가
+        setup: (cls, req) => {
           const requestId = req.headers['X-Request-Id'] ?? req.headers['x-request-id'] ?? `auto:${uuid.v4()}`;
 
-          return requestId;
+          cls.set('requestId', requestId);
         },
       },
     }),

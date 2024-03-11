@@ -4,10 +4,10 @@ import { IsOptional, IsString } from 'class-validator';
 /**
  * @see https://seller-note.atlassian.net/wiki/spaces/TRADEDEV/pages/196938/REST+API+Response+Format
  */
-export class JsendDto<TData = unknown> {
+export class ResJsendDto<TData = unknown> {
   @ApiProperty({
     description: `data`,
-    nullable: true,
+    required: false,
   })
   @IsString()
   @IsOptional()
@@ -16,7 +16,7 @@ export class JsendDto<TData = unknown> {
   @ApiProperty({
     description: `error code`,
     type: 'string',
-    nullable: true,
+    required: false,
   })
   @IsString()
   @IsOptional()
@@ -25,7 +25,7 @@ export class JsendDto<TData = unknown> {
   @ApiProperty({
     description: `error message`,
     type: 'string',
-    nullable: true,
+    required: false,
   })
   @IsString()
   @IsOptional()

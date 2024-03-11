@@ -1,5 +1,5 @@
-import { CE_LOG_COLOR, CE_LOG_LEVEL, CE_LOG_LEVEL_KEY } from '#common/const-enum/CE_LOG_LEVEL';
-import { Injectable, LoggerService } from '@nestjs/common';
+import { CE_LOG_COLOR, CE_LOG_LEVEL, type CE_LOG_LEVEL_KEY } from '#common/const-enum/CE_LOG_LEVEL';
+import { Injectable, type LoggerService } from '@nestjs/common';
 import { existsSync } from 'fs';
 import * as os from 'os';
 import * as winston from 'winston';
@@ -91,11 +91,11 @@ export class WinstonService implements LoggerService {
   }
 
   err(message) {
-    this.logger.error(message);
+    this.logger.log('err', message);
   }
 
   error(message) {
-    this.logger.error(message);
+    this.logger.log('err', message);
   }
 
   warn(message) {
