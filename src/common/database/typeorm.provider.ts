@@ -1,4 +1,4 @@
-import { type IConfigDto } from '#common/config/interface/IConfigDto';
+import { type IConfigDto } from '#common/config/dto/config.dto.type';
 import { UserEntity } from '#user/entity/user.entity';
 import { type Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

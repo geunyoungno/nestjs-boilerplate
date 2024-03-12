@@ -1,4 +1,4 @@
-import swaggerConfiguration, { swaggerOptions } from '#common/swagger/swagger.configuration';
+import swaggerConfiguration, { swaggerCustomOptions } from '#common/swagger/swagger.configuration';
 import { SwaggerService } from '#common/swagger/swagger.service';
 import { Module } from '@nestjs/common';
 
@@ -6,7 +6,7 @@ import { Module } from '@nestjs/common';
   providers: [
     {
       provide: SwaggerService,
-      useValue: new SwaggerService(swaggerConfiguration(), swaggerOptions),
+      useValue: new SwaggerService(swaggerConfiguration(), swaggerCustomOptions),
     },
   ],
 })

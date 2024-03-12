@@ -1,5 +1,5 @@
 import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
-import type IUserEntity from '#user/interface/IUserEntity';
+import type IUserEntity from '#user/entity/user.entitiy.type';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as uuid from 'uuid';
 

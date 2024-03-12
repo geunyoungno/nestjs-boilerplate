@@ -1,4 +1,4 @@
-import { type IConfigDto } from '#common/config/interface/IConfigDto';
+import { type IConfigDto } from '#common/config/dto/config.dto.type';
 import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
 import fs from 'fs';
 import { parse } from 'jsonc-parser';

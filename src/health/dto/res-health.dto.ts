@@ -1,4 +1,4 @@
-import { type IResHealthDto } from '#health/interface/IResHealthDto';
+import { type IResHealthDto } from '#health/dto/res-health.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString } from 'class-validator';
 

@@ -12,6 +12,12 @@ export default (): Omit<OpenAPIObject, 'paths'> => ({
     {
       name: 'healths',
     },
+    { name: 'users' },
+  ],
+  servers: [
+    // {
+    //   url: 'http://localhost:3001/',
+    // },
   ],
   security: [{ 'x-request-id': [] }],
   components: {
@@ -26,4 +32,15 @@ export default (): Omit<OpenAPIObject, 'paths'> => ({
   },
 });
 
-export const swaggerOptions: SwaggerCustomOptions = {};
+export const swaggerCustomOptions = {
+  // explorer: true,
+  customSiteTitle: `nestjs-boilerplate swagger`,
+  jsonDocumentUrl: 'swagger.json',
+  swaggerOptions: {
+    filter: true,
+    deepLinking: true,
+    displayRequestDuration: true,
+    displayOperationId: false,
+    showExtensions: true,
+  },
+} satisfies SwaggerCustomOptions;

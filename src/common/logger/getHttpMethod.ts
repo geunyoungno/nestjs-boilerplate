@@ -1,4 +1,4 @@
-import { type ILogFormat } from '#common/logger/interface/ILogFormat';
+import { type ILogFormat } from '#common/logger/log-format.type';
 
 export default function getHttpMethod(method?: string): ILogFormat['req_method'] {
   if (method === undefined || method === null) {

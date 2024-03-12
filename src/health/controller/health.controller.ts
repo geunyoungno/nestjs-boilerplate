@@ -1,6 +1,6 @@
 import { ApiOkJsend } from '#common/decorator/api-ok-jsend.decorator';
 import { ResHealthDto } from '#health/dto/res-health.dto';
-import { HealthService } from '#health/health.service';
+import { HealthService } from '#health/service/health.service';
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 

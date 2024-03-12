@@ -1,5 +1,5 @@
+import type IUserEntity from '#user/entity/user.entitiy.type';
 import { type UserEntity } from '#user/entity/user.entity';
-import type IUserEntity from '#user/interface/IUserEntity';
 
 export interface IUserRepository {
   /** 회원 단건 조회 */

@@ -4,7 +4,7 @@ import { CreateUserBodyDto } from '#user/dto/create-user.dto';
 import { ReadUserParamDto } from '#user/dto/read-user.dto';
 import { ResUserDto } from '#user/dto/res-user.dto';
 import { UpdateUserBodyDto, UpdateUserParamDto } from '#user/dto/update-user.dto';
-import { UserService } from '#user/user.service';
+import { UserService } from '#user/service/user.service';
 import { Body, Controller, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 

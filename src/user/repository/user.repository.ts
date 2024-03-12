@@ -1,7 +1,7 @@
 import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
 import { getInsertId } from '#common/tool/getInsertId';
 import { UserEntity } from '#user/entity/user.entity';
-import { type IUserRepository } from '#user/interface/IUserRepository';
+import { type IUserRepository } from '#user/repository/user.repository.type';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 

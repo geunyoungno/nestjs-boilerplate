@@ -1,6 +1,6 @@
 import { CE_LOG_DISCRIMINATOR } from '#common/const-enum/CE_LOG_DISCRIMINATOR';
 import getHttpMethod from '#common/logger/getHttpMethod';
-import { type ILogFormat } from '#common/logger/interface/ILogFormat';
+import { type ILogFormat } from '#common/logger/log-format.type';
 import { WinstonService } from '#common/logger/winston.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { type FastifyReply, type FastifyRequest } from 'fastify';

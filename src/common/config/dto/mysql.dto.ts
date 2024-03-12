@@ -1,3 +1,4 @@
+import { type IMysqlConfig, type TMysqlDbName } from '#common/config/dto/mysql.dto.type';
 import { Type } from 'class-transformer';
 import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { type MysqlConnectionCredentialsOptions } from 'typeorm/driver/mysql/MysqlConnectionCredentialsOptions';
@@ -30,13 +31,13 @@ class MysqlReplicationDto {
   slaves!: MysqlConnectionOption[];
 }
 
-class MysqlConfigDto {
+class MysqlConfigDto implements IMysqlConfig {
   @ValidateNested()
   @Type(() => MysqlReplicationDto)
   replication!: MysqlReplicationDto;
 }
 
-export class MysqlDto {
+export class MysqlDto implements Record<TMysqlDbName, IMysqlConfig> {
   @ValidateNested()
   @Type(() => MysqlConfigDto)
   nestDB!: MysqlConfigDto;

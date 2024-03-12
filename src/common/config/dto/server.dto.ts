@@ -1,4 +1,4 @@
-import { type IServerDto } from '#common/config/interface/IConfigDto';
+import { type IServerDto } from '#common/config/dto/server.dto.type';
 import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
 

@@ -1,5 +1,5 @@
-import { type IResUserDto } from '#user/interface/IResUserDto';
-import type IUserEntity from '#user/interface/IUserEntity';
+import { type IResUserDto } from '#user/dto/res-user.dto.type';
+import type IUserEntity from '#user/entity/user.entitiy.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsOptional, IsString, IsUUID } from 'class-validator';
 
