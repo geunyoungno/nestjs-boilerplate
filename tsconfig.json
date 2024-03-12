@@ -31,12 +31,13 @@
     "resolveJsonModule": true,
     "paths": {
       "#app.module": ["src/app.module"],
+      "#nestjs-common/*": ["nestjs-common/src/*"],
 
       "#common/*": ["src/common/*"],
       "#health/*": ["src/health/*"],
       "#user/*": ["src/user/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "nestjs-common/**/*"],
   "exclude": ["dist/**", "test/**"]
 }

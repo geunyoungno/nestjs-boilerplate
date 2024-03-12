@@ -18,7 +18,8 @@
         "tsconfig.prod.json",
         "tsconfig.json",
         ".prettierrc",
-        "nest-cli.json"
+        "nest-cli.json",
+        "nestjs-boilerplate.code-workspace"
       ],
       "options": {
         "parser": "json",

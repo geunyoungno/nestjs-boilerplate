@@ -13,7 +13,8 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/build": true
+    "**/build": true,
+    "nestjs-common": true
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -33,5 +34,8 @@
     "source.organizeImports": "always"
   },
   "eslint.validate": ["typescript", "typescriptreact"],
-  "jest.runMode": { "type": "on-demand", "deferred": true }
+  "jest.runMode": {
+    "type": "on-demand",
+    "deferred": true
+  }
 }
