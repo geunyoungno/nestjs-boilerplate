@@ -6,7 +6,7 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "resource/**/*",
+        "include": "environment/**/*",
         "outDir": "dist/src",
         "watchAssets": true
       }

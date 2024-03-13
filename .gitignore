@@ -55,8 +55,8 @@ pids
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# resource
-resource/config/config.*.json
-!resource/config/config.local.json
-resource/config/config.*.env
-!resource/config/config.local.env
+# environment
+src/environment/config/config.*.json
+!src/environment/config/config.local.json
+src/environment/config/config.*.env
+!src/environment/config/config.local.env
