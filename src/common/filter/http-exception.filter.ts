@@ -1,6 +1,6 @@
-import { ResJsendDto } from '#common/http/dto/res-jsend.dto';
 import { getReply, getReq } from '#common/http/httpHelper';
 import { LoggerService } from '#common/logger/logger.service';
+import { JsendDto } from '#nestjs-common/common/dto/res/res-jsend.dto';
 import { Catch, HttpException, type ArgumentsHost, type ExceptionFilter } from '@nestjs/common';
 
 @Catch(HttpException)
@@ -24,6 +24,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       err: exception,
     });
 
-    reply.status(status).send(new ResJsendDto(replyData));
+    reply.status(status).send(new JsendDto(replyData));
   }
 }

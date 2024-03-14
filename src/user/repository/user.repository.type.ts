@@ -1,4 +1,4 @@
-import type IUserEntity from '#user/entity/user.entitiy.type';
+import type IUserEntity from '#nestjs-common/user/entity/user.entity.type';
 import { type UserEntity } from '#user/entity/user.entity';
 
 export interface IUserRepository {

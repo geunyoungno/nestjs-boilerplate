@@ -1,5 +1,5 @@
-import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
 import { getInsertId } from '#common/tool/getInsertId';
+import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
 import { UserEntity } from '#user/entity/user.entity';
 import { type IUserRepository } from '#user/repository/user.repository.type';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';

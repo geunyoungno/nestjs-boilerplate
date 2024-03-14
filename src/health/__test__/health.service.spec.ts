@@ -1,5 +1,5 @@
-import { IResHealthDto } from '#health/dto/res-health.dto.type';
 import { HealthService } from '#health/service/health.service';
+import { IHealthDto } from '#nestjs-common/health/dto/res/health.dto.type';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('HealthService', () => {
@@ -17,10 +17,10 @@ describe('HealthService', () => {
     service = module.get<HealthService>(HealthService);
   });
 
-  it('should be "IResHealthDto"', () => {
+  it('should be "IHealthDto"', () => {
     expect(service.check()).toStrictEqual({
       runMode: 'local',
       timestamp: now.toISOString(),
-    } satisfies IResHealthDto);
+    } satisfies IHealthDto);
   });
 });

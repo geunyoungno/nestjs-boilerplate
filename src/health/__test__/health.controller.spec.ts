@@ -1,6 +1,6 @@
 import { AppModule } from '#app.module';
 import { HealthController } from '#health/controller/health.controller';
-import { ResHealthDto } from '#health/dto/res-health.dto';
+import { HealthDto } from '#nestjs-common/health/dto/res/health.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('HealthController', () => {
@@ -18,7 +18,7 @@ describe('HealthController', () => {
     controller = module.get<HealthController>(HealthController);
   });
 
-  it('should be "ResHealthDto"', () => {
-    expect(controller.getHealth()).toStrictEqual(new ResHealthDto({ runMode: 'local', timestamp: now.toISOString() }));
+  it('should be "HealthDto"', () => {
+    expect(controller.check()).toStrictEqual(new HealthDto({ runMode: 'local', timestamp: now.toISOString() }));
   });
 });
