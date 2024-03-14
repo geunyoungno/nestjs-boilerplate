@@ -17,5 +17,15 @@
         "slaves": []
       }
     }
+  },
+  "mailer": {
+    "gmail": {
+      "service": "gmail",
+      "auth": {
+        "username": "N/A",
+        "password": "N/A"
+      },
+      "from": "geunyoungno@gmail.com"
+    }
   }
 }

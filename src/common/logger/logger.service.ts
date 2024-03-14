@@ -115,4 +115,48 @@ export class LoggerService {
 
     this.logger.error(loggingData);
   }
+
+  commonInfo({ data, req_url }: { data: unknown; req_url?: string }) {
+    const requestId = this.cls.get('requestId');
+
+    const loggingData = {
+      discriminator: CE_LOG_DISCRIMINATOR.COMMON_INFO,
+      status: HttpStatus.OK,
+      req_method: 'UNKNOWN',
+      req_url: req_url ?? '/common/info',
+      id: {
+        requestId,
+      },
+      err: undefined,
+      payload: {
+        data,
+      },
+    } satisfies ILogFormat;
+
+    this.logger.info(loggingData);
+  }
+
+  commonErr({ err, data, req_url }: { err: Error; data?: unknown; req_url?: string }) {
+    const requestId = this.cls.get('requestId');
+
+    const loggingData = {
+      discriminator: CE_LOG_DISCRIMINATOR.COMMON_ERROR,
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      req_method: 'UNKNOWN',
+      req_url: req_url ?? '/common/error',
+      id: {
+        requestId,
+      },
+      err: {
+        message: err.message,
+        stack: err.stack,
+        cause: err.cause,
+      },
+      payload: {
+        data,
+      },
+    } satisfies ILogFormat;
+
+    this.logger.error(loggingData);
+  }
 }

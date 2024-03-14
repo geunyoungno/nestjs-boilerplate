@@ -1,9 +1,9 @@
-import { nestDbProvider } from '#common/database/typeorm.provider';
+import { nestDBProvider } from '#common/database/typeorm.provider';
 import { Global, Module } from '@nestjs/common';
 
 @Global()
 @Module({
-  providers: [nestDbProvider],
-  exports: [nestDbProvider],
+  providers: [nestDBProvider],
+  exports: [nestDBProvider],
 })
 export class DatabaseModule {}

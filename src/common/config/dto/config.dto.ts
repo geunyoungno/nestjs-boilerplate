@@ -1,3 +1,4 @@
+import { MailerDto } from '#common/config/dto/mailer.dto';
 import { MysqlDto } from '#common/config/dto/mysql.dto';
 import { ServerDto } from '#common/config/dto/server.dto';
 import { Type } from 'class-transformer';
@@ -11,4 +12,8 @@ export class ConfigDto {
   @ValidateNested()
   @Type(() => MysqlDto)
   mysql!: MysqlDto;
+
+  @ValidateNested()
+  @Type(() => MailerDto)
+  mailer!: MailerDto;
 }
