@@ -34,3 +34,34 @@ export const typeOrmMysqlNestDBProvider: Provider = {
     return dataSource.initialize();
   },
 };
+
+export const typeOrmMongoNestDBProvider: Provider = {
+  provide: 'DATA_SOURCE',
+  inject: [ConfigService],
+  useFactory: async (configService: ConfigService) => {
+    const mysqlConfig = configService.get<IMysqlConfig>('mysql.nestDB');
+
+    if (mysqlConfig == null) {
+      throw new Error('mysql config invalid');
+    }
+
+    const dataSource = new DataSource({
+      type: 'mongodb',
+      host: mysqlConfig.replication.master.host,
+      port: mysqlConfig.replication.master.port,
+      username: process.env.NEST_DB_USERNAME,
+      password: process.env.NEST_DB_PASSWORD,
+      database: mysqlConfig.replication.master.database,
+      entities: [UserEntity],
+      // bigint 자료형 지원
+      // supportBigNumbers: true,
+      // bigint 컬럼을 무조건 string 타입으로 전달받음
+      // bigNumberStrings: true,
+      // timezone을 UTC로 설정
+      // timezone: 'Z',
+      // synchronize: true,
+    });
+
+    return dataSource.initialize();
+  },
+};
