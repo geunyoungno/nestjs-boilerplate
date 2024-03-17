@@ -1,4 +1,4 @@
-import { HttpExceptionFilter } from '#common/filter/http-exception.filter';
+import { AllExceptionsFilter } from '#common/filter/all-exception.filter';
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 
@@ -6,7 +6,7 @@ import { APP_FILTER } from '@nestjs/core';
   providers: [
     {
       provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
+      useClass: AllExceptionsFilter,
     },
   ],
 })

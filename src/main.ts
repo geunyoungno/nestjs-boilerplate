@@ -46,6 +46,26 @@ async function bootstrap() {
       transform: true,
       transformOptions: { enableImplicitConversion: true },
       validateCustomDecorators: true,
+      /**
+       * error meta data
+       * @see https://stackoverflow.com/questions/60270468/throw-same-error-format-as-class-validator-in-nestjs
+       */
+      // exceptionFactory: (validationErrors: ValidationError[] = []) => {
+      //   return new BadRequestException(validationErrors);
+      // },
+
+      /**
+       * to object (Record<Property, Value>)
+       * @see https://stackoverflow.com/questions/75581669/customize-error-message-in-nest-js-using-class-validator
+       * @see https://dev.to/nithinkjoy/how-to-use-class-validator-and-return-custom-error-object-in-nestjs-562h
+       */
+      // exceptionFactory: (validationErrors: ValidationError[] = []) => {
+      //   return new BadRequestException(
+      //     validationErrors.map((error) => ({
+      //       [error.property]: Object.values(error.constraints ?? {}).join(', '),
+      //     })),
+      //   );
+      // },
     }),
   );
 

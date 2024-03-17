@@ -1,4 +1,4 @@
-import { ApiOkJsend } from '#common/decorator/api-ok-jsend.decorator';
+import { ApiOkJsend } from '#common/decorator/api-jsend.decorator';
 import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
 import { CreateUserBodyDto } from '#nestjs-common/user/dto/req/create-user.dto';
 import { ReadUserParamDto } from '#nestjs-common/user/dto/req/read-user.dto';
