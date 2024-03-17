@@ -4,7 +4,7 @@ import { type Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 
-export const nestDBProvider: Provider = {
+export const typeOrmMysqlNestDBProvider: Provider = {
   provide: 'DATA_SOURCE',
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => {
