@@ -19,7 +19,8 @@
         "tsconfig.json",
         ".prettierrc",
         "nest-cli.json",
-        "nestjs-boilerplate.code-workspace"
+        "nestjs-boilerplate.code-workspace",
+        ".huskyrc"
       ],
       "options": {
         "parser": "json",

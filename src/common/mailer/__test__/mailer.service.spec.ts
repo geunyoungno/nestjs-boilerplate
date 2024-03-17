@@ -17,7 +17,7 @@ describe('MailerService', () => {
   });
 
   it('send mail', async () => {
-    const userUuid = uuid.v4()
+    const userUuid = uuid.v4();
     const sended = service.sendSignUp({
       userUuid,
     });
