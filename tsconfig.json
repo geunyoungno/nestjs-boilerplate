@@ -34,6 +34,7 @@
       "#nestjs-common/*": ["nestjs-common/src/*"],
 
       "#common/*": ["src/common/*"],
+      "#file/*": ["src/file/*"],
       "#health/*": ["src/health/*"],
       "#user/*": ["src/user/*"]
     }

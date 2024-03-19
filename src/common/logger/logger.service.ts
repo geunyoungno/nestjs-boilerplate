@@ -16,6 +16,9 @@ export class LoggerService {
   info(message) {
     this.logger.info(message);
   }
+  error(message) {
+    this.logger.error(message);
+  }
 
   httpReq({ req }: { req: FastifyRequest }) {
     const requestId = this.cls.get('requestId');
@@ -39,7 +42,7 @@ export class LoggerService {
       },
     } satisfies ILogFormat;
 
-    this.logger.info(loggingData);
+    this.info(loggingData);
   }
 
   httpRes({ req, reply, replyData }: { req: FastifyRequest; reply: FastifyReply; replyData: unknown }) {
@@ -68,7 +71,7 @@ export class LoggerService {
       },
     } satisfies ILogFormat;
 
-    this.logger.info(loggingData);
+    this.info(loggingData);
   }
 
   // 로깅을 기본적으로 interceptor 에서 진행한다.
@@ -113,7 +116,7 @@ export class LoggerService {
       },
     } satisfies ILogFormat;
 
-    this.logger.error(loggingData);
+    this.error(loggingData);
   }
 
   commonInfo({ data, req_url }: { data: unknown; req_url?: string }) {
@@ -133,7 +136,7 @@ export class LoggerService {
       },
     } satisfies ILogFormat;
 
-    this.logger.info(loggingData);
+    this.info(loggingData);
   }
 
   commonErr({ err, data, req_url }: { err: Error; data?: unknown; req_url?: string }) {
@@ -157,6 +160,6 @@ export class LoggerService {
       },
     } satisfies ILogFormat;
 
-    this.logger.error(loggingData);
+    this.error(loggingData);
   }
 }

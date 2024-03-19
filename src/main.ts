@@ -6,6 +6,7 @@ import { AppModule } from '#app.module';
 import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
 import { HelmetService } from '#common/helmet/helmet.service';
 import { SwaggerService } from '#common/swagger/swagger.service';
+import multiPart from '@fastify/multipart';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -35,6 +36,21 @@ async function bootstrap() {
 
   // helmet 사용
   await app.get(HelmetService).bootstrap(app);
+
+  // multiPart 사용
+  await app.register(multiPart, {
+    limits: {
+      // "maxFileUploadSize": 10485760,
+      fileSize: 10485760, // For multipart forms, the max file size in bytes
+      // fileSize: 10 * 1024 * 1024, // 설정 10mb
+      files: 10, // Max number of file fields
+    },
+    /**
+     * @see https://github.com/fastify/fastify-multipart/issues/472
+     * attachFieldsToBody를 true로 설정하면 file을 제대로 가져오지 못한다... ㅜ.ㅜ 이거 확인하느라 몇시간을 ㅜ.ㅜ
+     */
+    // attachFieldsToBody: true,
+  });
 
   /**
    * DTO validation 활성화
