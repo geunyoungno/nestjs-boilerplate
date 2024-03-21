@@ -1,7 +1,7 @@
 import { AppModule } from '#app.module';
 import { MailerService } from '#common/mailer/mailer.service';
 import { UserModule } from '#user/user.module';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, type TestingModule } from '@nestjs/testing';
 import * as uuid from 'uuid';
 
 describe('MailerService', () => {

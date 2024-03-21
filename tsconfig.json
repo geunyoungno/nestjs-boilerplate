@@ -39,6 +39,6 @@
       "#user/*": ["src/user/*"]
     }
   },
-  "include": ["src/**/*", "nestjs-common/**/*"],
-  "exclude": ["dist/**", "test/**"]
+  "include": ["src/**/*", "nestjs-common/**/*", "test/**/*"],
+  "exclude": ["dist/**"]
 }

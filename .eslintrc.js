@@ -3,7 +3,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   // 파서 옵션 설정
   parserOptions: {
-    project: './tsconfig.build.json', // 프로젝트 설정 파일 경로
+    project: './tsconfig.json', // 프로젝트 설정 파일 경로
     sourceType: 'module', // ECMAScript 모듈 사용
     tsconfigRootDir: __dirname, // tsconfig.json 파일의 루트 디렉터리 설정
     createDefaultProgram: true, // 자동 프로그램 생성 옵션
@@ -27,12 +27,7 @@ module.exports = {
     jest: true, // Jest 테스트 환경
   },
   // 무시 패턴 설정: .eslintrc.js 파일 및 dist 디렉터리 무시
-  ignorePatterns: [
-    '.eslintrc.js',
-    'dist/**/*',
-    // TODO: tsconfig의 exclude 에 설정되어 있는데 왜 적용 안되는지 확인 필요
-    '**/*spec.ts',
-  ],
+  ignorePatterns: ['.eslintrc.js', 'dist/**/*'],
   // 규칙 설정
   rules: {
     // TypeScript 네이밍 규칙 설정: 인터페이스는 PascalCase 형식, T로 시작하는 형식 별칭은 PascalCase 형식으로 지정

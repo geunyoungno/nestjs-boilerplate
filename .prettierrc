@@ -15,7 +15,7 @@
       "files": [
         ".vscode/launch.json",
         ".vscode/settings.json",
-        "tsconfig.prod.json",
+        "tsconfig.build.json",
         "tsconfig.json",
         ".prettierrc",
         "nest-cli.json",
