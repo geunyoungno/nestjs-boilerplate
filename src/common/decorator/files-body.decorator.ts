@@ -1,6 +1,6 @@
 import { FileMetadataDto } from '#nestjs-common/storage/dto/req/file.dto';
 import { FileFieldsInterceptor, MemoryStorage } from '@gersur/nest-file-fastify';
-import { UseInterceptors, applyDecorators } from '@nestjs/common';
+import { UseInterceptors, applyDecorators, createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 
 // @ApiExtraModels(FileMetadataDto)
@@ -71,3 +71,13 @@ export const ApiFilesBody = () => {
     ),
   );
 };
+
+export const FilesBody = createParamDecorator((_data: string, ctx: ExecutionContext) => {
+  const req = ctx.switchToHttp().getRequest();
+  req.body.files = req?.storageFiles['files'];
+
+  return {
+    ...req.body,
+    ...req?.storageFiles,
+  };
+});
