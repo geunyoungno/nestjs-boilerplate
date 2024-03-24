@@ -2,36 +2,46 @@ import { getInsertId } from '#common/tool/getInsertId';
 import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
 import { UserEntity } from '#user/entity/user.entity';
 import { type IUserRepository } from '#user/repository/user.repository.type';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+import { DataSource, type Repository } from 'typeorm';
 
 @Injectable()
-export class UserRepository extends Repository<UserEntity> implements IUserRepository {
-  private table: string = CE_TABLE_INFO.USER;
-  private alias: string = CE_TABLE_INFO.USER_ALIS;
+export class UserRepository implements IUserRepository {
+  // private readonly table = CE_TABLE_INFO.USER;
+  private readonly alias = CE_TABLE_INFO.USER_ALIAS;
+
+  private userRepository: Repository<UserEntity>;
 
   constructor(
-    @Inject('USER_REPOSITORY')
-    private userRepository: Repository<UserEntity>,
+    @Inject('DATA_SOURCE')
+    private dataSource: DataSource,
   ) {
-    super(userRepository.target, userRepository.manager, userRepository.queryRunner);
+    this.userRepository = this.dataSource.getRepository(UserEntity);
   }
 
-  selectQuery: IUserRepository['selectQuery'] = async (args) => {
-    const userEntity = await this.userRepository
+  find: IUserRepository['find'] = async (args) => {
+    const { condition } = args;
+
+    const selectQueryBuilder = await this.userRepository
       .createQueryBuilder(this.alias)
       .select()
-      .where(`${this.alias}.uuid = :uuid`, { uuid: args.uuid })
-      .getOne();
+      .orderBy(`${this.alias}.id`, 'DESC');
 
-    if (userEntity == null) {
-      throw new NotFoundException(`${this.table} not found`);
+    if ('uuid' in condition) {
+      selectQueryBuilder.where(`${this.alias}.uuid = :uuid`, { uuid: condition.uuid });
+    }
+    if ('id' in condition) {
+      selectQueryBuilder.where(`${this.alias}.id = :id`, { id: condition.id });
+    }
+    if ('email' in condition) {
+      selectQueryBuilder.where(`${this.alias}.email = :email`, { email: condition.email });
     }
 
+    const userEntity = await selectQueryBuilder.getOne();
     return userEntity;
   };
 
-  selectsQuery: IUserRepository['selectsQuery'] = async () => {
+  findMany: IUserRepository['findMany'] = async () => {
     const userEntities = await this.userRepository
       .createQueryBuilder(this.alias)
       .select()
@@ -41,8 +51,8 @@ export class UserRepository extends Repository<UserEntity> implements IUserRepos
     return userEntities;
   };
 
-  insertQuery: IUserRepository['insertQuery'] = async (args) => {
-    const draftUser = UserEntity.draft(args);
+  create: IUserRepository['create'] = async (args) => {
+    const draftUser = UserEntity.draft(args.value);
 
     const insertResult = await this.userRepository
       .createQueryBuilder(this.alias)
@@ -59,17 +69,17 @@ export class UserRepository extends Repository<UserEntity> implements IUserRepos
     };
   };
 
-  updateQuery: IUserRepository['updateQuery'] = async (args) => {
+  update: IUserRepository['update'] = async (args) => {
     await this.userRepository
       .createQueryBuilder()
       .update()
-      .set({ fullName: args.fullName })
-      .where(`uuid = :uuid`, { uuid: args.uuid })
+      .set(args.value)
+      .where(`uuid = :uuid`, { uuid: args.condition.uuid })
       .updateEntity(false)
       .execute();
 
     return {
-      uuid: args.uuid,
+      uuid: args.condition.uuid,
     };
   };
 }

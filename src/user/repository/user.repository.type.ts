@@ -3,16 +3,19 @@ import { type UserEntity } from '#user/entity/user.entity';
 
 export interface IUserRepository {
   /** 회원 단건 조회 */
-  selectQuery(args: { uuid: IUserEntity['uuid'] }): Promise<UserEntity>;
+  find(args: {
+    condition: Pick<IUserEntity, 'uuid'> | Pick<IUserEntity, 'id'> | Pick<IUserEntity, 'email'>;
+  }): Promise<UserEntity | null>;
 
-  /** 회원 전체 목록 조회 */
-  selectsQuery(): Promise<Array<UserEntity>>;
+  /** 회원 대량건 조회 */
+  findMany(): Promise<UserEntity[]>;
 
   /** 회원 단건 생성 */
-  insertQuery(args?: Partial<Omit<IUserEntity, 'id'>>): Promise<Pick<IUserEntity, 'id' | 'uuid'>>;
+  create(args: { value: Partial<Omit<IUserEntity, 'id'>> }): Promise<Pick<UserEntity, 'id' | 'uuid'>>;
 
   /** 회원 단건 수정 */
-  updateQuery(
-    args: { uuid: IUserEntity['uuid'] } & Partial<Omit<IUserEntity, 'id' | 'uuid'>>,
-  ): Promise<Pick<IUserEntity, 'uuid'>>;
+  update(args: {
+    condition: Pick<IUserEntity, 'uuid'>;
+    value: Partial<Omit<IUserEntity, 'id' | 'uuid'>>;
+  }): Promise<Pick<UserEntity, 'uuid'>>;
 }

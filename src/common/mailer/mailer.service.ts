@@ -19,7 +19,11 @@ export class MailerService {
   @OnEvent('email.sign-up')
   async sendSignUp(args: { userUuid: IUserEntity['uuid'] }) {
     try {
-      const user = await this.userService.read({ uuid: args.userUuid });
+      const user = await this.userService.find({
+        condition: {
+          uuid: args.userUuid,
+        },
+      });
 
       const sendOption = {
         to: `${user.email}`,

@@ -1,8 +1,10 @@
 import { type IMysqlConfig } from '#common/config/dto/mysql.dto.type';
+import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
 import { UserEntity } from '#user/entity/user.entity';
 import { type Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 export const typeOrmMysqlNestDBProvider: Provider = {
   provide: 'DATA_SOURCE',
@@ -29,8 +31,9 @@ export const typeOrmMysqlNestDBProvider: Provider = {
       // timezone을 UTC로 설정
       timezone: 'Z',
       // synchronize: true,
+      logging: process.env.RUN_MODE === CE_RUN_MODE.LOCAL,
     });
 
-    return dataSource.initialize();
+    return addTransactionalDataSource(dataSource).initialize();
   },
 };
