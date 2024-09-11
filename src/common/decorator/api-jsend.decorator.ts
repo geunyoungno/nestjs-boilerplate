@@ -1,4 +1,4 @@
-import { JsendDto } from '#nestjs-common/common/dto/res/res-jsend.dto';
+import { JsendDto } from '#common/dto/res/res-jsend.dto';
 import { applyDecorators, type Type } from '@nestjs/common';
 import {
   ApiBadRequestResponse,

@@ -1,4 +1,4 @@
-import { FileMetadataDto } from '#nestjs-common/storage/dto/req/file.dto';
+import { FileMetadataDto } from '#storage/dto/req/file.dto';
 import { FileFieldsInterceptor, MemoryStorage } from '@gersur/nest-file-fastify';
 import { UseInterceptors, applyDecorators, createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';

@@ -1,5 +1,5 @@
-import type IUserEntity from '#nestjs-common/user/entity/user.entity.type';
 import { type UserEntity } from '#user/entity/user.entity';
+import type IUserEntity from '#user/entity/user.entity.type';
 
 export interface IUserRepository {
   /** 회원 단건 조회 */

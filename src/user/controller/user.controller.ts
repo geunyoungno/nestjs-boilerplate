@@ -1,9 +1,9 @@
+import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
 import { ApiOkJsend } from '#common/decorator/api-jsend.decorator';
-import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
-import { CreateUserBodyDto } from '#nestjs-common/user/dto/req/create-user.dto';
-import { ReadUserParamDto } from '#nestjs-common/user/dto/req/read-user.dto';
-import { UpdateUserBodyDto, UpdateUserParamDto } from '#nestjs-common/user/dto/req/update-user.dto';
-import { UserDto } from '#nestjs-common/user/dto/res/user.dto';
+import { CreateUserBodyDto } from '#user/dto/req/create-user.dto';
+import { ReadUserParamDto } from '#user/dto/req/read-user.dto';
+import { UpdateUserBodyDto, UpdateUserParamDto } from '#user/dto/req/update-user.dto';
+import { UserDto } from '#user/dto/res/user.dto';
 import { UserService } from '#user/service/user.service';
 import { Body, Controller, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';

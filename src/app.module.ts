@@ -1,6 +1,6 @@
 import { CommonModule } from '#common/common.module';
-import { FileModule } from '#file/file.module';
 import { HealthModule } from '#health/health.module';
+import { StorageModule } from '#storage/storage.module';
 import { UserModule } from '#user/user.module';
 import { Module } from '@nestjs/common';
 
@@ -8,8 +8,8 @@ import { Module } from '@nestjs/common';
   imports: [
     //
     CommonModule,
-    FileModule,
     HealthModule,
+    StorageModule,
     UserModule,
   ],
 })

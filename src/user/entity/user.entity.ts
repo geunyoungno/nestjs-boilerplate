@@ -1,6 +1,6 @@
+import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
 import * as column from '#common/database/column';
-import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
-import type IUserEntity from '#nestjs-common/user/entity/user.entity.type';
+import type IUserEntity from '#user/entity/user.entity.type';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import * as uuid from 'uuid';
 

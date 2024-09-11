@@ -1,4 +1,0 @@
-[submodule "nestjs-common"]
-	path = nestjs-common
-	url = https://github.com/geunyoungno/nestjs-common.git
-	branch = main

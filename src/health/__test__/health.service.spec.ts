@@ -1,5 +1,5 @@
+import { type IHealthDto } from '#health/dto/res/health.dto.type';
 import { HealthService } from '#health/service/health.service';
-import { type IHealthDto } from '#nestjs-common/health/dto/res/health.dto.type';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 describe('HealthService', () => {

@@ -1,6 +1,6 @@
 import { AppModule } from '#app.module';
 import { HealthController } from '#health/controller/health.controller';
-import { HealthDto } from '#nestjs-common/health/dto/res/health.dto';
+import { HealthDto } from '#health/dto/res/health.dto';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 describe('HealthController', () => {

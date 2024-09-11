@@ -1,5 +1,5 @@
 import { LoggerService } from '#common/logger/logger.service';
-import { type IHealthDto } from '#nestjs-common/health/dto/res/health.dto.type';
+import { type IHealthDto } from '#health/dto/res/health.dto.type';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 

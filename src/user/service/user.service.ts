@@ -1,6 +1,6 @@
-import { CE_TABLE_INFO } from '#nestjs-common/common/const-enum/CE_TABLE_INFO';
-import { type CreateUserBodyDto } from '#nestjs-common/user/dto/req/create-user.dto';
-import { type UpdateUserBodyDto, type UpdateUserParamDto } from '#nestjs-common/user/dto/req/update-user.dto';
+import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
+import { type CreateUserBodyDto } from '#user/dto/req/create-user.dto';
+import { type UpdateUserBodyDto, type UpdateUserParamDto } from '#user/dto/req/update-user.dto';
 import { UserRepository } from '#user/repository/user.repository';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';

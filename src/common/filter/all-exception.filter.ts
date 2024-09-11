@@ -1,6 +1,6 @@
+import { JsendDto } from '#common/dto/res/res-jsend.dto';
 import { getReply, getReq } from '#common/http/httpHelper';
 import { LoggerService } from '#common/logger/logger.service';
-import { JsendDto } from '#nestjs-common/common/dto/res/res-jsend.dto';
 import {
   BadRequestException,
   Catch,

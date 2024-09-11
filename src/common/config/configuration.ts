@@ -27,7 +27,7 @@ export function getRunMode(undefinedRunMode?: string): CE_RUN_MODE {
 }
 
 export function getConfigDirname() {
-  const dirname = path.join(__dirname, '../', '../', 'environment', 'config');
+  const dirname = path.join(__dirname, '../', '../', '../', 'environment', 'config');
 
   return dirname;
 }

@@ -31,14 +31,13 @@
     "resolveJsonModule": true,
     "paths": {
       "#app.module": ["src/app.module"],
-      "#nestjs-common/*": ["nestjs-common/src/*"],
 
       "#common/*": ["src/common/*"],
-      "#file/*": ["src/file/*"],
+      "#storage/*": ["src/storage/*"],
       "#health/*": ["src/health/*"],
       "#user/*": ["src/user/*"]
     }
   },
-  "include": ["src/**/*", "nestjs-common/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/**/*", "./jest.config.ts"],
   "exclude": ["dist/**"]
 }
