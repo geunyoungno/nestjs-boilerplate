@@ -1,17 +1,24 @@
+import { type CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
+import { type getSwaggerConfig } from '#framework/swagger/swagger.configuration';
 import { Injectable } from '@nestjs/common';
 import { type NestFastifyApplication } from '@nestjs/platform-fastify';
-import { type OpenAPIObject, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 
 @Injectable()
 export class SwaggerService {
   constructor(
-    private config: Omit<OpenAPIObject, 'paths'>,
-    private options?: SwaggerCustomOptions,
+    private swaggerConfigRecord: Record<
+      Exclude<CE_MASHUP, typeof CE_MASHUP.COMMON>,
+      ReturnType<typeof getSwaggerConfig>
+    >,
   ) {}
 
   bootstrap(app: NestFastifyApplication) {
-    const document = SwaggerModule.createDocument(app, this.config);
+    // mashup 별 swagger 설정
+    Object.values(this.swaggerConfigRecord).forEach(({ path, config, option, documentOption }) => {
+      const document = SwaggerModule.createDocument(app, config, documentOption);
 
-    SwaggerModule.setup('swagger.io', app, document, this.options);
+      SwaggerModule.setup(path, app, document, option);
+    });
   }
 }

@@ -34,7 +34,8 @@
 
       "#common/*": ["src/common/*"],
       "#framework/*": ["src/framework/*"],
-      "#health/*": ["src/health/*"],
+      "#mashup/*": ["src/mashup/*"],
+      "#operation/*": ["src/operation/*"],
       "#storage/*": ["src/storage/*"],
       "#user/*": ["src/user/*"]
     }

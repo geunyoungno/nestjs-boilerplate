@@ -1,41 +1,43 @@
-import { type OpenAPIObject, type SwaggerCustomOptions } from '@nestjs/swagger';
+import { CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
+import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
+import { getHost } from '#common/shared/tool/getControllerHost';
+import { isNotEmpty } from '#common/shared/tool/isEmpty';
+import { getRunMode } from '#framework/config/configuration';
+import { CommonMashupModule } from '#mashup/common/common.module';
+import { ExternalModule } from '#mashup/external/external.module';
+import { PlatformModule } from '#mashup/platform/platform.module';
+import {
+  type OpenAPIObject,
+  type SwaggerCustomOptions,
+  type SwaggerDocumentOptions,
+  type SwaggerModule,
+} from '@nestjs/swagger';
+import { type FastifyRequest } from 'fastify';
+import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
+import { type Class } from 'type-fest';
+import { type FirstArrayElement } from 'type-fest/source/internal';
 
-export default (): Omit<OpenAPIObject, 'paths'> => ({
+const version = '0.0.1';
+
+const defaultSwaggerConfig: Omit<OpenAPIObject, 'info' | 'paths'> = {
   openapi: '3.0.0',
-  info: {
-    title: 'nestjs-boilerplate',
-    description: '',
-    version: '1.0.0',
-    contact: {},
-  },
-  tags: [
-    {
-      name: 'healths',
-    },
-    { name: 'users' },
-  ],
-  servers: [
-    // {
-    //   url: 'http://localhost:3001/',
-    // },
-  ],
-  security: [{ 'x-request-id': [] }],
+  security: [{ requestId: [], accessToken: [], acceptLanguage: [], acceptCurrency: [] }],
   components: {
     securitySchemes: {
-      'x-request-id': {
-        type: 'apiKey',
+      requestId: {
         description: 'Request 고유 ID, uuid v4 사용',
-        name: 'x-request-id',
         in: 'header',
+        name: `${'x-request-id'}`,
+        type: 'apiKey',
       },
     },
   },
-});
+};
 
-export const swaggerCustomOptions = {
-  // explorer: true,
-  customSiteTitle: `nestjs-boilerplate swagger`,
-  jsonDocumentUrl: 'swagger.json',
+const defaultSwaggerOption = {
+  explorer: true,
+  // customSiteTitle: `trade-api swagger`,
+  // jsonDocumentUrl: 'swagger.json',
   swaggerOptions: {
     filter: true,
     deepLinking: true,
@@ -43,4 +45,89 @@ export const swaggerCustomOptions = {
     displayOperationId: false,
     showExtensions: true,
   },
-} satisfies SwaggerCustomOptions;
+};
+
+const getSwaggerServerUrl = (mashup: CE_MASHUP) => {
+  const runMode = getRunMode();
+
+  const url = [`${mashup}-api`, runMode]
+    .filter((str) => str !== CE_RUN_MODE.PRODUCTION) // 상용 환경에서는 runMode를 제외한다.
+    .join('.');
+
+  const protocol = runMode === CE_RUN_MODE.LOCAL ? 'http' : 'https';
+  const port = runMode === CE_RUN_MODE.LOCAL ? 3001 : undefined;
+
+  return `${protocol}://${[url, port].filter(isNotEmpty).join(':')}`;
+};
+
+/**
+ * hostname과 swaggerName을 비교하여 일치하지 않으면 에러를 발생시킨다.
+ */
+export const getPatchDocumentOnRequest = (mashup: CE_MASHUP) =>
+  ((req, _res, document) => {
+    const hostname = (req as FastifyRequest).hostname;
+
+    if (getHost(mashup).test(hostname) === false) {
+      throw new Error('Invalid hostname');
+    }
+
+    return document;
+  }) satisfies SwaggerCustomOptions['patchDocumentOnRequest'];
+
+export const operationIdFactory: SwaggerDocumentOptions['operationIdFactory'] = (
+  controllerKey: string,
+  methodKey: string,
+  version?: string,
+) => {
+  return [version, controllerKey, methodKey].filter((str) => isNotEmpty(str)).join('-');
+};
+
+export const getSwaggerConfig = (args: {
+  mashup: CE_MASHUP;
+  description: string;
+  include: Array<Class<unknown>>;
+  option?: SwaggerCustomOptions;
+}): {
+  path: FirstArrayElement<Parameters<(typeof SwaggerModule)['setup']>>;
+  config: Omit<OpenAPIObject, 'paths'>;
+  option: SwaggerCustomOptions;
+  documentOption: SwaggerDocumentOptions;
+} => ({
+  path: `${args.mashup}/swagger.io`,
+  config: {
+    ...defaultSwaggerConfig,
+    info: {
+      title: `${args.mashup}-api`,
+      description: args.description,
+      version,
+    },
+    tags: [{ name: 'health' }],
+    servers: [{ url: getSwaggerServerUrl(args.mashup), description: args.description }],
+  },
+  option: {
+    ...defaultSwaggerOption,
+    customSiteTitle: `${args.mashup} swagger`,
+    jsonDocumentUrl: `${args.mashup}/swagger.json`,
+    // patchDocumentOnRequest: getPatchDocumentOnRequest(args.mashup),
+    ...args.option,
+  },
+  documentOption: {
+    include: [...args.include, CommonMashupModule],
+    operationIdFactory,
+  },
+});
+
+export const swaggerConfigRecord = {
+  [CE_MASHUP.EXTERNAL]: getSwaggerConfig({
+    mashup: CE_MASHUP.EXTERNAL,
+    description: '외부 제공용 API',
+    include: [ExternalModule],
+    option: { customCss: new SwaggerTheme().getBuffer(SwaggerThemeNameEnum.CLASSIC) },
+  }),
+  [CE_MASHUP.PLATFORM]: getSwaggerConfig({
+    mashup: CE_MASHUP.PLATFORM,
+    description: '플랫폼 API',
+    include: [PlatformModule],
+    option: { customCss: new SwaggerTheme().getBuffer(SwaggerThemeNameEnum.FEELING_BLUE) },
+  }),
+} satisfies Record<Exclude<CE_MASHUP, typeof CE_MASHUP.COMMON>, ReturnType<typeof getSwaggerConfig>>;

@@ -1,9 +1,9 @@
-import { FileMetadataDto } from '#storage/dto/req/file.dto';
+import { FileMetadataDomainDto } from '#storage/dto/res/file/file.dto';
 import { FileFieldsInterceptor, MemoryStorage } from '@gersur/nest-file-fastify';
 import { UseInterceptors, applyDecorators, createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 
-// @ApiExtraModels(FileMetadataDto)
+// @ApiExtraModels(FileMetadataDomainDto)
 // @ApiBody({
 //   required: true,
 //   // type: 'multipart/form-data',
@@ -13,7 +13,7 @@ import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swa
 //       metadatas: {
 //         type: 'array',
 //         items: {
-//           $ref: getSchemaPath(FileMetadataDto),
+//           $ref: getSchemaPath(FileMetadataDomainDto),
 //         },
 //       },
 //       files: {
@@ -37,7 +37,7 @@ import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swa
 export const ApiFilesBody = () => {
   return applyDecorators(
     // api swagger
-    ApiExtraModels(FileMetadataDto),
+    ApiExtraModels(FileMetadataDomainDto),
     ApiBody({
       required: true,
       // type: 'multipart/form-data',
@@ -47,7 +47,7 @@ export const ApiFilesBody = () => {
           metadatas: {
             type: 'array',
             items: {
-              $ref: getSchemaPath(FileMetadataDto),
+              $ref: getSchemaPath(FileMetadataDomainDto),
             },
           },
           files: {

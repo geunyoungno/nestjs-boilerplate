@@ -1,6 +1,6 @@
 import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
-import { type CreateUserBodyDto } from '#user/dto/req/create-user.dto';
-import { type UpdateUserBodyDto, type UpdateUserParamDto } from '#user/dto/req/update-user.dto';
+import { type CreateUserBodyDomainDto } from '#user/dto/req/user/create-user.dto';
+import { type UpdateUserBodyDomainDto, type UpdateUserParamDomainDto } from '#user/dto/req/user/update-user.dto';
 import { UserRepository } from '#user/repository/user.repository';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -35,7 +35,7 @@ export class UserService {
     return this.userRepository.findMany();
   }
 
-  async create(args: { body: CreateUserBodyDto }) {
+  async create(args: { body: CreateUserBodyDomainDto }) {
     const userEntity = await this.userRepository.find({
       condition: {
         email: args.body.email,
@@ -67,7 +67,7 @@ export class UserService {
   }
 
   @Transactional()
-  async update(args: { param: UpdateUserParamDto; body: UpdateUserBodyDto }) {
+  async update(args: { param: UpdateUserParamDomainDto; body: UpdateUserBodyDomainDto }) {
     const userResult = await this.userRepository.update({
       condition: {
         uuid: args.param.userUuid,
