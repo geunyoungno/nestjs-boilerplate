@@ -1,4 +1,4 @@
-import { CE_FILE_KIND } from '#common/const-enum/CE_FILE_KIND';
+import { CE_FILE_KIND } from '#common/shared/const-enum/CE_FILE_KIND';
 import { type IFileMetadataDto } from '#storage/dto/req/file.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumberString } from 'class-validator';

@@ -1,4 +1,4 @@
-import { type CE_FILE_KIND } from '#common/const-enum/CE_FILE_KIND';
+import { type CE_FILE_KIND } from '#common/shared/const-enum/CE_FILE_KIND';
 
 /**
  * 파일

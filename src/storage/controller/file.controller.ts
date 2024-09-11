@@ -1,4 +1,4 @@
-import { ApiFilesBody, FilesBody } from '#common/decorator/files-body.decorator';
+import { ApiFilesBody, FilesBody } from '#framework/decorator/files-body.decorator';
 import { CreateFileDto } from '#storage/dto/req/create-file.dto';
 import { Controller, Post } from '@nestjs/common';
 

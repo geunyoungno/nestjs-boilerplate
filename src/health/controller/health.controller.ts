@@ -1,4 +1,4 @@
-import { ApiOkJsend } from '#common/decorator/api-jsend.decorator';
+import { ApiOkJsend } from '#framework/decorator/api-jsend.decorator';
 import { HealthDto } from '#health/dto/res/health.dto';
 import { HealthService } from '#health/service/health.service';
 import { Controller, Get } from '@nestjs/common';

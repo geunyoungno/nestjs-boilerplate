@@ -1,4 +1,4 @@
-import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
+import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
 import { type CreateUserBodyDto } from '#user/dto/req/create-user.dto';
 import { type UpdateUserBodyDto, type UpdateUserParamDto } from '#user/dto/req/update-user.dto';
 import { UserRepository } from '#user/repository/user.repository';

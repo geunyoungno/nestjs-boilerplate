@@ -9,7 +9,7 @@
       "replication": {
         "master": {
           "host": "localhost",
-          "port": 9301,
+          "port": 3306,
           "database": "nest_db",
           "username": "root",
           "password": "testadmin"

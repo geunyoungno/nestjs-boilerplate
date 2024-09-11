@@ -1,4 +1,6 @@
-export interface IUserTableEntity {
+import { type IAttributeEntity, type IRelationEntity } from '#common/adaptor/database/entity/entity.type';
+
+export interface IUserAttributeEntity extends IAttributeEntity {
   /** 사용자 id, 내부용 */
   id: string;
 
@@ -26,6 +28,6 @@ export interface IUserTableEntity {
   updatedAt: Date;
 }
 
-export interface IUserRelationEntity {}
+export interface IUserRelationEntity extends IRelationEntity {}
 
-export default interface IUserEntity extends IUserTableEntity, IUserRelationEntity {}
+export default interface IUserEntity extends IUserAttributeEntity, IUserRelationEntity {}

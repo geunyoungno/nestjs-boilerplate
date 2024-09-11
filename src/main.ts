@@ -3,9 +3,10 @@
 import 'reflect-metadata';
 
 import { AppModule } from '#app.module';
-import { CE_RUN_MODE } from '#common/const-enum/CE_RUN_MODE';
-import { HelmetService } from '#common/helmet/helmet.service';
-import { SwaggerService } from '#common/swagger/swagger.service';
+import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
+import { CorsService } from '#framework/cors/cors.service';
+import { HelmetService } from '#framework/helmet/helmet.service';
+import { SwaggerService } from '#framework/swagger/swagger.service';
 import multiPart from '@fastify/multipart';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -35,7 +36,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {});
 
   // cors 설정 추가
-  app.enableCors();
+  app.get(CorsService).bootstrap(app);
 
   // helmet 사용
   await app.get(HelmetService).bootstrap(app);

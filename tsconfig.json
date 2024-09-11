@@ -33,8 +33,9 @@
       "#app.module": ["src/app.module"],
 
       "#common/*": ["src/common/*"],
-      "#storage/*": ["src/storage/*"],
+      "#framework/*": ["src/framework/*"],
       "#health/*": ["src/health/*"],
+      "#storage/*": ["src/storage/*"],
       "#user/*": ["src/user/*"]
     }
   },

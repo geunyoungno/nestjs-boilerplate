@@ -1,17 +1,14 @@
-import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
-import * as column from '#common/database/column';
+import { AttributeEntity } from '#common/adaptor/database/entity/entity';
+import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
 import type IUserEntity from '#user/entity/user.entity.type';
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { type IUserAttributeEntity } from '#user/entity/user.entity.type';
+import { Column, Entity, Index } from 'typeorm';
 import * as uuid from 'uuid';
 
-@Entity({ name: `${CE_TABLE_INFO.USER}`, engine: 'InnoDB' })
-@Index('uix_uuid', ['uuid'], { unique: true })
-export class UserEntity implements IUserEntity {
-  @PrimaryGeneratedColumn(...column.id)
-  id!: string;
+export class UserAttributeEntity extends AttributeEntity implements IUserAttributeEntity {
+  declare id: string;
 
-  @Column(column.uuid)
-  uuid!: string;
+  declare uuid: string;
 
   @Column({
     type: 'varchar',
@@ -55,13 +52,17 @@ export class UserEntity implements IUserEntity {
     name: 'updated_at',
   })
   updatedAt!: Date;
+}
 
+@Entity({ name: `${CE_TABLE_INFO.USER}`, engine: 'InnoDB' })
+@Index('uix_uuid', ['uuid'], { unique: true })
+export class UserEntity extends UserAttributeEntity implements IUserEntity {
   // insert에 입력할 값을 초기화 하기 위해서 사용한다
   // NOTE: draft 말고 다른 좋은 것 이 없을까?
   static draft(args?: Readonly<Partial<IUserEntity>>): Omit<IUserEntity, 'id'> {
     const now = new Date();
 
-    const darftUser = {
+    const draftUser = {
       uuid: args?.uuid ?? uuid.v4(),
       email: args?.email ?? 'example@example.com',
       password: args?.password ?? '',
@@ -70,6 +71,6 @@ export class UserEntity implements IUserEntity {
       updatedAt: args?.updatedAt ?? now,
     } satisfies Omit<IUserEntity, 'id'>;
 
-    return darftUser;
+    return draftUser;
   }
 }

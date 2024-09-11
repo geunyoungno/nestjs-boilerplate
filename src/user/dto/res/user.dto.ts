@@ -1,4 +1,4 @@
-import { IsPassword } from '#common/decorator/is-password.decorator';
+import { IsPassword } from '#framework/decorator/is-password.decorator';
 import { type IUserDto, type IUserPasswordDto } from '#user/dto/res/user.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsISO8601, IsString, IsUUID } from 'class-validator';

@@ -1,5 +1,5 @@
-import { CE_TABLE_INFO } from '#common/const-enum/CE_TABLE_INFO';
-import { ApiOkJsend } from '#common/decorator/api-jsend.decorator';
+import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
+import { ApiOkJsend } from '#framework/decorator/api-jsend.decorator';
 import { CreateUserBodyDto } from '#user/dto/req/create-user.dto';
 import { ReadUserParamDto } from '#user/dto/req/read-user.dto';
 import { UpdateUserBodyDto, UpdateUserParamDto } from '#user/dto/req/update-user.dto';
