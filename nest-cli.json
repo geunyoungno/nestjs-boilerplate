@@ -9,6 +9,63 @@
         "include": "../environment/**/*",
         "outDir": "dist/environment/"
       }
-    ]
+    ],
+    "webpack": false
+  },
+  "projects": {
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "framework": {
+      "type": "library",
+      "root": "libs/framework",
+      "entryFile": "index",
+      "sourceRoot": "libs/framework/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/framework/tsconfig.lib.json"
+      }
+    },
+    "operation": {
+      "type": "library",
+      "root": "libs/operation",
+      "entryFile": "index",
+      "sourceRoot": "libs/operation/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/operation/tsconfig.lib.json"
+      }
+    },
+    "storage": {
+      "type": "library",
+      "root": "libs/storage",
+      "entryFile": "index",
+      "sourceRoot": "libs/storage/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/storage/tsconfig.lib.json"
+      }
+    },
+    "user": {
+      "type": "library",
+      "root": "libs/user",
+      "entryFile": "index",
+      "sourceRoot": "libs/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/user/tsconfig.lib.json"
+      }
+    },
+    "mashup": {
+      "type": "library",
+      "root": "libs/mashup",
+      "entryFile": "index",
+      "sourceRoot": "libs/mashup/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mashup/tsconfig.lib.json"
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { ExternalUserController } from '#mashup/external/user/controller/external-user.controller';
+import { ExternalUserController } from '#mashup-api/external/user/controller/external-user.controller';
 import { UserModule } from '#user/user.module';
 import { Module } from '@nestjs/common';
 

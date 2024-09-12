@@ -44,6 +44,10 @@ module.exports = {
       {
         selector: 'typeAlias', // 형식 별칭 선택자
         format: ['PascalCase'], // PascalCase 형식 사용
+        filter: {
+          regex: '^CE_', // CE_로 시작하는 타입에 대해서 규칙을 무시함
+          match: false, // 일치하지 않을 때만 규칙 적용
+        },
         custom: {
           regex: '^T[A-Z]+', // 정규식 패턴 설정
           match: true, // 정규식과 일치 여부 설정

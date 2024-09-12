@@ -1,4 +1,4 @@
-import { PlatformFileController } from '#mashup/platform/storage/controller/platform-file.controller';
+import { PlatformFileController } from '#mashup-api/platform/storage/controller/platform-file.controller';
 import { Module } from '@nestjs/common';
 
 /**

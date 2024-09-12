@@ -1,9 +1,27 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "#common/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "#common/common": "<rootDir>/../libs/common/src",
+    "#framework/(.*)": "<rootDir>/../libs/framework/src/$1",
+    "#framework": "<rootDir>/../libs/framework/src",
+    "#operation/operation/(.*)": "<rootDir>/../libs/operation/src/$1",
+    "#operation/operation": "<rootDir>/../libs/operation/src",
+    "#storage/storage/(.*)": "<rootDir>/../libs/storage/src/$1",
+    "#storage/storage": "<rootDir>/../libs/storage/src",
+    "#user/user/(.*)": "<rootDir>/../libs/user/src/$1",
+    "#user/user": "<rootDir>/../libs/user/src",
+    "#mashup/mashup/(.*)": "<rootDir>/../libs/mashup/src/$1",
+    "#mashup/mashup": "<rootDir>/../libs/mashup/src"
   }
 }

@@ -29,17 +29,19 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types", "types"],
     "paths": {
       "#app.module": ["src/app.module"],
 
-      "#common/*": ["src/common/*"],
-      "#framework/*": ["src/framework/*"],
-      "#mashup/*": ["src/mashup/*"],
-      "#operation/*": ["src/operation/*"],
-      "#storage/*": ["src/storage/*"],
-      "#user/*": ["src/user/*"]
+      "#common/*": ["libs/common/src/*"],
+      "#framework/*": ["libs/framework/src/*"],
+      "#mashup-api/*": ["src/mashup/*"],
+      "#operation/*": ["libs/operation/src/*"],
+      "#storage/*": ["libs/storage/src/*"],
+      "#user/*": ["libs/user/src/*"],
+      "#mashup/*": ["libs/mashup/src/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "./jest.config.ts"],
+  "include": ["src/**/*", "test/**/*", "./jest.config.ts", "libs/**/*", "types/**/*"],
   "exclude": ["dist/**"]
 }

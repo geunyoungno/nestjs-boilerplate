@@ -3,9 +3,9 @@ import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
 import { getHost } from '#common/shared/tool/getControllerHost';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { getRunMode } from '#framework/config/configuration';
+import { ExternalModule } from '#mashup-api/external/external.module';
+import { PlatformModule } from '#mashup-api/platform/platform.module';
 import { CommonMashupModule } from '#mashup/common/common.module';
-import { ExternalModule } from '#mashup/external/external.module';
-import { PlatformModule } from '#mashup/platform/platform.module';
 import {
   type OpenAPIObject,
   type SwaggerCustomOptions,
