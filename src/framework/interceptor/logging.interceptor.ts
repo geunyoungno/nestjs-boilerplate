@@ -44,7 +44,7 @@ export class LoggingInterceptor implements NestInterceptor {
    */
   isReqWithoutLogging(req: FastifyRequest) {
     const protocol = req.protocol;
-    const hostname = (req.hostname ?? 'localhost:8080') !== '' ? req.hostname ?? 'localhost:8080' : 'localhost:8080';
+    const hostname = (req.hostname ?? 'localhost:8080') !== '' ? (req.hostname ?? 'localhost:8080') : 'localhost:8080';
     const url = req.raw.url ?? '';
 
     const reqUrl = new URL(url, `${[protocol]}://${hostname}`);
