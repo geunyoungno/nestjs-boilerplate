@@ -1,7 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/nestjs-boilerplate/src",
+  "monorepo": true,
+  "root": "apps/nestjs-boilerplate",
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
@@ -10,7 +12,8 @@
         "outDir": "dist/environment/"
       }
     ],
-    "webpack": false
+    "webpack": true,
+    "tsConfigPath": "apps/nestjs-boilerplate/tsconfig.app.json"
   },
   "projects": {
     "common": {
@@ -65,6 +68,33 @@
       "sourceRoot": "libs/mashup/src",
       "compilerOptions": {
         "tsConfigPath": "libs/mashup/tsconfig.lib.json"
+      }
+    },
+    "nestjs-boilerplate": {
+      "type": "application",
+      "root": "apps/nestjs-boilerplate",
+      "entryFile": "main",
+      "sourceRoot": "apps/nestjs-boilerplate/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nestjs-boilerplate/tsconfig.app.json"
+      }
+    },
+    "platform-api": {
+      "type": "application",
+      "root": "apps/platform-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/platform-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/platform-api/tsconfig.app.json"
+      }
+    },
+    "external-api": {
+      "type": "application",
+      "root": "apps/external-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/external-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/external-api/tsconfig.app.json"
       }
     }
   }

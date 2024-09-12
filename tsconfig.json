@@ -31,17 +31,20 @@
     "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "types"],
     "paths": {
+      // apps
       "#app.module": ["src/app.module"],
-
+      "#nestjs-boilerplate/*": ["apps/nestjs-boilerplate/src/*"],
+      "#platform-api/*": ["apps/platform-api/src/*"],
+      "#external-api/*": ["apps/external-api/src/*"],
+      // libs
       "#common/*": ["libs/common/src/*"],
       "#framework/*": ["libs/framework/src/*"],
-      "#mashup-api/*": ["src/mashup/*"],
+      "#mashup/*": ["libs/mashup/src/*"],
       "#operation/*": ["libs/operation/src/*"],
       "#storage/*": ["libs/storage/src/*"],
-      "#user/*": ["libs/user/src/*"],
-      "#mashup/*": ["libs/mashup/src/*"]
+      "#user/*": ["libs/user/src/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "./jest.config.ts", "libs/**/*", "types/**/*"],
+  "include": ["src/**/*", "test/**/*", "./jest.config.ts", "libs/**/*", "types/**/*", "apps/**/*"],
   "exclude": ["dist/**"]
 }

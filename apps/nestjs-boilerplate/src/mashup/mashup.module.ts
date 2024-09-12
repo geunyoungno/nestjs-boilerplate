@@ -1,5 +1,5 @@
-import { ExternalModule } from '#mashup-api/external/external.module';
-import { PlatformModule } from '#mashup-api/platform/platform.module';
+import { ExternalModule } from '#external-api/external.module';
+import { PlatformModule } from '#platform-api/platform.module';
 import { Module } from '@nestjs/common';
 
 /**
