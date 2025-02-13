@@ -37,7 +37,7 @@ export class ExternalUserController {
     type: { users: [UserDto] },
   })
   @Get('/')
-  async findMany(): Promise<{ users: Array<UserDto> }> {
+  async findMany(): Promise<{ users: UserDto[] }> {
     const userEntities = await this.userService.findMany();
 
     return { users: userEntities.map((userEntity) => new UserDto(userEntity)) };

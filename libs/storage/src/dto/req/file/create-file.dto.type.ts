@@ -2,8 +2,8 @@ import { type IFileMetadataDomainDto, type TFile } from '#storage/dto/res/file/f
 
 export interface ICreateFileDomainDto {
   /** 파일 메타데이터 목록 */
-  metadatas: Array<IFileMetadataDomainDto>;
+  metadatas: IFileMetadataDomainDto[];
 
   /** 파일 목록 */
-  files: Array<TFile>;
+  files: TFile[];
 }

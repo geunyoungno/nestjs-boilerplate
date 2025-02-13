@@ -1,10 +1,10 @@
-import { AppModule } from '#app.module';
-import { HealthController } from '#health/controller/health.controller';
-import { HealthDto } from '#health/dto/res/health.dto';
+import { CommonHealthController } from '#mashup/common/operation/controller/common-health.controller';
+import { HealthDto } from '#mashup/common/operation/dto/res/health/health.dto';
+import { AppModule } from '#nestjs-boilerplate/app.module';
 import { Test, type TestingModule } from '@nestjs/testing';
 
 describe('HealthController', () => {
-  let controller: HealthController;
+  let controller: CommonHealthController;
   const now = new Date();
 
   beforeEach(async () => {
@@ -15,7 +15,7 @@ describe('HealthController', () => {
     jest.useFakeTimers();
     jest.setSystemTime(now);
 
-    controller = module.get<HealthController>(HealthController);
+    controller = module.get<CommonHealthController>(CommonHealthController);
   });
 
   it('should be "HealthDto"', () => {
