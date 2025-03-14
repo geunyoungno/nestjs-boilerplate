@@ -1,4 +1,4 @@
-import { ReadUserParamDomainDto } from '#user/dto/req/user/read-user.dto';
-import { type IReadUserParamDomainDto } from '#user/dto/req/user/read-user.dto.type';
+import { ReadUserParamBaseDto } from '#user/dto/req/user/read-user.dto';
+import { type IReadUserParamBaseDto } from '#user/dto/req/user/read-user.dto.type';
 
-export class ReadUserParamDto extends ReadUserParamDomainDto implements IReadUserParamDomainDto {}
+export class ReadUserParamDto extends ReadUserParamBaseDto implements IReadUserParamBaseDto {}

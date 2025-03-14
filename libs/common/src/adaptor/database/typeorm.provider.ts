@@ -6,8 +6,10 @@ import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 
+export const typeormMysqlNestDBSymbol = Symbol('NESTJS_DB');
+
 export const typeOrmMysqlNestDBProvider: Provider = {
-  provide: 'DATA_SOURCE',
+  provide: typeormMysqlNestDBSymbol,
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => {
     const mysqlConfig = configService.get<IMysqlConfig>('mysql.nestDB');

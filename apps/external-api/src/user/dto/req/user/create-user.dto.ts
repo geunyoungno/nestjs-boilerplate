@@ -1,4 +1,4 @@
-import { CreateUserBodyDomainDto } from '#user/dto/req/user/create-user.dto';
-import { type ICreateUserBodyDomainDto } from '#user/dto/req/user/create-user.dto.type';
+import { CreateUserBodyBaseDto } from '#user/dto/req/user/create-user.dto';
+import { type ICreateUserBodyBaseDto } from '#user/dto/req/user/create-user.dto.type';
 
-export class CreateUserBodyDto extends CreateUserBodyDomainDto implements ICreateUserBodyDomainDto {}
+export class CreateUserBodyDto extends CreateUserBodyBaseDto implements ICreateUserBodyBaseDto {}

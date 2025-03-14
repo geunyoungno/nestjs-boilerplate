@@ -9,7 +9,7 @@ import { type CE_FILE_KIND } from '#common/shared/const-enum/CE_FILE_KIND';
  */
 export type TFile = string;
 
-export interface IFileMetadataDomainDto {
+export interface IFileMetadataBaseDto {
   /**
    * 파일 종류
    */

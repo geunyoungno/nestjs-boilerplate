@@ -1,5 +1,5 @@
+import { CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
 import { AttributeEntity } from '#common/adaptor/database/entity/entity';
-import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
 import type IUserEntity from '#user/entity/user.entity.type';
 import { type IUserAttributeEntity } from '#user/entity/user.entity.type';
 import { Column, Entity, Index } from 'typeorm';

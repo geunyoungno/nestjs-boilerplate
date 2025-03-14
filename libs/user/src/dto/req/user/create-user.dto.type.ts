@@ -1,3 +1,3 @@
-import { type IUserDomainDto, type IUserPasswordDomainDto } from '#user/dto/res/user/user.dto.type';
+import { type IUserBaseDto, type IUserPasswordBaseDto } from '#user/dto/res/user/user.dto.type';
 
-export interface ICreateUserBodyDomainDto extends Pick<IUserDomainDto, 'fullName' | 'email'>, IUserPasswordDomainDto {}
+export interface ICreateUserBodyBaseDto extends Pick<IUserBaseDto, 'fullName' | 'email'>, IUserPasswordBaseDto {}

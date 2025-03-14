@@ -1,9 +1,9 @@
 import { CE_FILE_KIND } from '#common/shared/const-enum/CE_FILE_KIND';
-import { type IFileMetadataDomainDto } from '#storage/dto/res/file/file.dto.type';
+import { type IFileMetadataBaseDto } from '#storage/dto/res/file/file.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumberString } from 'class-validator';
 
-export class FileMetadataDomainDto implements IFileMetadataDomainDto {
+export class FileMetadataBaseDto implements IFileMetadataBaseDto {
   @ApiProperty({
     description: '파일 종류',
     type: 'string',

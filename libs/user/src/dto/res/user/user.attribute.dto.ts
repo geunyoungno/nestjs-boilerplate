@@ -1,9 +1,9 @@
-import { type IUserAttributeDomainDto } from '#user/dto/res/user/user.dto.type';
+import { type IUserAttributeBaseDto } from '#user/dto/res/user/user.dto.type';
 import { type IUserAttributeEntity } from '#user/entity/user.entity.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsISO8601, IsString, IsUUID } from 'class-validator';
 
-export class UserAttributeDomainDto implements IUserAttributeDomainDto {
+export class UserAttributeBaseDto implements IUserAttributeBaseDto {
   @ApiProperty({
     description: `사용자 고유 uuid, 외부용`,
     type: 'string',

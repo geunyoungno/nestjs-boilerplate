@@ -1,7 +1,7 @@
 import { CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
 import { getHost } from '#common/shared/tool/getControllerHost';
-import { AllMethodRouteConstraints } from '#framework/decorator/all-method.decorator';
-import { ApiOkJsend } from '#framework/decorator/api-jsend.decorator';
+import { AllMethodRouteConstraints } from '#framework/decorator/controller/all-method.decorator';
+import { ApiOkJsend } from '#framework/decorator/dto/api-jsend.decorator';
 import { HealthDto } from '#mashup/common/operation/dto/res/health/health.dto';
 import { HealthService } from '#operation/service/health.service';
 import { Controller, Get, HttpStatus } from '@nestjs/common';

@@ -1,6 +1,6 @@
-import { type IReadUserParamDomainDto } from '#user/dto/req/user/read-user.dto.type';
-import { type IUserDomainDto } from '#user/dto/res/user/user.dto.type';
+import { type IReadUserParamBaseDto } from '#user/dto/req/user/read-user.dto.type';
+import { type IUserBaseDto } from '#user/dto/res/user/user.dto.type';
 
-export interface IUpdateUserParamDomainDto extends IReadUserParamDomainDto {}
+export interface IUpdateUserParamBaseDto extends IReadUserParamBaseDto {}
 
-export interface IUpdateUserBodyDomainDto extends Partial<Pick<IUserDomainDto, 'fullName'>> {}
+export interface IUpdateUserBodyBaseDto extends Partial<Pick<IUserBaseDto, 'fullName'>> {}

@@ -1,8 +1,8 @@
-import { type IHealthDomainDto } from '#operation/dto/res/health/health.dto.type';
+import { type IHealthBaseDto } from '#operation/dto/res/health/health.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsString } from 'class-validator';
 
-export class HealthDomainDto implements IHealthDomainDto {
+export class HealthBaseDto implements IHealthBaseDto {
   @ApiProperty()
   @IsString()
   runMode: string;
@@ -11,7 +11,7 @@ export class HealthDomainDto implements IHealthDomainDto {
   @IsISO8601()
   timestamp: string;
 
-  constructor(args: IHealthDomainDto) {
+  constructor(args: IHealthBaseDto) {
     this.runMode = args.runMode;
     this.timestamp = new Date(args.timestamp).toISOString();
   }

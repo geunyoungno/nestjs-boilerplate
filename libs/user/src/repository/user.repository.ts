@@ -1,4 +1,5 @@
-import { CE_TABLE_INFO } from '#common/shared/const-enum/CE_TABLE_INFO';
+import { CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
+import { typeormMysqlNestDBSymbol } from '#common/adaptor/database/typeorm.provider';
 import { getInsertId } from '#common/shared/tool/getInsertId';
 import { UserEntity } from '#user/entity/user.entity';
 import { type IUserRepository } from '#user/repository/user.repository.type';
@@ -12,10 +13,7 @@ export class UserRepository implements IUserRepository {
 
   private userRepository: Repository<UserEntity>;
 
-  constructor(
-    @Inject('DATA_SOURCE')
-    private dataSource: DataSource,
-  ) {
+  constructor(@Inject(typeormMysqlNestDBSymbol) private dataSource: DataSource) {
     this.userRepository = this.dataSource.getRepository(UserEntity);
   }
 

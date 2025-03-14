@@ -1,4 +1,4 @@
-import { type IHealthDomainDto } from '#operation/dto/res/health/health.dto.type';
+import { type IHealthBaseDto } from '#operation/dto/res/health/health.dto.type';
 import { HealthService } from '#operation/service/health.service';
 import { Test, type TestingModule } from '@nestjs/testing';
 
@@ -21,6 +21,6 @@ describe('HealthService', () => {
     expect(service.check()).toStrictEqual({
       runMode: 'local',
       timestamp: now.toISOString(),
-    } satisfies IHealthDomainDto);
+    } satisfies IHealthBaseDto);
   });
 });

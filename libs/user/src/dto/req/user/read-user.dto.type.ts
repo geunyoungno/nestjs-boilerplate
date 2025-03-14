@@ -1,6 +1,6 @@
-import { type IUserDomainDto } from '#user/dto/res/user/user.dto.type';
+import { type IUserBaseDto } from '#user/dto/res/user/user.dto.type';
 
-export interface IReadUserParamDomainDto {
+export interface IReadUserParamBaseDto {
   /** 사용자 uuid */
-  userUuid: IUserDomainDto['uuid'];
+  userUuid: IUserBaseDto['uuid'];
 }
