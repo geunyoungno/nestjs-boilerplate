@@ -35,6 +35,8 @@
     "@nestjs/platform-fastify": "^11.0.9",
     "@nestjs/swagger": "^11.0.3",
     "bcrypt": "^5.1.1",
+    "bignumber.js": "^9.1.2",
+    "change-case-all": "^2.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "fastify-multipart": "^5.4.0",
@@ -82,6 +84,8 @@
     "typescript": "^5.7.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint --cache \"{src,apps,libs,test}/**/*.ts\" "]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache \"{src,apps,libs,test}/**/*.ts\" "
+    ]
   }
 }

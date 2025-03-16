@@ -5,5 +5,8 @@ declare module 'nestjs-cls' {
   interface ClsStore {
     /** Request 고유 번호 */
     requestId: string;
+
+    /** 사용자 UUID */
+    userUuid?: string;
   }
 }

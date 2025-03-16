@@ -31,8 +31,8 @@ export class UserService {
     return this.nonNullable(user);
   }
 
-  async findMany() {
-    return this.userRepository.findMany();
+  async findMany(args: FirstArrayElement<Parameters<UserRepository['findMany']>>) {
+    return this.userRepository.findMany(args);
   }
 
   async create(args: { body: CreateUserBodyBaseDto }) {

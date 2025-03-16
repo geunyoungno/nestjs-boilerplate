@@ -3,7 +3,7 @@ import {
   ISearchConditionBaseDto,
   ISearchPaginationBaseDto,
   ISearchSortBaseDto,
-} from '#common/adaptor/dto/req/search.dto.type';
+} from '#common/shared/dto/req/search.dto.type';
 import { enumManyDecorator } from '#framework/decorator/dto/enum.decorator';
 import { stringManyDecorator } from '#framework/decorator/dto/string.decorator';
 import { ApiProperty, IntersectionType, PartialType } from '@nestjs/swagger';
