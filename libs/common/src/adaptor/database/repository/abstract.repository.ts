@@ -23,7 +23,7 @@ import {
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
 import { getInsertId } from '#common/shared/tool/getInsertId';
-import isEmpty from '#common/shared/tool/isEmpty';
+import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { createSortById } from '#common/shared/tool/sortArray';
 import { HttpStatus, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import BigNumber from 'bignumber.js';
@@ -39,7 +39,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 {
   protected readonly _repository: Repository<TEntity>;
   protected readonly alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
-  protected readonly draft: TDraft;
+  protected readonly draft: TDraft<TEntity>;
   protected readonly entity: AbstractClass<TEntity>;
   protected readonly attribute: AbstractClass<TAttribute>;
   protected readonly attributeKeys: string[];
@@ -59,7 +59,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     attribute: Class<TAttribute>;
     clsService?: ClsService;
     dataSource: DataSource;
-    draft: TDraft;
+    draft: TDraft<TEntity>;
     entity: AbstractClass<TEntity>;
     errorCodeMap?: Record<HttpStatus, string>;
   }) {
@@ -88,6 +88,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   findQueryBuilder = (args: { condition: Record<string, unknown>; extra?: TExtra }) => {
     const { condition } = args;
 
+    // null 값에 대해서는 IS NULL, IS NOT NULL 등을 사용하기에 값으로 null을 넣지는 않을 것 으로 보인다
     if (isEmpty(condition) || Object.values(condition).every((cond) => isEmpty(cond))) {
       throw new InternalServerErrorException({ errorCode: CE_ERROR_CODE.COMMON.INTERNAL_SERVER_ERROR });
     }
@@ -98,10 +99,10 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       .orderBy(`${this.alias}.id`, 'DESC');
     withDeleted({ ...args, queryBuilder: findQueryBuilder, alias: this.alias });
 
-    if ('id' in condition && isEmpty(condition.id) === false && typeof condition.id === 'string') {
+    if ('id' in condition && isNotEmpty(condition.id) && typeof condition.id === 'string') {
       findQueryBuilder.andWhere(`${this.alias}.id = :id`, { id: condition.id });
     }
-    if ('uuid' in condition && isEmpty(condition.uuid) === false && typeof condition.uuid === 'string') {
+    if ('uuid' in condition && isNotEmpty(condition.uuid) && typeof condition.uuid === 'string') {
       findQueryBuilder.andWhere(`${this.alias}.uuid = :uuid`, { uuid: condition.uuid });
     }
 
@@ -135,8 +136,8 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
         ...args.value,
         createdByUserUuid: createdByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
         updatedByUserUuid: updatedByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
-      }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val != null),
-    );
+      }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val !== undefined),
+    ) as typeof args.value;
 
     const draftEntity = this.draft(value);
 
@@ -216,8 +217,8 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
         this.attributeKeys.includes('updatedByUserUuid')
           ? {
               ...args.value,
-              isDeleted: isEmpty(args.value) === false && 'isDeleted' in args.value ? args.value.isDeleted : true,
-              deletedAt: isEmpty(args.value) === false && 'deletedAt' in args.value ? args.value.deletedAt : new Date(),
+              isDeleted: isNotEmpty(args.value) && 'isDeleted' in args.value ? args.value.isDeleted : true,
+              deletedAt: isNotEmpty(args.value) && 'deletedAt' in args.value ? args.value.deletedAt : new Date(),
               updatedByUserUuid: updatedByUserUuid({
                 value: args.value ?? {},
                 userUuid: this.clsService?.get('userUuid'),
@@ -236,10 +237,10 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       .update()
       .set(setValue)
       .where((qb) => {
-        if ('id' in condition && isEmpty(condition.id) === false) {
+        if ('id' in condition && isNotEmpty(condition.id)) {
           qb.andWhere(`id = :id`, { id: condition.id });
         }
-        if ('uuid' in condition && isEmpty(condition.uuid) === false) {
+        if ('uuid' in condition && isNotEmpty(condition.uuid)) {
           qb.andWhere(`uuid = :uuid`, { uuid: condition.uuid });
         }
       })
@@ -262,7 +263,6 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
     return { ...condition, existed };
   }
-
   // !SECTION
 
   // SECTION - 다건
@@ -276,7 +276,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   findManyQueryBuilder = (args: { condition: Record<string, unknown>; extra?: TExtra }) => {
     const { condition } = args;
 
-    // 다건 조회시 조건이 없는 경우도 있음
+    // NOTE: 다건 조회시 조건이 없는 경우도 있음
     // if (Object.values(condition).every((cond) => isEmpty(cond))) {
     //   throw new InternalServerErrorException({ errorCode: CE_ERROR_CODE.COMMON.INTERNAL_SERVER_ERROR });
     // }
@@ -287,10 +287,10 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       .orderBy(`${this.alias}.id`, 'DESC');
     withDeleted({ ...args, queryBuilder: findManyQueryBuilder, alias: this.alias });
 
-    if ('ids' in condition && Array.isArray(condition.ids) && isEmpty(condition.ids) === false) {
+    if ('ids' in condition && Array.isArray(condition.ids) && isNotEmpty(condition.ids)) {
       findManyQueryBuilder.andWhere(`${this.alias}.id IN (:...ids)`, { ids: condition.ids });
     }
-    if ('uuids' in condition && Array.isArray(condition.uuids) && isEmpty(condition.uuids) === false) {
+    if ('uuids' in condition && Array.isArray(condition.uuids) && isNotEmpty(condition.uuids)) {
       findManyQueryBuilder.andWhere(`${this.alias}.uuid IN (:...uuids)`, { uuids: condition.uuids });
     }
 
@@ -319,7 +319,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
           updatedByUserUuid: updatedByUserUuid({ value: val, userUuid: this.clsService?.get('userUuid') }),
         }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val != null),
       ),
-    );
+    ) as unknown as Array<Partial<TEntity>>;
 
     const draftEntities = value.map(this.draft);
 
@@ -349,7 +349,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
     if (
       Object.values(condition).every((cond) => isEmpty(cond)) ||
-      Object.values(argsValue).every((val) => isEmpty(val))
+      Object.values(argsValue).every((val) => val === undefined) // null 값 허용되어서 undefined 만 체크
     ) {
       throw new InternalServerErrorException({ errorCode: CE_ERROR_CODE.COMMON.INTERNAL_SERVER_ERROR });
     }

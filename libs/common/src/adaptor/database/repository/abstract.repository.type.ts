@@ -30,7 +30,12 @@ export interface IEntity extends ObjectLiteral, IAttributeEntity, IRelationEntit
   uuid: string;
 }
 
-export type TDraft = (args?: Readonly<Partial<IEntity>>) => Omit<IEntity, 'id'>;
+/** 엔티티 생성 시 기본값 설정 */
+export type TDraft<TEntity extends IAttributeEntity> = (
+  args?: Partial<Omit<TEntity, 'id'>> & {
+    extra?: Pick<NonNullable<TExtra>, 'now'>;
+  },
+) => Omit<TEntity, 'id'>;
 
 export type TOverwrite<TAttribute extends IEntity = IEntity> = SnakeCase<
   Extract<keyof Omit<TAttribute, 'id' | 'uuid'>, string>

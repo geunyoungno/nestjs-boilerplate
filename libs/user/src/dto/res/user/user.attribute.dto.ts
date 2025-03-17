@@ -1,54 +1,41 @@
+import { CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
+import { CommonDto } from '#common/shared/dto/common.dto';
 import { type IUserAttributeBaseDto } from '#user/dto/res/user/user.dto.type';
 import { type IUserAttributeEntity } from '#user/entity/user.entity.type';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsISO8601, IsString, IsUUID } from 'class-validator';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsEmail, IsString, MaxLength } from 'class-validator';
 
-export class UserAttributeBaseDto implements IUserAttributeBaseDto {
-  @ApiProperty({
-    description: `사용자 고유 uuid, 외부용`,
-    type: 'string',
-    format: 'uuid',
-  })
-  @IsUUID(4)
-  uuid: string;
+const summary = CE_TABLE_INFO.USER_SUMMARY;
 
+export class UserAttributeBaseDto
+  extends PickType(CommonDto, ['uuid', 'createdAt', 'updatedAt'] as const)
+  implements IUserAttributeBaseDto
+{
   @ApiProperty({
-    description: '사용자 성명',
+    description: `${summary} 성명`,
     type: 'string',
     maxLength: 255,
   })
   @IsString()
+  @MaxLength(255)
   fullName: string;
 
   @ApiProperty({
-    description: '사용자 이메일',
+    description: `${summary} 이메일`,
     type: 'string',
     format: 'email',
   })
   @IsEmail()
   email: string;
 
-  @ApiProperty({
-    description: '생성 시점',
-    type: 'string',
-    format: 'date-time',
-  })
-  @IsISO8601()
-  createdAt: Date;
-
-  @ApiProperty({
-    description: '최근 수정 시점',
-    type: 'string',
-    format: 'date-time',
-  })
-  @IsISO8601()
-  updatedAt: Date;
-
   constructor(args: IUserAttributeEntity) {
-    this.uuid = args.uuid;
-    this.fullName = args.fullName;
+    super(args);
 
+    this.uuid = args.uuid;
+
+    this.fullName = args.fullName;
     this.email = args.email;
+
     this.createdAt = args.createdAt;
     this.updatedAt = args.updatedAt;
   }

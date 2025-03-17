@@ -2,8 +2,8 @@ import { applyDecorators } from '@nestjs/common';
 import { Transform, type TransformFnParams } from 'class-transformer';
 import {
   Validate,
-  type ValidationArguments,
   ValidatorConstraint,
+  type ValidationArguments,
   type ValidatorConstraintInterface,
 } from 'class-validator';
 
@@ -18,8 +18,14 @@ export function IsISO8601Datetime() {
     Validate(IsISO8601Format),
     /** 1. 원본 값 전달 */
     Transform(({ value: _transformValue, obj, key }: TransformFnParams) => {
-      const undefinedOriginValue = obj?.[key] ?? undefined;
-      const originValue = typeof undefinedOriginValue === 'string' ? undefinedOriginValue : '';
+      const undefinedOriginValue = obj?.[key];
+
+      const originValue =
+        typeof undefinedOriginValue === 'string'
+          ? undefinedOriginValue
+          : undefinedOriginValue instanceof Date
+            ? undefinedOriginValue.toISOString()
+            : undefinedOriginValue;
 
       return originValue;
     }),

@@ -1,10 +1,10 @@
-import type IUserEntity from '#user/entity/user.entity.type';
-
-export interface IUserBaseDto extends IUserAttributeBaseDto, IUserRelationBaseDto {}
+import { type IUserAttributeEntity, type IUserRelationEntity } from '#user/entity/user.entity.type';
 
 export interface IUserAttributeBaseDto
-  extends Pick<IUserEntity, 'uuid' | 'fullName' | 'email' | 'createdAt' | 'updatedAt'> {}
+  extends Pick<IUserAttributeEntity, 'uuid' | 'fullName' | 'email' | 'createdAt' | 'updatedAt'> {}
 
-export interface IUserRelationBaseDto {}
+export interface IUserPasswordBaseDto extends Pick<IUserAttributeEntity, 'password'> {}
 
-export interface IUserPasswordBaseDto extends Pick<IUserEntity, 'password'> {}
+export interface IUserRelationBaseDto extends IUserRelationEntity {}
+
+export interface IUserBaseDto extends IUserAttributeBaseDto, IUserRelationBaseDto {}
