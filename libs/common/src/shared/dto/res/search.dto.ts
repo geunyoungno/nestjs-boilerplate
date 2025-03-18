@@ -1,4 +1,4 @@
-import { ISearchMetaBaseDto } from '#common/shared/dto/req/search.dto.type';
+import { ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, Max, Min } from 'class-validator';
 

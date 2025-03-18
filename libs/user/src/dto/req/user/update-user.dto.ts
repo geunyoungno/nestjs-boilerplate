@@ -1,30 +1,12 @@
+import { FindUserParamBaseDto } from '#user/dto/req/user/find-user.dto';
 import { type IUpdateUserBodyBaseDto, type IUpdateUserParamBaseDto } from '#user/dto/req/user/update-user.dto.type';
-import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
-import { IsOptional, IsString, IsUUID } from 'class-validator';
-import * as uuid from 'uuid';
+import { UserAttributeBaseDto } from '#user/dto/res/user/user.attribute.dto';
+import { PartialType, PickType } from '@nestjs/swagger';
 
-@Expose()
-export class UpdateUserParamBaseDto implements IUpdateUserParamBaseDto {
-  @ApiProperty({
-    description: `사용자 고유번호`,
-    type: 'string',
-    format: 'uuid',
-    example: uuid.v4(),
-  })
-  @IsUUID(4)
-  userUuid!: string;
-}
+export class UpdateUserParamBaseDto
+  extends PickType(FindUserParamBaseDto, ['userUuid'] as const)
+  implements IUpdateUserParamBaseDto {}
 
-@Expose()
-export class UpdateUserBodyBaseDto implements IUpdateUserBodyBaseDto {
-  @ApiProperty({
-    description: `사용자 성명`,
-    type: 'string',
-    required: false,
-    default: `사용자 성명`,
-  })
-  @IsString()
-  @IsOptional()
-  fullName?: string;
-}
+export class UpdateUserBodyBaseDto
+  extends PartialType(PickType(UserAttributeBaseDto, ['fullName'] as const))
+  implements IUpdateUserBodyBaseDto {}

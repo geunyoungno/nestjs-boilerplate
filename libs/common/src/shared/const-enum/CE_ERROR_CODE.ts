@@ -1,3 +1,5 @@
+import { CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
+
 /**
  * 범용 오류 코드
  * * AT_LEAST_BAD_REQUEST, common-at-least-bad-request: 요청 온 필드가 최소한 갯수 미만인 경우
@@ -15,10 +17,23 @@ const CE_COMMON_ERROR_CODE = {
 } as const;
 
 /**
+ * 사용자 오류 코드
+ * * ALREADY_EXIST, user-already-exist: 사용자가 이미 존재하는 경우
+ * * BAD_REQUEST, user-bad-request: 사용자 요청이 잘못된 경우
+ * * NOT_FOUND, user-not-found: 사용자를 찾을 수 없는 경우
+ */
+const CE_USER_ERROR_CODE = {
+  ALREADY_EXIST: `${CE_TABLE_INFO.USER}-already-exist`,
+  BAD_REQUEST: `${CE_TABLE_INFO.USER}-bad-request`,
+  NOT_FOUND: `${CE_TABLE_INFO.USER}-not-found`,
+} as const;
+
+/**
  * 오류 코드
  */
 export const CE_ERROR_CODE = {
   COMMON: CE_COMMON_ERROR_CODE,
+  USER: CE_USER_ERROR_CODE,
 } as const;
 
 export type CE_ERROR_CODE = (typeof CE_ERROR_CODE)[keyof typeof CE_ERROR_CODE];

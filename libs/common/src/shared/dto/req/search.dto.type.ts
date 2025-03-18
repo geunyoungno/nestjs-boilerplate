@@ -1,7 +1,7 @@
 import {
   type CE_SEARCH_SORT_BY_FIELD,
   type CE_SEARCH_SORT_BY_ORDER,
-} from '#common/adaptor/database/const-enum/CE_SEARCH_SORT_BY';
+} from '#common/shared/const-enum/CE_SEARCH_SORT_BY';
 
 export interface ISearchPaginationBaseDto {
   /**

@@ -1,11 +1,11 @@
 import { type CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
-import { type ISearchMetaBaseDto } from '#common/adaptor/database/dto/res/search.dto.type';
 import { type IAttributeEntity, type IRelationEntity } from '#common/adaptor/database/entity/entity.type';
 import {
   type ISearchConditionBaseDto,
   type ISearchPaginationBaseDto,
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
+import { type ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type';
 import { type LiteralUnion, type SnakeCase } from 'type-fest';
 import { type InsertResult, type ObjectLiteral, type UpdateResult } from 'typeorm';
 

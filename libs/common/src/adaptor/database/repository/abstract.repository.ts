@@ -1,5 +1,4 @@
 import { type CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
-import { type ISearchMetaBaseDto } from '#common/adaptor/database/dto/res/search.dto.type';
 import { type IAttributeEntity } from '#common/adaptor/database/entity/entity.type';
 import {
   type IAbstractRepository,
@@ -22,6 +21,7 @@ import {
   type ISearchPaginationBaseDto,
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
+import { type ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type';
 import { getInsertId } from '#common/shared/tool/getInsertId';
 import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { createSortById } from '#common/shared/tool/sortArray';
@@ -44,7 +44,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   protected readonly attribute: AbstractClass<TAttribute>;
   protected readonly attributeKeys: string[];
   protected readonly clsService?: ClsService;
-  protected readonly errorCodeMap?: Record<HttpStatus, string>;
+  protected readonly errorCodeMap?: Partial<Record<HttpStatus, string>>;
 
   constructor({
     alias,
@@ -61,7 +61,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     dataSource: DataSource;
     draft: TDraft<TEntity>;
     entity: AbstractClass<TEntity>;
-    errorCodeMap?: Record<HttpStatus, string>;
+    errorCodeMap?: Partial<Record<HttpStatus, string>>;
   }) {
     this._repository = dataSource.getRepository(entity);
     this.alias = alias;
