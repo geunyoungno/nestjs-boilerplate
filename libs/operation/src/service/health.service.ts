@@ -18,7 +18,7 @@ export class HealthService {
       timestamp: new Date().toISOString(),
     } satisfies IHealthBaseDto;
 
-    this.loggerService.info(health);
+    this.loggerService.trace(health);
 
     return health;
   }

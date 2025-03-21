@@ -33,11 +33,7 @@ export class MailerService {
 
       const sended = await this.mailerService.sendMail(sendOption);
 
-      this.logger.info({
-        sendOption,
-        sended,
-        mailerService: this.mailerService,
-      });
+      this.logger.trace({ sendOption, sended, mailerService: this.mailerService });
     } catch (err) {
       console.log('err', err);
     }

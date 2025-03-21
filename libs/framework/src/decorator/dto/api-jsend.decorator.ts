@@ -1,16 +1,18 @@
-import { JsendDto } from '#common/shared/dto/res/res-jsend.dto';
+import { FailureJsendDto, SuccessJsendDto } from '#common/shared/dto/res/jsend.dto';
 import { applyDecorators, type Type } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiConflictResponse,
   ApiExtraModels,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiResponse,
+  ApiUnauthorizedResponse,
   getSchemaPath,
   type ApiResponseOptions,
 } from '@nestjs/swagger';
 import { type ReferenceObject, type SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { type Merge, type SetRequired } from 'type-fest';
+import { type Class, type Merge, type SetRequired } from 'type-fest';
 import { type FirstArrayElement } from 'type-fest/source/internal';
 
 /**
@@ -19,7 +21,7 @@ import { type FirstArrayElement } from 'type-fest/source/internal';
  * @returns
  */
 export const ApiJsend = <
-  TRecordDto extends Record<string, Type<unknown> | Array<Type<unknown>>>,
+  TRecordDto extends Record<string, Type<unknown> | Array<Type<unknown>> | Array<Array<Type<unknown>>>>,
   TApiResponse extends (options: ApiResponseOptions) => MethodDecorator & ClassDecorator,
 >(
   option: Merge<
@@ -29,6 +31,7 @@ export const ApiJsend = <
       apiResponse?: TApiResponse;
     }
   >,
+  jsendDto: Class<SuccessJsendDto<TRecordDto>> | Class<FailureJsendDto<TRecordDto>> = SuccessJsendDto<TRecordDto>,
 ) => {
   const { type, apiResponse: undefinedApiResponse, ...restOption } = option;
   const apiResponse = undefinedApiResponse ?? ApiResponse;
@@ -40,7 +43,7 @@ export const ApiJsend = <
   } =
     type == null
       ? {
-          extraModels: [ApiExtraModels(JsendDto)],
+          extraModels: [ApiExtraModels(jsendDto)],
           properties: undefined,
         }
       : Object.entries(type).reduce<{
@@ -55,14 +58,24 @@ export const ApiJsend = <
 
             // 배열 일 경우
             if (Array.isArray(dtos) === true) {
-              const dto = dtos.at(0);
+              const nestedDto = dtos.at(0);
+              const dto = Array.isArray(nestedDto) === true ? nestedDto.at(0) : nestedDto;
 
               if (dto != null) {
-                acc.extraModels.push(ApiExtraModels(JsendDto, dto));
-                acc.properties[key] = {
-                  type: 'array',
-                  items: { $ref: getSchemaPath(dto) },
-                };
+                acc.extraModels.push(ApiExtraModels(jsendDto, dto));
+                acc.properties[key] =
+                  Array.isArray(nestedDto) === true
+                    ? {
+                        type: 'array',
+                        items: {
+                          type: 'array',
+                          items: { $ref: getSchemaPath(dto) },
+                        },
+                      }
+                    : {
+                        type: 'array',
+                        items: { $ref: getSchemaPath(dto) },
+                      };
               }
 
               return acc;
@@ -70,7 +83,7 @@ export const ApiJsend = <
 
             // 배열이 아닐 경우
             const dto = dtos;
-            acc.extraModels.push(ApiExtraModels(JsendDto, dto));
+            acc.extraModels.push(ApiExtraModels(jsendDto, dto));
             acc.properties[key] = {
               $ref: getSchemaPath(dto),
             };
@@ -91,14 +104,16 @@ export const ApiJsend = <
       schema: {
         // 기본적인 JsendDto 스키마와 데이터 속성을 합친 응답 스키마를 생성
         allOf: [
-          { $ref: getSchemaPath(JsendDto) },
-          {
-            properties: {
-              data: {
-                properties: data.properties,
-              },
-            },
-          },
+          { $ref: getSchemaPath(jsendDto) },
+          jsendDto === SuccessJsendDto
+            ? {
+                properties: {
+                  data: {
+                    properties: data.properties,
+                  },
+                },
+              }
+            : {},
         ],
       },
     }),
@@ -110,48 +125,93 @@ export const ApiJsend = <
  * @param option - 정상적인 응답의 설정 옵션입니다.
  */
 export const ApiOkJsend = (option: SetRequired<FirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
-  return ApiJsend({
-    ...option,
-    apiResponse: ApiOkResponse,
-  });
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiOkResponse,
+    },
+    SuccessJsendDto,
+  );
+};
+
+/**
+ * Created 응답(201)에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
+ */
+export const ApiCreatedJsend = (option: SetRequired<FirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiOkResponse,
+    },
+    SuccessJsendDto,
+  );
+};
+
+/**
+ * No Content 응답(204)에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
+ */
+export const ApiNoContentJsend = (option: FirstArrayElement<Parameters<typeof ApiJsend>>) => {
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiOkResponse,
+    },
+    SuccessJsendDto,
+  );
 };
 
 /**
  * Bad Request 응답(400)
- * * class-validaor의 오류 등
-```
-{
-  "data": [
-    "userUuid must be a UUID"
-  ],
-  "code": "Bad Request"
-}
-```
  * @param option
  * @returns
  */
 export const ApiBadRequestJsend: typeof ApiJsend = (option) => {
-  return ApiJsend({
-    ...option,
-    apiResponse: ApiBadRequestResponse,
-  });
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiBadRequestResponse,
+    },
+    FailureJsendDto,
+  );
+};
+
+/**
+ * Unauthorized 응답(401)
+ */
+export const ApiUnAuthorizedJsend: typeof ApiJsend = (option) => {
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiUnauthorizedResponse,
+    },
+    FailureJsendDto,
+  );
 };
 
 /**
  * Not Found 응답(404)
- * * 서버에서 조회 하지 못했을 경우 등
-```
-{
-  "code": "NotFoundException",
-  "message": "user not found"
-}
-```
  * @param option
  * @returns
  */
 export const ApiNotFoundJsend: typeof ApiJsend = (option) => {
-  return ApiJsend({
-    ...option,
-    apiResponse: ApiNotFoundResponse,
-  });
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiNotFoundResponse,
+    },
+    FailureJsendDto,
+  );
+};
+
+/**
+ * Conflict 응답(409)
+ */
+export const ApiConflictJsend: typeof ApiJsend = (option) => {
+  return ApiJsend(
+    {
+      ...option,
+      apiResponse: ApiConflictResponse,
+    },
+    FailureJsendDto,
+  );
 };

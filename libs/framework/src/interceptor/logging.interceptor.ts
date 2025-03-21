@@ -1,12 +1,15 @@
 import { getReply, getReq } from '#common/shared/http/httpHelper';
 import { LoggerService } from '#framework/logger/logger.service';
 import { Injectable, type CallHandler, type ExecutionContext, type NestInterceptor } from '@nestjs/common';
-import { type FastifyReply, type FastifyRequest } from 'fastify';
+import { HTTPMethods, type FastifyReply, type FastifyRequest } from 'fastify';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  constructor(private logger: LoggerService) {}
+  // 응답 payload가 너무 커서 로깅하지 않을 endpoint
+  private excludePayloadEndpoints: Array<{ method: Uppercase<HTTPMethods>; url: string }> = [];
+
+  constructor(private loggerService: LoggerService) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
     const req = getReq(context);
@@ -22,7 +25,7 @@ export class LoggingInterceptor implements NestInterceptor {
       return;
     }
 
-    this.logger.httpReq({ req });
+    this.loggerService.httpRequest({ req });
   }
 
   // response 시 동작
@@ -31,11 +34,21 @@ export class LoggingInterceptor implements NestInterceptor {
       return;
     }
 
-    this.logger.httpRes({
-      req,
-      reply,
-      replyData,
-    });
+    const method: HTTPMethods = Array.isArray(req.routeOptions.method)
+      ? (req.routeOptions.method.at(0) ?? 'OPTIONS')
+      : req.routeOptions.method;
+
+    const uppercaseMethod = method.toUpperCase();
+    const url = req.routeOptions.url ?? ''; // querystring을 제외한 url
+
+    // 응답 payload가 너무 커서 로깅하지 않을 endpoint
+    const data = this.excludePayloadEndpoints.some(
+      (endpoint) => endpoint.method === uppercaseMethod && endpoint.url === url,
+    )
+      ? undefined
+      : replyData;
+
+    this.loggerService.httpResponse({ req, reply, replyData: data });
   }
 
   /**

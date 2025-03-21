@@ -4,19 +4,19 @@ import { AllMethodRouteConstraints } from '#framework/decorator/controller/all-m
 import { ApiOkJsend } from '#framework/decorator/dto/api-jsend.decorator';
 import { HealthDto } from '#mashup/common/operation/dto/res/health/health.dto';
 import { HealthService } from '#operation/service/health.service';
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('health')
+const tags = ['health'];
+
+@ApiTags(...tags)
 @AllMethodRouteConstraints({ host: getHost(CE_MASHUP.COMMON) })
-@Controller({
-  path: ['/', 'health'],
-})
+@Controller({ host: getHost(CE_MASHUP.COMMON), path: ['/', 'health'] })
 export class CommonHealthController {
   constructor(private readonly healthService: HealthService) {}
 
   @ApiOperation({ summary: '서버 health 조회 API' })
-  @ApiOkJsend({ status: HttpStatus.OK, description: '서버 health 를 조회한다', type: { health: HealthDto } })
+  @ApiOkJsend({ description: '서버 health 를 조회한다', type: { health: HealthDto } })
   @Get('/')
   async check(): Promise<{ health: HealthDto }> {
     const health = await this.healthService.check();

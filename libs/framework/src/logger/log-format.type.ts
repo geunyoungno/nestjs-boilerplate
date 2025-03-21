@@ -1,9 +1,12 @@
-import { type CE_LOG_DISCRIMINATOR } from '#common/shared/const-enum/CE_LOG_DISCRIMINATOR';
+import { type CE_LOG_DISCRIMINATOR } from '#framework/const-enum/CE_LOG_DISCRIMINATOR';
+import { type LiteralUnion } from 'type-fest';
 
 export interface ILogFormat {
-  discriminator: CE_LOG_DISCRIMINATOR;
+  timestamp?: string;
+  discriminator: LiteralUnion<CE_LOG_DISCRIMINATOR, string>;
   status: number;
   duration?: number;
+  hostname?: string;
   req_method:
     | 'GET'
     | 'POST'
@@ -20,13 +23,17 @@ export interface ILogFormat {
     | 'SYSUNKNOWN'
     // 디버그 메시지 전용
     | 'INFO'
-    | 'DEBUG';
+    | 'DEBUG'
+    | 'ERROR';
   req_url: string;
 
   // 여기는 고유 식별자
   id?: Partial<{
     /** http Request 고유 id */
     requestId: string;
+
+    /** 사용자 UUID */
+    userUuid?: string;
   }>;
   err?: Partial<{
     message: string;
