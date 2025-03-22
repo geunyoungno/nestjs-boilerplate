@@ -2,11 +2,11 @@
 // config.dto.ts 등에서 TypeError: Reflect.getMetadata is not a function 오류가 발생하였다.
 import 'reflect-metadata';
 
+import { AppModule } from '#common-api/app.module';
 import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
 import { CorsService } from '#framework/cors/cors.service';
 import { HelmetService } from '#framework/helmet/helmet.service';
 import { SwaggerService } from '#framework/swagger/swagger.service';
-import { AppModule } from '#nestjs-boilerplate/app.module';
 import multiPart from '@fastify/multipart';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

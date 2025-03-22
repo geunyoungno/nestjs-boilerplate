@@ -1,10 +1,13 @@
+import { CommonModule } from '#common-api/common.module';
+import { CE_COMMON } from '#common/shared/const-enum/CE_COMMON';
+import { CE_CUSTOM_HEADER } from '#common/shared/const-enum/CE_CUSTOM_HEADER';
 import { CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
 import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
 import { getHost } from '#common/shared/tool/getControllerHost';
+import { getPackageJson } from '#common/shared/tool/getPackageJson';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { ExternalModule } from '#external-api/external.module';
 import { getRunMode } from '#framework/config/configuration';
-import { CommonMashupModule } from '#mashup/common/common.module';
 import { PlatformModule } from '#platform-api/platform.module';
 import {
   type OpenAPIObject,
@@ -17,17 +20,24 @@ import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 import { type Class } from 'type-fest';
 import { type FirstArrayElement } from 'type-fest/source/internal';
 
-const version = '0.0.1';
+const packageJson = getPackageJson();
+const version = packageJson.version ?? '0.0.1';
 
 const defaultSwaggerConfig: Omit<OpenAPIObject, 'info' | 'paths'> = {
   openapi: '3.0.0',
-  security: [{ requestId: [], accessToken: [], acceptLanguage: [], acceptCurrency: [] }],
+  security: [{ requestId: [], accessToken: [] }],
   components: {
     securitySchemes: {
       requestId: {
         description: 'Request 고유 ID, uuid v4 사용',
         in: 'header',
-        name: `${'x-request-id'}`,
+        name: `${CE_CUSTOM_HEADER.REQUEST_ID}`,
+        type: 'apiKey',
+      },
+      accessToken: {
+        description: '액세스 토큰',
+        in: 'header',
+        name: `${CE_CUSTOM_HEADER.ACCESS_TOKEN}`,
         type: 'apiKey',
       },
     },
@@ -50,7 +60,7 @@ const defaultSwaggerOption = {
 const getSwaggerServerUrl = (mashup: CE_MASHUP) => {
   const runMode = getRunMode();
 
-  const url = [`${mashup}-api`, runMode]
+  const url = [`${mashup}-api`, runMode, CE_COMMON.DOMAIN]
     .filter((str) => str !== CE_RUN_MODE.PRODUCTION) // 상용 환경에서는 runMode를 제외한다.
     .join('.');
 
@@ -63,7 +73,7 @@ const getSwaggerServerUrl = (mashup: CE_MASHUP) => {
 /**
  * hostname과 swaggerName을 비교하여 일치하지 않으면 에러를 발생시킨다.
  */
-export const getPatchDocumentOnRequest = (mashup: CE_MASHUP) =>
+const getPatchDocumentOnRequest = (mashup: CE_MASHUP) =>
   ((req, _res, document) => {
     const hostname = (req as FastifyRequest).hostname;
 
@@ -108,11 +118,11 @@ export const getSwaggerConfig = (args: {
     ...defaultSwaggerOption,
     customSiteTitle: `${args.mashup} swagger`,
     jsonDocumentUrl: `${args.mashup}/swagger.json`,
-    // patchDocumentOnRequest: getPatchDocumentOnRequest(args.mashup),
+    patchDocumentOnRequest: getPatchDocumentOnRequest(args.mashup),
     ...args.option,
   },
   documentOption: {
-    include: [...args.include, CommonMashupModule],
+    include: [...args.include, CommonModule],
     operationIdFactory,
   },
 });

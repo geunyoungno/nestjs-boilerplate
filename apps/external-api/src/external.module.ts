@@ -1,4 +1,4 @@
-import { ExternalUserController } from '#external-api/user/controller/external-user.controller';
+import { PublicExternalUserController } from '#external-api/user/controller/external-user.controller';
 import { UserModule } from '#user/user.module';
 import { Module } from '@nestjs/common';
 
@@ -7,6 +7,6 @@ import { Module } from '@nestjs/common';
  */
 @Module({
   imports: [UserModule],
-  controllers: [ExternalUserController],
+  controllers: [PublicExternalUserController],
 })
 export class ExternalModule {}

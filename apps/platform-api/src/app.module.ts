@@ -1,4 +1,4 @@
-import { imports } from '#nestjs-boilerplate/imports';
+import { imports } from '#common-api/imports';
 import { PlatformModule } from '#platform-api/platform.module';
 import { Module } from '@nestjs/common';
 

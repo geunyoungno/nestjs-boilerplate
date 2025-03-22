@@ -33,13 +33,13 @@
     "paths": {
       // apps
       "#app.module": ["src/app.module"],
-      "#nestjs-boilerplate/*": ["apps/nestjs-boilerplate/src/*"],
-      "#platform-api/*": ["apps/platform-api/src/*"],
+      "#common-api/*": ["apps/common-api/src/*"],
       "#external-api/*": ["apps/external-api/src/*"],
+      "#platform-api/*": ["apps/platform-api/src/*"],
+
       // libs
       "#common/*": ["libs/common/src/*"],
       "#framework/*": ["libs/framework/src/*"],
-      "#mashup/*": ["libs/mashup/src/*"],
       "#operation/*": ["libs/operation/src/*"],
       "#storage/*": ["libs/storage/src/*"],
       "#user/*": ["libs/user/src/*"]
