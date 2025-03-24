@@ -19,13 +19,13 @@
     }
   },
   "mailer": {
-    "gmail": {
-      "service": "gmail",
+    "aws_ses": {
+      "service": "SES-AP-NORTHEAST-2",
       "auth": {
         "username": "N/A",
         "password": "N/A"
       },
-      "from": "geunyoungno@gmail.com"
+      "from": "GeunYoung.No <geunyoungno@gmail.com>"
     }
   }
 }

@@ -9,9 +9,11 @@ declare namespace NodeJS {
     /** nest db 사용자 비밀번호 */
     NEST_DB_PASSWORD?: string;
 
-    /** gmail 사용자 이름 */
-    MAILER_GMAIL_USERNAME?: string;
-    /** gmail 사용자 비밀번호 */
-    MAILER_GMAIL_PASSWORD?: string;
+    // SECTION - mailer
+    /** aws ses 이름 */
+    MAILER_AWS_SES_USERNAME?: string;
+    /** aws ses 비밀번호 */
+    MAILER_AWS_SES_PASSWORD?: string;
+    // !SECTION
   }
 }

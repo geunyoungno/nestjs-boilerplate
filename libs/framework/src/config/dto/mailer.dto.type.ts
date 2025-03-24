@@ -12,5 +12,3 @@ export interface IMailerConfig {
   /** 보내는 사람 */
   from: string;
 }
-
-export type TMailerName = 'gmail';
