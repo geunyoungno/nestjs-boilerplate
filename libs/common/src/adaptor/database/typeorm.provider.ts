@@ -1,50 +1,24 @@
-import { TokenEntity } from '#auth/entity/token.entity';
-import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
+import { getDataSource } from '#common/adaptor/database/data-source/dataSource';
+import { CE_MYSQL_KEY } from '#framework/config/const-enum/CE_MYSQL_KEY';
 import { type IMysqlConfig } from '#framework/config/dto/mysql.dto.type';
-import { UserEntity } from '#user/entity/user.entity';
+import { LoggerService } from '#framework/logger/logger.service';
 import { type Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DataSource } from 'typeorm';
-import { addTransactionalDataSource } from 'typeorm-transactional';
 
-export const typeormMysqlNestDBSymbol = Symbol('NESTJS_DB');
+export const typeormMysqlNestDBSymbol = Symbol('NEST_DB');
 
 export const typeOrmMysqlNestDBProvider: Provider = {
   provide: typeormMysqlNestDBSymbol,
-  inject: [ConfigService],
-  useFactory: async (configService: ConfigService) => {
-    const mysqlConfig = configService.get<IMysqlConfig>('mysql.nestDB');
+  inject: [ConfigService, LoggerService],
+  useFactory: async (configService: ConfigService, loggerService: LoggerService) => {
+    const mysqlConfig = configService.get<IMysqlConfig>('mysql');
+    const nestDBConfig = mysqlConfig?.[CE_MYSQL_KEY.NEST_DB];
 
-    if (mysqlConfig == null) {
+    if (nestDBConfig == null) {
       throw new Error('mysql config invalid');
     }
 
-    const dataSource = new DataSource({
-      type: 'mysql',
-      host: mysqlConfig.replication.master.host,
-      port: mysqlConfig.replication.master.port,
-      username: process.env.NEST_DB_USERNAME,
-      password: process.env.NEST_DB_PASSWORD,
-      database: mysqlConfig.replication.master.database,
-      entities: [
-        // SECTION - auth
-        TokenEntity,
-        // !SECTION
-
-        // SECTION - user
-        UserEntity,
-        // !SECTION
-      ],
-      // bigint 자료형 지원
-      supportBigNumbers: true,
-      // bigint 컬럼을 무조건 string 타입으로 전달받음
-      bigNumberStrings: true,
-      // timezone을 UTC로 설정
-      timezone: 'Z',
-      // synchronize: true,
-      logging: process.env.RUN_MODE === CE_RUN_MODE.LOCAL,
-    });
-
-    return addTransactionalDataSource(dataSource).initialize();
+    const dataSource = await getDataSource({ mysqlConfig: nestDBConfig, loggerService });
+    return dataSource;
   },
 };

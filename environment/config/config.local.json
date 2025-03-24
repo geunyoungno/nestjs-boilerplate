@@ -5,7 +5,7 @@
     "port": 3001
   },
   "mysql": {
-    "nestDB": {
+    "nest_db": {
       "replication": {
         "master": {
           "host": "localhost",

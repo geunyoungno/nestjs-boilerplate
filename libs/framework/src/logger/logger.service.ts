@@ -1,6 +1,6 @@
 import escapeStringify from '#common/shared/tool/escapeStringify';
 import isEmpty from '#common/shared/tool/isEmpty';
-import { CE_LOG_DISCRIMINATOR } from '#framework/const-enum/CE_LOG_DISCRIMINATOR';
+import { CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
 import getHttpMethod from '#framework/logger/getHttpMethod';
 import { type ILogFormat } from '#framework/logger/log-format.type';
 import { WinstonService } from '#framework/logger/winston.service';

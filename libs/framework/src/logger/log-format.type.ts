@@ -1,4 +1,4 @@
-import { type CE_LOG_DISCRIMINATOR } from '#framework/const-enum/CE_LOG_DISCRIMINATOR';
+import { type CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
 import { type LiteralUnion } from 'type-fest';
 
 export interface ILogFormat {

@@ -3,5 +3,3 @@ import { type MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectio
 export interface IMysqlConfig {
   replication: NonNullable<MysqlConnectionOptions['replication']>;
 }
-
-export type TMysqlDbName = 'nestDB';
