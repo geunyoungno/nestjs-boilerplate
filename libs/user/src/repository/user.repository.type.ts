@@ -1,4 +1,5 @@
-import { type TExtra } from '#common/adaptor/database/repository/abstract.repository.type';
+import { type TExtra, type TIncludes } from '#common/adaptor/database/repository/abstract.repository.type';
+import { type CE_USER_INCLUDE } from '#user/const-enum/CE_USER_INCLUDE';
 import { type ISearchUserQueryBaseDto } from '#user/dto/req/user/search-user.dto.type';
 import { type ISearchUserMetaBaseDto } from '#user/dto/res/user/search-user.dto.type';
 import { type UserEntity } from '#user/entity/user.entity';
@@ -13,6 +14,7 @@ export interface IUserRepository {
       | Pick<IUserAttributeEntity, 'uuid'>
       | Pick<IUserAttributeEntity, 'id'>
       | Pick<IUserAttributeEntity, 'email'>;
+    includes?: TIncludes<CE_USER_INCLUDE>;
   }): Promise<UserEntity | null>;
 
   findOrFail(args: FirstArrayElement<Parameters<IUserRepository['find']>>): Promise<UserEntity>;
@@ -31,14 +33,17 @@ export interface IUserRepository {
 
   // SECTION - 다건
   /** 사용자 다건 조회 */
-  findMany(args: { condition: {} }): Promise<UserEntity[]>;
+  findMany(args: {
+    condition: { uuids: Array<IUserAttributeEntity['uuid']> };
+    includes?: TIncludes<CE_USER_INCLUDE>;
+  }): Promise<UserEntity[]>;
   // !SECTION
 
   search(args: {
     condition: ISearchUserQueryBaseDto;
     pagination: Required<Pick<ISearchUserQueryBaseDto, 'page' | 'limit'>>;
     sort?: ISearchUserQueryBaseDto['sortBy'];
-    include?: undefined;
+    includes?: TIncludes<CE_USER_INCLUDE>;
     extra?: TExtra;
   }): Promise<{
     entities: UserEntity[];

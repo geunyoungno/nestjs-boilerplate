@@ -1,5 +1,5 @@
 import { LoggerService } from '#framework/logger/logger.service';
-import type IUserEntity from '#user/entity/user.entity.type';
+import { type IUserEntity } from '#user/entity/user.entity.type';
 import { UserService } from '#user/service/user.service';
 import { MailerService as NestMailerService, type ISendMailOptions } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';

@@ -12,7 +12,7 @@
         "outDir": "dist/environment/"
       }
     ],
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/common-api/tsconfig.app.json"
   },
   "projects": {
@@ -44,6 +44,15 @@
       }
     },
 
+    "auth": {
+      "type": "library",
+      "root": "libs/auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/auth/tsconfig.lib.json"
+      }
+    },
     "common": {
       "type": "library",
       "root": "libs/common",
@@ -60,6 +69,15 @@
       "sourceRoot": "libs/framework/src",
       "compilerOptions": {
         "tsConfigPath": "libs/framework/tsconfig.lib.json"
+      }
+    },
+    "mashup": {
+      "type": "library",
+      "root": "libs/mashup",
+      "entryFile": "index",
+      "sourceRoot": "libs/mashup/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mashup/tsconfig.lib.json"
       }
     },
     "operation": {

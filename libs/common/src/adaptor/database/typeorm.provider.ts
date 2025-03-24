@@ -1,3 +1,4 @@
+import { TokenEntity } from '#auth/entity/token.entity';
 import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
 import { type IMysqlConfig } from '#framework/config/dto/mysql.dto.type';
 import { UserEntity } from '#user/entity/user.entity';
@@ -25,7 +26,15 @@ export const typeOrmMysqlNestDBProvider: Provider = {
       username: process.env.NEST_DB_USERNAME,
       password: process.env.NEST_DB_PASSWORD,
       database: mysqlConfig.replication.master.database,
-      entities: [UserEntity],
+      entities: [
+        // SECTION - auth
+        TokenEntity,
+        // !SECTION
+
+        // SECTION - user
+        UserEntity,
+        // !SECTION
+      ],
       // bigint 자료형 지원
       supportBigNumbers: true,
       // bigint 컬럼을 무조건 string 타입으로 전달받음

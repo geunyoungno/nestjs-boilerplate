@@ -1,17 +1,63 @@
 import { CE_TABLE_INFO } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
 import { AbstractRepository } from '#common/adaptor/database/repository/abstract.repository';
-import { TAlias } from '#common/adaptor/database/repository/abstract.repository.type';
+import {
+  defaultJoinMethod,
+  TAlias,
+  TIncludes,
+  TJoinMethod,
+} from '#common/adaptor/database/repository/abstract.repository.type';
+import { toPluralCamel } from '#common/adaptor/database/tool/convertCase';
+import { relationWithDeleted } from '#common/adaptor/database/tool/withDeleted';
 import { typeormMysqlNestDBSymbol } from '#common/adaptor/database/typeorm.provider';
 import { CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
 import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
+import { CE_USER_INCLUDE } from '#user/const-enum/CE_USER_INCLUDE';
 import { CE_USER_SEARCH_BY } from '#user/const-enum/CE_USER_SEARCH_BY';
 import { UserAttributeEntity, UserEntity } from '#user/entity/user.entity';
 import { type IUserRepository } from '#user/repository/user.repository.type';
-import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
-import { Entries, LiteralUnion } from 'type-fest';
+import { Entries, LiteralUnion, SetRequired } from 'type-fest';
 import { FirstArrayElement } from 'type-fest/source/internal';
-import { DataSource, SelectQueryBuilder } from 'typeorm';
+import { DataSource, ObjectLiteral, SelectQueryBuilder } from 'typeorm';
+
+const userRelationRecord = <TEntity extends ObjectLiteral = UserEntity>(): Record<
+  CE_USER_INCLUDE,
+  (
+    args: SetRequired<FirstArrayElement<Parameters<typeof userRelation<TEntity>>>, 'alias' | 'joinMethod'>,
+  ) => FirstArrayElement<Parameters<typeof userRelation<TEntity>>>['queryBuilder']
+> => ({
+  [CE_USER_INCLUDE.TOKENS]: (args) => {
+    return args.queryBuilder[args.joinMethod as TJoinMethod](
+      `${args.alias}.${toPluralCamel(CE_TABLE_INFO.TOKEN)}`,
+      `${CE_TABLE_INFO.TOKEN_ALIAS}`,
+      ...relationWithDeleted({ alias: `${CE_TABLE_INFO.TOKEN_ALIAS}` }),
+    );
+  },
+});
+
+export function userRelation<TEntity extends ObjectLiteral = UserEntity>(args: {
+  queryBuilder: SelectQueryBuilder<TEntity>;
+  includes?: TIncludes<CE_USER_INCLUDE>;
+  alias?: TAlias;
+  joinMethod?: TJoinMethod;
+}): SelectQueryBuilder<TEntity> {
+  const alias = args?.alias ?? CE_TABLE_INFO.USER_ALIAS;
+  const joinMethod = args.joinMethod ?? defaultJoinMethod;
+
+  if (isEmpty(args.includes)) {
+    return args.queryBuilder;
+  }
+
+  const relationRecord = userRelationRecord<TEntity>();
+  args.includes.forEach((include) => {
+    if (isNotEmpty(include) && include in relationRecord) {
+      relationRecord[include]({ ...args, alias, joinMethod });
+    }
+  });
+
+  return args.queryBuilder;
+}
 
 @Injectable()
 export class UserRepository extends AbstractRepository<UserEntity, UserAttributeEntity> implements IUserRepository {
@@ -30,6 +76,7 @@ export class UserRepository extends AbstractRepository<UserEntity, UserAttribute
   // SECTION - 단건
   find: IUserRepository['find'] = async (args) => {
     const findQueryBuilder = this.findQueryBuilder(args);
+    userRelation({ queryBuilder: findQueryBuilder, includes: args.includes });
 
     const { condition } = args;
     if ('email' in condition && condition.email != null) {
@@ -39,9 +86,24 @@ export class UserRepository extends AbstractRepository<UserEntity, UserAttribute
     return findQueryBuilder.getOne();
   };
 
+  findOrFail: IUserRepository['findOrFail'] = async (args) => {
+    const entity = await this.find(args);
+
+    if (isEmpty(entity)) {
+      throw new NotFoundException({
+        errorCode: this.errorCodeMap?.[HttpStatus.NOT_FOUND] ?? CE_ERROR_CODE.USER.NOT_FOUND,
+      });
+    }
+
+    return entity;
+  };
+
+  // !SECTION
+
   // SECTION - 다건
   findMany: IUserRepository['findMany'] = async (args) => {
     const findManyQueryBuilder = this.findManyQueryBuilder(args);
+    userRelation({ queryBuilder: findManyQueryBuilder, includes: args.includes });
 
     return await findManyQueryBuilder.getMany();
   };

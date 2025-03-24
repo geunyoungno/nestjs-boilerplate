@@ -9,7 +9,7 @@ import { type ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type'
 import { type LiteralUnion, type SnakeCase } from 'type-fest';
 import { type InsertResult, type ObjectLiteral, type UpdateResult } from 'typeorm';
 
-export type TInclude<TKey extends string = string> = Partial<Record<TKey, boolean>> | undefined;
+export type TIncludes<TInclude extends string> = TInclude[] | undefined;
 
 export type TJoinMethod = 'leftJoin' | 'leftJoinAndSelect';
 export const defaultJoinMethod: TJoinMethod = 'leftJoinAndSelect';
@@ -169,7 +169,7 @@ export interface IAbstractRepository<TEntity extends IEntity> {
     pagination: TPagination;
     sort?: TSort;
     extra?: TExtra;
-    include?: TInclude<TIncludeUnion>;
+    includes?: TIncludes<TIncludeUnion>;
   }): Promise<{
     entities: TEntity[];
     meta: TMeta;

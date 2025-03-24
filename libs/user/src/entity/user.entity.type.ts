@@ -1,3 +1,4 @@
+import { type ITokenEntity } from '#auth/entity/token.entity.type';
 import { type IAttributeEntity, type IRelationEntity } from '#common/adaptor/database/entity/entity.type';
 
 export interface IUserAttributeEntity extends IAttributeEntity {
@@ -28,6 +29,10 @@ export interface IUserAttributeEntity extends IAttributeEntity {
   updatedAt: Date;
 }
 
-export interface IUserRelationEntity extends IRelationEntity {}
+export interface IUserRelationEntity extends IRelationEntity {
+  /** 토큰 목록 */
+  tokens: ITokenEntity[];
+}
 
-export default interface IUserEntity extends IUserAttributeEntity, IUserRelationEntity {}
+/** 사용자 */
+export interface IUserEntity extends IUserAttributeEntity, IUserRelationEntity {}

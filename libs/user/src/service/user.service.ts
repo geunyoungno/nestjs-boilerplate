@@ -98,7 +98,7 @@ export class UserService {
       condition: args.query,
       pagination: { page: args.query.page ?? this.defaultPage, limit: args.query.limit ?? this.defaultLimit },
       sort: args.query.sortBy,
-      include: undefined,
+      includes: args.query.includes,
     });
 
     return { users: searched.entities, meta: searched.meta };

@@ -38,6 +38,7 @@
       "#platform-api/*": ["apps/platform-api/src/*"],
 
       // libs
+      "#auth/*": ["libs/auth/src/*"],
       "#common/*": ["libs/common/src/*"],
       "#framework/*": ["libs/framework/src/*"],
       "#operation/*": ["libs/operation/src/*"],

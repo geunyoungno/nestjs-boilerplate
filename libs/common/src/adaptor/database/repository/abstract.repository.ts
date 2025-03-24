@@ -6,7 +6,7 @@ import {
   type TAlias,
   type TDraft,
   type TExtra,
-  type TInclude,
+  type TIncludes,
 } from '#common/adaptor/database/repository/abstract.repository.type';
 import { createdByUserUuid, updatedByUserUuid } from '#common/adaptor/database/tool/byUserUuid';
 import {
@@ -39,7 +39,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 {
   protected readonly _repository: Repository<TEntity>;
   protected readonly alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
-  protected readonly draft: TDraft<TEntity>;
+  protected readonly draft: TDraft<TAttribute>;
   protected readonly entity: AbstractClass<TEntity>;
   protected readonly attribute: AbstractClass<TAttribute>;
   protected readonly attributeKeys: string[];
@@ -59,7 +59,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     attribute: Class<TAttribute>;
     clsService?: ClsService;
     dataSource: DataSource;
-    draft: TDraft<TEntity>;
+    draft: TDraft<TAttribute>;
     entity: AbstractClass<TEntity>;
     errorCodeMap?: Partial<Record<HttpStatus, string>>;
   }) {
@@ -137,7 +137,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
         createdByUserUuid: createdByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
         updatedByUserUuid: updatedByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
       }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val !== undefined),
-    ) as typeof args.value;
+    ) as Partial<Omit<TAttribute, 'id'>>;
 
     const draftEntity = this.draft(value);
 
@@ -319,7 +319,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
           updatedByUserUuid: updatedByUserUuid({ value: val, userUuid: this.clsService?.get('userUuid') }),
         }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val != null),
       ),
-    ) as unknown as Array<Partial<TEntity>>;
+    ) as Array<Partial<Omit<TAttribute, 'id'>>>;
 
     const draftEntities = value.map(this.draft);
 
@@ -448,7 +448,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       throw new InternalServerErrorException({ errorCode: CE_ERROR_CODE.COMMON.INTERNAL_SERVER_ERROR });
     }
 
-    const draftEntities = value.map(this.draft);
+    const draftEntities = (value as unknown as TAttribute[]).map(this.draft);
 
     const insertResult = await this.repository
       .createQueryBuilder(this.alias)
@@ -571,7 +571,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     pagination: TPagination;
     sort?: TSort;
     extra?: TExtra;
-    include?: TInclude<TIncludeUnion>;
+    includes?: TIncludes<TIncludeUnion>;
   }): Promise<{ entities: TEntity[]; meta: TMeta }> {
     // step 1. 검색 쿼리 빌더 생성
     const searchQueryBuilder = this.searchQueryBuilder();
@@ -612,7 +612,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       // 누락된 정보가 있을 수 있다. 그렇기 때문에 id 기준으로 다시 조회를 한다.
       condition: { ids },
       extra: args.extra,
-      include: args.include,
+      includes: args.includes,
     };
 
     const entities = await this.findMany({ ...findManyArgs });

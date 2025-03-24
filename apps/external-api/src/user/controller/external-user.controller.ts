@@ -5,7 +5,8 @@ import { CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
 import { getHost } from '#common/shared/tool/getControllerHost';
 import { pathJoin } from '#common/shared/tool/pathJoin';
 import { CreateUserBodyDto } from '#external-api/user/dto/req/user/create-user.dto';
-import { FindUserParamDto } from '#external-api/user/dto/req/user/find-user.dto';
+import { FindManyUserParamDto, FindManyUserQueryDto } from '#external-api/user/dto/req/user/find-many-user.dto';
+import { FindUserParamDto, FindUserQueryDto } from '#external-api/user/dto/req/user/find-user.dto';
 import { RemoveUserParamDto } from '#external-api/user/dto/req/user/remove-user.dto';
 import { SearchUserQueryDto } from '#external-api/user/dto/req/user/search-user.dto';
 import { UpdateUserBodyDto, UpdateUserParamDto } from '#external-api/user/dto/req/user/update-user.dto';
@@ -33,8 +34,11 @@ export class PublicExternalUserController {
   @ApiOkJsend({ status: HttpStatus.OK, description: `${summary} 단건 조회, 성공`, type: { user: UserDto } })
   @ApiNotFoundJsend({ description: `${summary} 단건 조회, 실패 - 조회 실패` })
   @Get('/:userUuid')
-  async find(@Param() param: FindUserParamDto): Promise<{ user: UserDto }> {
-    const userEntity = await this.userService.findOrFail({ condition: { uuid: param.userUuid } });
+  async find(@Param() param: FindUserParamDto, @Query() query: FindUserQueryDto): Promise<{ user: UserDto }> {
+    const userEntity = await this.userService.findOrFail({
+      condition: { uuid: param.userUuid },
+      includes: query.includes,
+    });
 
     return { user: new UserDto(userEntity) };
   }
@@ -42,8 +46,14 @@ export class PublicExternalUserController {
   @ApiOperation({ summary: `${summary} 다건 조회`, tags })
   @ApiOkJsend({ status: HttpStatus.OK, description: `${summary} 다건 조회, 성공`, type: { users: [UserDto] } })
   @Get('/')
-  async findMany(): Promise<{ users: UserDto[] }> {
-    const userEntities = await this.userService.findMany({ condition: {} });
+  async findMany(
+    @Param() param: FindManyUserParamDto,
+    @Query() query: FindManyUserQueryDto,
+  ): Promise<{ users: UserDto[] }> {
+    const userEntities = await this.userService.findMany({
+      condition: { uuids: param.userUuids ?? [] },
+      includes: query.includes,
+    });
 
     return { users: userEntities.map((userEntity) => new UserDto(userEntity)) };
   }

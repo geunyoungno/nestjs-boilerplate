@@ -5,6 +5,6 @@ export interface IUserAttributeBaseDto
 
 export interface IUserPasswordBaseDto extends Pick<IUserAttributeEntity, 'password'> {}
 
-export interface IUserRelationBaseDto extends IUserRelationEntity {}
+export interface IUserRelationBaseDto extends Omit<IUserRelationEntity, 'tokens'> {}
 
 export interface IUserBaseDto extends IUserAttributeBaseDto, IUserRelationBaseDto {}
