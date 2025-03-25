@@ -1,3 +1,4 @@
+import { IWebClientReply, IWebClientReq } from '#common/adaptor/web-client/client/web-client.type';
 import escapeStringify from '#common/shared/tool/escapeStringify';
 import isEmpty from '#common/shared/tool/isEmpty';
 import { CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
@@ -353,6 +354,104 @@ export class LoggerService {
       req_url: args.req_url,
       id: this.getId(),
       payload: args.payload,
+    } satisfies ILogFormat;
+
+    this.winstonService.info(loggingData);
+  }
+  // !SECTION
+
+  // SECTION - Web Client
+  webClientError(args: { req: IWebClientReq; reply?: IWebClientReply; err: Error }) {
+    const { req, reply, err } = args;
+
+    const url = new URL(req.url);
+
+    const loggingData = {
+      timestamp: new Date().toISOString(),
+      discriminator: CE_LOG_DISCRIMINATOR.WEB_CLIENT_ERROR,
+      status: reply?.response?.status ?? HttpStatus.INTERNAL_SERVER_ERROR,
+      hostname: url.hostname,
+      req_method: getHttpMethod(req.method),
+      req_url: `${url.protocol}//${url.host}${url.pathname}`,
+      id: this.getId(),
+      err: {
+        message: err.message,
+        stack: err.stack,
+        cause: err.cause,
+      },
+      payload: {
+        req: {
+          header: isEmpty(req.headers) ? undefined : req.headers,
+          query: isEmpty(req.query) ? undefined : req.query,
+          param: undefined,
+          body: isEmpty(req.body) ? undefined : req.body,
+        },
+        reply:
+          reply == null
+            ? undefined
+            : {
+                headers: isEmpty(reply.response?.headers) ? undefined : reply.response?.headers,
+                data: isEmpty(reply.data) ? undefined : reply.data,
+              },
+      },
+    } satisfies ILogFormat;
+
+    this.winstonService.error(loggingData);
+  }
+
+  webClientRequest(args: { req: IWebClientReq }) {
+    const { req } = args;
+
+    const url = new URL(req.url);
+
+    const loggingData = {
+      timestamp: new Date().toISOString(),
+      discriminator: CE_LOG_DISCRIMINATOR.WEB_CLIENT_REQUEST,
+      status: HttpStatus.OK,
+      hostname: url.hostname,
+      req_method: getHttpMethod(req.method),
+      req_url: `${url.protocol}//${url.host}${url.pathname}`,
+      id: this.getId(),
+      err: undefined,
+      payload: {
+        req: {
+          header: isEmpty(req.headers) ? undefined : req.headers,
+          query: isEmpty(req.query) ? undefined : req.query,
+          param: undefined,
+          body: isEmpty(req.body) ? undefined : req.body,
+        },
+      },
+    } satisfies ILogFormat;
+
+    this.winstonService.info(loggingData);
+  }
+
+  webClientResponse(args: { req: IWebClientReq; reply: Required<IWebClientReply> }) {
+    const { req, reply } = args;
+
+    const url = new URL(req.url);
+
+    const loggingData = {
+      timestamp: new Date().toISOString(),
+      discriminator: CE_LOG_DISCRIMINATOR.WEB_CLIENT_RESPONSE,
+      status: reply.response?.status,
+      hostname: url.hostname,
+      req_method: getHttpMethod(req.method),
+      req_url: `${url.protocol}//${url.host}${url.pathname}`,
+      id: this.getId(),
+      err: undefined,
+      payload: {
+        req: {
+          header: isEmpty(req.headers) ? undefined : req.headers,
+          query: isEmpty(req.query) ? undefined : req.query,
+          param: undefined,
+          body: isEmpty(req.body) ? undefined : req.body,
+        },
+        reply: {
+          headers: isEmpty(reply.response?.headers) ? undefined : reply.response?.headers,
+          data: isEmpty(reply.data) ? undefined : reply.data,
+        },
+      },
     } satisfies ILogFormat;
 
     this.winstonService.info(loggingData);
