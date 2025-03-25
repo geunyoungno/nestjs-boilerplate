@@ -11,7 +11,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dataSourceMap: Record<CE_MYSQL_KEY, DataSource> = {} as any;
 
-export function getTradeDBDataSource(args?: { mysqlConfig?: IMysqlConfig; loggerService?: LoggerService }) {
+export function getNestDBDataSource(args?: { mysqlConfig?: IMysqlConfig; loggerService?: LoggerService }) {
   const mysqlConfig = args?.mysqlConfig;
   const loggerService = args?.loggerService;
 
@@ -54,7 +54,7 @@ export const getDataSource = async (args?: { mysqlConfig?: IMysqlConfig; loggerS
     return dataSourceMap[CE_MYSQL_KEY.NEST_DB];
   }
 
-  const dataSource = getTradeDBDataSource(args);
+  const dataSource = getNestDBDataSource(args);
 
   dataSourceMap[CE_MYSQL_KEY.NEST_DB] = dataSource;
 

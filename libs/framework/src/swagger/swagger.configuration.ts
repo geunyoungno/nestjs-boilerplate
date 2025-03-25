@@ -46,7 +46,7 @@ const defaultSwaggerConfig: Omit<OpenAPIObject, 'info' | 'paths'> = {
 
 const defaultSwaggerOption = {
   explorer: true,
-  // customSiteTitle: `trade-api swagger`,
+  // customSiteTitle: `nest-api swagger`,
   // jsonDocumentUrl: 'swagger.json',
   swaggerOptions: {
     filter: true,

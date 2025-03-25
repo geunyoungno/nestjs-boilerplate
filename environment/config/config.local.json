@@ -27,5 +27,14 @@
       },
       "from": "GeunYoung.No <geunyoungno@gmail.com>"
     }
+  },
+  "redis": {
+    "nest_redis": {
+      "host": "localhost",
+      "port": 6379,
+      "db": { "cache": 1, "queue": 11 },
+      "ttl": 86400000,
+      "tls": false
+    }
   }
 }
