@@ -1,5 +1,6 @@
 import { type ITokenEntity } from '#auth/entity/token.entity.type';
 import { type IAttributeEntity, type IRelationEntity } from '#common/adaptor/database/entity/entity.type';
+import type IUserImageLinkageEntity from '#user/entity/user-image-linkage.entity.type';
 
 export interface IUserAttributeEntity extends IAttributeEntity {
   /** 사용자 id, 내부용 */
@@ -21,17 +22,14 @@ export interface IUserAttributeEntity extends IAttributeEntity {
 
   /** 사용자 성명 */
   fullName: string;
-
-  /** 생성 시점 */
-  createdAt: Date;
-
-  /** 최근 수정 시점 */
-  updatedAt: Date;
 }
 
 export interface IUserRelationEntity extends IRelationEntity {
   /** 토큰 목록 */
   tokens: ITokenEntity[];
+
+  /** 사용자 이미지 연계 목록 */
+  userImageLinkages: IUserImageLinkageEntity[];
 }
 
 /** 사용자 */

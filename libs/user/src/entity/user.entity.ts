@@ -4,6 +4,7 @@ import { AttributeEntity } from '#common/adaptor/database/entity/entity';
 import { TDraft } from '#common/adaptor/database/repository/abstract.repository.type';
 import { toCamel, toPascal } from '#common/adaptor/database/tool/convertCase';
 import { draftAttribute } from '#common/adaptor/database/tool/draft';
+import { UserImageLinkageEntity } from '#user/entity/user-image-linkage.entity';
 import { type IUserAttributeEntity, type IUserEntity } from '#user/entity/user.entity.type';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
 
@@ -25,7 +26,7 @@ export class UserAttributeEntity extends AttributeEntity implements IUserAttribu
   @Column({
     comment: `해시된 비밀번호`,
     length: 512,
-    name: 'hashed_password', // password 가 Reserved Words 라서 변경함
+    name: 'password',
     type: 'varchar',
   })
   password!: string;
@@ -63,6 +64,11 @@ class User extends UserAttributeEntity implements IUserEntity {
   // SECTION - relation
   @OneToMany(toPascal(CE_TABLE_INFO.TOKEN), toCamel(CE_TABLE_INFO.USER), { createForeignKeyConstraints: false })
   tokens!: TokenEntity[];
+
+  @OneToMany(toPascal(CE_TABLE_INFO.USER_IMAGE_LINKAGE), toCamel(CE_TABLE_INFO.USER), {
+    createForeignKeyConstraints: false,
+  })
+  userImageLinkages!: UserImageLinkageEntity[];
   // !SECTION
 
   // insert에 입력할 값을 초기화 하기 위해서 사용한다

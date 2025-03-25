@@ -27,6 +27,13 @@ const userRelationRecord = <TEntity extends ObjectLiteral = UserEntity>(): Recor
     args: SetRequired<FirstArrayElement<Parameters<typeof userRelation<TEntity>>>, 'alias' | 'joinMethod'>,
   ) => FirstArrayElement<Parameters<typeof userRelation<TEntity>>>['queryBuilder']
 > => ({
+  [CE_USER_INCLUDE.IMAGE_LINKAGES]: (args) => {
+    return args.queryBuilder[args.joinMethod as TJoinMethod](
+      `${args.alias}.${toPluralCamel(CE_TABLE_INFO.USER_IMAGE_LINKAGE)}`,
+      `${CE_TABLE_INFO.USER_IMAGE_LINKAGE_ALIAS}`,
+      ...relationWithDeleted({ alias: `${CE_TABLE_INFO.USER_IMAGE_LINKAGE_ALIAS}` }),
+    );
+  },
   [CE_USER_INCLUDE.TOKENS]: (args) => {
     return args.queryBuilder[args.joinMethod as TJoinMethod](
       `${args.alias}.${toPluralCamel(CE_TABLE_INFO.TOKEN)}`,

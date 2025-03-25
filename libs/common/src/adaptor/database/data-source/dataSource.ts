@@ -4,6 +4,8 @@ import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { CE_MYSQL_KEY } from '#framework/config/const-enum/CE_MYSQL_KEY';
 import { type IMysqlConfig } from '#framework/config/dto/mysql.dto.type';
 import { type LoggerService } from '#framework/logger/logger.service';
+import { ImageEntity } from '#storage/entity/image.entity';
+import { UserImageLinkageEntity } from '#user/entity/user-image-linkage.entity';
 import { UserEntity } from '#user/entity/user.entity';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
@@ -24,16 +26,19 @@ export function getNestDBDataSource(args?: { mysqlConfig?: IMysqlConfig; loggerS
     password: process.env.NEST_DB_PASSWORD ?? 'testadmin',
     database: mysqlConfig?.replication.master.database ?? CE_MYSQL_KEY.NEST_DB,
     charset: 'utf8mb4_unicode_ci',
-    extra: {
-      charset: 'utf8mb4_unicode_ci',
-    },
+    extra: { charset: 'utf8mb4_unicode_ci' },
     entities: [
       // SECTION - auth
       TokenEntity,
       // !SECTION
 
+      // SECTION - storage
+      ImageEntity,
+      // !SECTION
+
       // SECTION - user
       UserEntity,
+      UserImageLinkageEntity,
       // !SECTION
     ],
     // bigint 자료형 지원

@@ -37,7 +37,7 @@ export class TokenAttributeEntity extends AttributeEntity implements ITokenAttri
   @Column({
     comment: [summary, '상태'].join(' - '),
     length: 8,
-    name: 'token_status', // status 가 Reserved Words 라서 변경함
+    name: 'status',
     type: 'varchar',
   })
   status!: CE_TOKEN_STATUS;

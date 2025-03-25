@@ -102,3 +102,19 @@ export const isDeleted = {
   type: 'tinyint',
   width: 1,
 } as const satisfies ColumnOptions;
+
+export const priority = {
+  comment: '우선순위 * 숫자가 클수록 우선순위가 높음',
+  default: 0,
+  name: 'priority',
+  type: 'int',
+  unsigned: true,
+} as const satisfies ColumnOptions;
+
+export const isDefault = {
+  comment: `기본 여부`,
+  default: 0,
+  name: 'is_default',
+  type: 'tinyint',
+  width: 1,
+} as const satisfies ColumnOptions;

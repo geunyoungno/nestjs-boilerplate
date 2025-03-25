@@ -4,6 +4,9 @@
     "envId": "N/A",
     "port": 3001
   },
+  "endpoint": {
+    "cdn": { "url": "http://cdn.example.com"  }
+  },
   "mysql": {
     "nest_db": {
       "replication": {
