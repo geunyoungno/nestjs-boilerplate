@@ -1,5 +1,6 @@
+import { FileFieldsInterceptor } from '#framework/file-upload/interceptor/file-fields.interceptor';
+import { MemoryStorage } from '#framework/file-upload/storage/memory-storage';
 import { FileMetadataBaseDto } from '#storage/dto/res/file/file.dto';
-import { FileFieldsInterceptor, MemoryStorage } from '@gersur/nest-file-fastify';
 import { UseInterceptors, applyDecorators, createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 

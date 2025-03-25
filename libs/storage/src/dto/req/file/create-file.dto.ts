@@ -1,6 +1,6 @@
+import { IMemoryStorageFile } from '#framework/file-upload/storage/memory-storage.type';
 import { type ICreateFileBaseDto } from '#storage/dto/req/file/create-file.dto.type';
 import { FileMetadataBaseDto } from '#storage/dto/res/file/file.dto';
-import { type MemoryStorageFile } from '@gersur/nest-file-fastify';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, IsArray, ValidateNested } from 'class-validator';
 
@@ -20,5 +20,5 @@ export class CreateFileBaseDto implements Pick<ICreateFileBaseDto, 'metadatas'> 
 
   @ArrayMinSize(1)
   @ArrayMaxSize(10)
-  files!: MemoryStorageFile[];
+  files!: IMemoryStorageFile[];
 }
