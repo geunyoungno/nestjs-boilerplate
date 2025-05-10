@@ -12,8 +12,8 @@ export const draftAttribute: TDraft<IAttributeEntity> = (args) => {
     updatedAt: args?.updatedAt ?? now,
     deletedAt: args?.deletedAt ?? null,
     isDeleted: args?.isDeleted ?? false,
-    createdByUserUuid: args?.createdByUserUuid ?? '',
-    updatedByUserUuid: args?.updatedByUserUuid ?? '',
-    deletedByUserUuid: args?.deletedByUserUuid ?? null,
+    createdBy: args?.createdBy ?? '',
+    updatedBy: args?.updatedBy ?? '',
+    deletedBy: args?.deletedBy ?? null,
   };
 };

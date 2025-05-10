@@ -8,7 +8,7 @@ import {
   type TExtra,
   type TIncludes,
 } from '#common/adaptor/database/repository/abstract.repository.type';
-import { createdByUserUuid, updatedByUserUuid } from '#common/adaptor/database/tool/byUserUuid';
+import { createdBy, updatedBy } from '#common/adaptor/database/tool/by';
 import {
   executeSearchQuery,
   getSearchCloneQueryRecord,
@@ -134,8 +134,8 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     const value = Object.fromEntries(
       Object.entries({
         ...args.value,
-        createdByUserUuid: createdByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
-        updatedByUserUuid: updatedByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
+        createdBy: createdBy({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
+        updatedBy: updatedBy({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
       }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val !== undefined),
     ) as Partial<Omit<TAttribute, 'id'>>;
 
@@ -167,7 +167,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
     const argsValue = {
       ...args.value,
-      updatedByUserUuid: updatedByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
+      updatedBy: updatedBy({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
     };
 
     if (
@@ -214,12 +214,12 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
     const setValue = Object.fromEntries(
       Object.entries(
-        this.attributeKeys.includes('updatedByUserUuid')
+        this.attributeKeys.includes('updatedBy')
           ? {
               ...args.value,
               isDeleted: isNotEmpty(args.value) && 'isDeleted' in args.value ? args.value.isDeleted : true,
               deletedAt: isNotEmpty(args.value) && 'deletedAt' in args.value ? args.value.deletedAt : new Date(),
-              updatedByUserUuid: updatedByUserUuid({
+              updatedBy: updatedBy({
                 value: args.value ?? {},
                 userUuid: this.clsService?.get('userUuid'),
               }),
@@ -315,8 +315,8 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       Object.fromEntries(
         Object.entries({
           ...val,
-          createdByUserUuid: createdByUserUuid({ value: val, userUuid: this.clsService?.get('userUuid') }),
-          updatedByUserUuid: updatedByUserUuid({ value: val, userUuid: this.clsService?.get('userUuid') }),
+          createdBy: createdBy({ value: val, userUuid: this.clsService?.get('userUuid') }),
+          updatedBy: updatedBy({ value: val, userUuid: this.clsService?.get('userUuid') }),
         }).filter(([key, val]) => key !== 'id' && this.attributeKeys.includes(key) && val != null),
       ),
     ) as Array<Partial<Omit<TAttribute, 'id'>>>;
@@ -358,7 +358,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     const value = Object.fromEntries(
       Object.entries({
         ...argsValue,
-        updatedByUserUuid: updatedByUserUuid({ value: argsValue, userUuid: this.clsService?.get('userUuid') }),
+        updatedBy: updatedBy({ value: argsValue, userUuid: this.clsService?.get('userUuid') }),
       }).filter(([key, val]) => key !== 'id' && key !== 'uuid' && this.attributeKeys.includes(key) && val != null),
     );
 
@@ -399,12 +399,12 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
     const setValue = Object.fromEntries(
       Object.entries(
-        this.attributeKeys.includes('updatedByUserUuid')
+        this.attributeKeys.includes('updatedBy')
           ? {
               ...args.value,
               isDeleted: isEmpty(args.value) === false && 'isDeleted' in args.value ? args.value.isDeleted : true,
               deletedAt: isEmpty(args.value) === false && 'deletedAt' in args.value ? args.value.deletedAt : new Date(),
-              updatedByUserUuid: updatedByUserUuid({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
+              updatedBy: updatedBy({ value: args.value, userUuid: this.clsService?.get('userUuid') }),
             }
           : {
               ...args.value,

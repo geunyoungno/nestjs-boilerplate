@@ -42,21 +42,21 @@ export const relationUuid = {
 } as const satisfies ColumnOptions;
 
 /** 생성한 사용자 uuid */
-export const createdByUserUuid = {
+export const createdBy = {
   ...relationUuid,
   comment: '생성한 사용자 uuid',
   name: 'created_by_user_uuid',
 } as const satisfies ColumnOptions;
 
 /** 최근 수정한 사용자 uuid */
-export const updatedByUserUuid = {
+export const updatedBy = {
   ...relationUuid,
   comment: '최근 수정한 사용자 uuid',
   name: 'updated_by_user_uuid',
 } as const satisfies ColumnOptions;
 
 /** 삭제한 사용자 uuid */
-export const deletedByUserUuid = {
+export const deletedBy = {
   ...relationUuid,
   comment: '삭제한 사용자 uuid',
   default: null,

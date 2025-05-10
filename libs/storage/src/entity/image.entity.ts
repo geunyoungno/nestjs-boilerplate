@@ -86,11 +86,11 @@ export class ImageAttributeEntity extends AttributeEntity implements IImageAttri
 
   declare isDeleted: boolean;
 
-  declare createdByUserUuid: string;
+  declare createdBy: string;
 
-  declare updatedByUserUuid: string;
+  declare updatedBy: string;
 
-  declare deletedByUserUuid: string | null;
+  declare deletedBy: string | null;
   // !SECTION
 }
 

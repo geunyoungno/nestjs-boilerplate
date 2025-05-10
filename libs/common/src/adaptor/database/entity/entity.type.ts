@@ -22,13 +22,13 @@ export interface IMetaAttributeEntity {
   isDeleted: boolean;
 
   /** 생성한 사용자 uuid */
-  createdByUserUuid: string;
+  createdBy: string;
 
   /** 최근 수정한 사용자 uuid */
-  updatedByUserUuid: string;
+  updatedBy: string;
 
   /** 삭제한 사용자 uuid */
-  deletedByUserUuid: string | null;
+  deletedBy: string | null;
 }
 
 /** 속성 엔티티 */

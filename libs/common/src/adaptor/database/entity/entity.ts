@@ -24,13 +24,13 @@ export abstract class AttributeEntity implements IAttributeEntity {
   @Column({ ...column.isDeleted })
   isDeleted!: boolean;
 
-  @Column({ ...column.createdByUserUuid })
-  createdByUserUuid!: string;
+  @Column({ ...column.createdBy })
+  createdBy!: string;
 
-  @Column({ ...column.updatedByUserUuid })
-  updatedByUserUuid!: string;
+  @Column({ ...column.updatedBy })
+  updatedBy!: string;
 
-  @Column({ ...column.deletedByUserUuid })
-  deletedByUserUuid!: string | null;
+  @Column({ ...column.deletedBy })
+  deletedBy!: string | null;
   // !SECTION
 }
