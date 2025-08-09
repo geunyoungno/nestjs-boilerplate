@@ -5,11 +5,11 @@ import {
 } from '#common/adaptor/web-client/client/web-client.type';
 import { CE_CONTENT_TYPE } from '#common/adaptor/web-client/const-enum/CE_CONTENT_TYPE';
 import { CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
+import { type TValueOf } from '#common/shared/dto/utility.type';
 import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
 import getHttpMethod from '#framework/logger/getHttpMethod';
 import { type LoggerService } from '#framework/logger/logger.service';
 import { HttpException } from '@nestjs/common';
-import { type ValueOf } from 'type-fest';
 
 export class FetchClient implements IWebClient {
   /** 요청 정보 */
@@ -99,7 +99,7 @@ export class FetchClient implements IWebClient {
   // SECTION - Request Data
   private buildQueryString(
     key: string,
-    value: ValueOf<NonNullable<IWebClientReq['query']>>,
+    value: TValueOf<NonNullable<IWebClientReq['query']>>,
     parentKey?: string,
   ): string[] {
     const encodedKey = parentKey

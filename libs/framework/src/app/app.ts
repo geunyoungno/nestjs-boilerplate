@@ -1,4 +1,5 @@
 import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
+import { type TClass } from '#common/shared/dto/utility.type';
 import { CorsService } from '#framework/cors/cors.service';
 import { HelmetService } from '#framework/helmet/helmet.service';
 import { SwaggerService } from '#framework/swagger/swagger.service';
@@ -8,7 +9,6 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
-import { type Class } from 'type-fest';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 
 /**
@@ -54,7 +54,7 @@ const oauthPassport = (app: NestFastifyApplication) => {
     });
 };
 
-export async function bootstrap(AppModule: Class<unknown>) {
+export async function bootstrap(AppModule: TClass<unknown>) {
   initializeTransactionalContext();
 
   const app = await NestFactory.create<NestFastifyApplication>(

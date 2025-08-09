@@ -1,16 +1,16 @@
+import { type TMerge } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsOptional, IsUUID } from 'class-validator';
-import { type Merge } from 'type-fest';
 
 export const uuidExample = '00000000-0000-0000-0000-000000000000' as const;
 const MAX_ITEMS = 100 as const;
 const MIN_ITEMS = 1 as const;
 
 export const uuidDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }>,
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }>,
 ) => {
   const required = args.required;
 
@@ -30,7 +30,7 @@ export const uuidDecorator = (
 };
 
 export const uuidManyDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
     Partial<Pick<ApiPropertyOptions, 'maxItems' | 'minItems'>>,
 ) => {
   const required = args.required;
@@ -65,7 +65,7 @@ export const uuidManyDecorator = (
  * body에서 사용하는 uuid 목록 데코레이터
  */
 export const uuidManyBodyDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
     Partial<Pick<ApiPropertyOptions, 'maxItems' | 'minItems'>>,
 ) => {
   const required = args.required;

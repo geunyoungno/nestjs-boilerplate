@@ -1,12 +1,12 @@
+import { type TMerge } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsEnum, IsOptional } from 'class-validator';
-import { type Merge } from 'type-fest';
 
 export const enumDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> & {
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> & {
     enum: NonNullable<Exclude<ApiPropertyOptions['enum'], () => void>>;
   },
 ) => {
@@ -28,7 +28,7 @@ export const enumDecorator = (
 };
 
 export const enumManyDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
     Partial<Pick<ApiPropertyOptions, 'minItems'>> & {
       enum: NonNullable<Exclude<ApiPropertyOptions['enum'], () => void>>;
     },

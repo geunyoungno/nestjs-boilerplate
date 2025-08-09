@@ -6,7 +6,7 @@ import {
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
 import { type ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type';
-import { type LiteralUnion, type SnakeCase } from 'type-fest';
+import { type TLiteralUnion, type TSnakeCase } from '#common/shared/dto/utility.type';
 import { type InsertResult, type ObjectLiteral, type UpdateResult } from 'typeorm';
 
 export type TIncludes<TInclude extends string> = TInclude[] | undefined;
@@ -14,7 +14,7 @@ export type TIncludes<TInclude extends string> = TInclude[] | undefined;
 export type TJoinMethod = 'leftJoin' | 'leftJoinAndSelect';
 export const defaultJoinMethod: TJoinMethod = 'leftJoinAndSelect';
 
-export type TAlias = LiteralUnion<`${CE_TABLE_INFO}_as`, `${string}_as`>;
+export type TAlias = TLiteralUnion<`${CE_TABLE_INFO}_as`, `${string}_as`>;
 
 export type TExtra =
   | {
@@ -37,7 +37,7 @@ export type TDraft<TEntity extends IAttributeEntity> = (
   },
 ) => Omit<TEntity, 'id'>;
 
-export type TOverwrite<TAttribute extends IEntity = IEntity> = SnakeCase<
+export type TOverwrite<TAttribute extends IEntity = IEntity> = TSnakeCase<
   Extract<keyof Omit<TAttribute, 'id' | 'uuid'>, string>
 >;
 
@@ -150,7 +150,7 @@ export interface IAbstractRepository<TEntity extends IEntity> {
   }>;
 
   upsertMany<TValue extends Array<Partial<TEntity>>>(args: {
-    overwrite: Array<LiteralUnion<TOverwrite<TEntity>, string>>; // 테이블의 필드명이 class의 필드명과 다른 경우들도 있어서 string 으로 처리
+    overwrite: Array<TLiteralUnion<TOverwrite<TEntity>, string>>; // 테이블의 필드명이 class의 필드명과 다른 경우들도 있어서 string 으로 처리
     value: TValue;
   }): Promise<{
     insertResult: InsertResult;

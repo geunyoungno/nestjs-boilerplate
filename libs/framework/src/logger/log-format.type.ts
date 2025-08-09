@@ -1,9 +1,9 @@
+import { type TLiteralUnion } from '#common/shared/dto/utility.type';
 import { type CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
-import { type LiteralUnion } from 'type-fest';
 
 export interface ILogFormat {
   timestamp?: string;
-  discriminator: LiteralUnion<CE_LOG_DISCRIMINATOR, string>;
+  discriminator: TLiteralUnion<CE_LOG_DISCRIMINATOR, string>;
   status: number;
   duration?: number;
   hostname?: string;

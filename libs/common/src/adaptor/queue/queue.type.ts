@@ -1,11 +1,11 @@
 import { type CE_QUEUE_DESTINATION } from '#common/adaptor/queue/const-enum/CE_QUEUE_DESTINATION';
 import { type CE_QUEUE_NAME, type CE_TRADE_QUEUE_NAME } from '#common/adaptor/queue/const-enum/CE_QUEUE_NAME';
 import { type CE_QUEUE_STAGE } from '#common/adaptor/queue/const-enum/CE_QUEUE_STAGE';
+import { type TValueOf } from '#common/shared/dto/utility.type';
 import { type IUserEntity } from '#user/entity/user.entity.type';
 import { type Job, type Queue } from 'bullmq';
-import { type ValueOf } from 'type-fest';
 
-export type TWrapQueueJobPayload<TJobPayload extends ValueOf<IQueueSchema>> = TJobPayload & {
+export type TWrapQueueJobPayload<TJobPayload extends TValueOf<IQueueSchema>> = TJobPayload & {
   id: {
     /** Request 고유 번호 */
     requestId: string;
@@ -24,7 +24,7 @@ export type TQueue<TQueueName extends CE_QUEUE_NAME> = Queue<
 export type TJob<TQueueName extends CE_QUEUE_NAME> = Job<
   TWrapQueueJobPayload<IQueueSchema[TQueueName]>,
   unknown,
-  ValueOf<Pick<IQueueSchema[TQueueName], 'discriminator'>>
+  TValueOf<Pick<IQueueSchema[TQueueName], 'discriminator'>>
 >;
 
 export interface IQueuePayload {

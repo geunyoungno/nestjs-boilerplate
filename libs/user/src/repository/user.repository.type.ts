@@ -1,10 +1,10 @@
 import { type TExtra, type TIncludes } from '#common/adaptor/database/repository/abstract.repository.type';
+import { type TFirstArrayElement } from '#common/shared/dto/utility.type';
 import { type CE_USER_INCLUDE } from '#user/const-enum/CE_USER_INCLUDE';
 import { type ISearchUserQueryBaseDto } from '#user/dto/req/user/search-user.dto.type';
 import { type ISearchUserMetaBaseDto } from '#user/dto/res/user/search-user.dto.type';
 import { type UserEntity } from '#user/entity/user.entity';
 import { type IUserAttributeEntity } from '#user/entity/user.entity.type';
-import { type FirstArrayElement } from 'type-fest/source/internal';
 
 export interface IUserRepository {
   // SECTION - 단건
@@ -17,7 +17,7 @@ export interface IUserRepository {
     includes?: TIncludes<CE_USER_INCLUDE>;
   }): Promise<UserEntity | null>;
 
-  findOrFail(args: FirstArrayElement<Parameters<IUserRepository['find']>>): Promise<UserEntity>;
+  findOrFail(args: TFirstArrayElement<Parameters<IUserRepository['find']>>): Promise<UserEntity>;
 
   /** 사용자 단건 생성 */
   create(args: {

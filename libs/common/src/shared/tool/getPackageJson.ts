@@ -1,9 +1,9 @@
-import { type PackageJson, type ReadonlyDeep } from 'type-fest';
+import { type TPackageJson } from '#common/shared/dto/utility.type';
 import packageJson from '../../../../../package.json';
 
-const internalPackage: PackageJson = packageJson;
-const externalPackage: ReadonlyDeep<PackageJson> = internalPackage;
+const internalPackage: TPackageJson = packageJson;
+const externalPackage: Readonly<TPackageJson> = internalPackage;
 
-export function getPackageJson(): ReadonlyDeep<PackageJson> {
+export function getPackageJson(): Readonly<TPackageJson> {
   return externalPackage;
 }

@@ -1,6 +1,6 @@
 import { type CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
+import { type TLiteralUnion, type TValueOf } from '#common/shared/dto/utility.type';
 import { type HttpStatus } from '@nestjs/common';
-import { type LiteralUnion } from 'type-fest';
 
 /** @see https://seller-note.atlassian.net/wiki/spaces/TRADEDEV/pages/196938/REST+API+Response+Format */
 /** 성공 Jsend DTO */
@@ -30,7 +30,7 @@ export interface IFailureJsendDto<TData = unknown> {
    */
   error: {
     /** error code */
-    code: LiteralUnion<CE_ERROR_CODE, string>;
+    code: TLiteralUnion<TValueOf<TValueOf<typeof CE_ERROR_CODE>>, string>;
     /** error detail */
     errors?: TData;
     /** error message */

@@ -1,10 +1,10 @@
 import { CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
 import { IFailureJsendDto, ISuccessJsendDto } from '#common/shared/dto/res/jsend.dto.type';
+import { TLiteralUnion, TValueOf } from '#common/shared/dto/utility.type';
 import { HttpStatus } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { type LiteralUnion } from 'type-fest';
 
 export class SuccessJsendDto<TData = unknown> implements ISuccessJsendDto<TData> {
   @ApiProperty({
@@ -36,7 +36,7 @@ class FailureErrorJsendDto<TData = unknown> implements Readonly<IFailureJsendDto
     required: true,
   })
   @IsString()
-  code: LiteralUnion<CE_ERROR_CODE, string>;
+  code: TLiteralUnion<TValueOf<TValueOf<typeof CE_ERROR_CODE>>, string>;
 
   @ApiProperty({
     description: `error detail`,

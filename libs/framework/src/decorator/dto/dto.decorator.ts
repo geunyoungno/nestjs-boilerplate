@@ -1,15 +1,15 @@
+import { type TClass, type TMerge } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional, ValidateNested } from 'class-validator';
-import { type Class, type Merge } from 'type-fest';
 
 export const dtoDecorator = <IDto>(
-  args: { dto: Class<IDto> | (() => Class<IDto>) } & Required<Pick<ApiPropertyOptions, 'description'>> &
-    Partial<Merge<Pick<ApiPropertyOptions, 'required' | 'nullable'>, { required: boolean }>>,
+  args: { dto: TClass<IDto> | (() => TClass<IDto>) } & Required<Pick<ApiPropertyOptions, 'description'>> &
+    Partial<TMerge<Pick<ApiPropertyOptions, 'required' | 'nullable'>, { required: boolean }>>,
 ) => {
-  const dto: Class<IDto> = 'prototype' in args.dto ? (args.dto as Class<IDto>) : (args.dto as () => Class<IDto>)();
+  const dto: TClass<IDto> = 'prototype' in args.dto ? (args.dto as TClass<IDto>) : (args.dto as () => TClass<IDto>)();
   const required = args.required ?? false; // 기본적으로 옵셔널로 사용되었다
   const nullable = args.nullable ?? false;
 
@@ -29,8 +29,8 @@ export const dtoDecorator = <IDto>(
 };
 
 export const dtoManyDecorator = <IDto>(
-  args: { dto: () => Class<IDto> } & Required<Pick<ApiPropertyOptions, 'description'>> &
-    Partial<Merge<Pick<ApiPropertyOptions, 'required' | 'nullable'>, { required: boolean }>>,
+  args: { dto: () => TClass<IDto> } & Required<Pick<ApiPropertyOptions, 'description'>> &
+    Partial<TMerge<Pick<ApiPropertyOptions, 'required' | 'nullable'>, { required: boolean }>>,
 ) => {
   const required = args.required ?? false; // 기본적으로 옵셔널로 사용되었다
   const nullable = args.nullable ?? false;

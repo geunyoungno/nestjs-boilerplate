@@ -3,11 +3,10 @@ import { type IConfigDto } from '#framework/config/dto/config.dto.type';
 import fs from 'fs';
 import { parse } from 'jsonc-parser';
 import path from 'path';
-import { type ReadonlyDeep } from 'type-fest';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const internalConfig: IConfigDto = {} as any;
-const config: ReadonlyDeep<IConfigDto> = internalConfig;
+const config: Readonly<IConfigDto> = internalConfig;
 
 export function getRunMode(undefinedRunMode?: string): CE_RUN_MODE {
   const runMode = undefinedRunMode ?? process.env.RUN_MODE ?? 'local';

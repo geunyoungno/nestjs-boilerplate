@@ -1,8 +1,10 @@
 import { FailureJsendDto, SuccessJsendDto } from '#common/shared/dto/res/jsend.dto';
+import { type TClass, type TFirstArrayElement, type TMerge, type TSetRequired } from '#common/shared/dto/utility.type';
 import { applyDecorators, type Type } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiConflictResponse,
+  ApiCreatedResponse,
   ApiExtraModels,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -12,8 +14,6 @@ import {
   type ApiResponseOptions,
 } from '@nestjs/swagger';
 import { type ReferenceObject, type SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { type Class, type Merge, type SetRequired } from 'type-fest';
-import { type FirstArrayElement } from 'type-fest/source/internal';
 
 /**
  * ApiResponse 를 Jsend 형식으로 반환한다
@@ -22,16 +22,16 @@ import { type FirstArrayElement } from 'type-fest/source/internal';
  */
 export const ApiJsend = <
   TRecordDto extends Record<string, Type<unknown> | Array<Type<unknown>> | Array<Array<Type<unknown>>>>,
-  TApiResponse extends (options: ApiResponseOptions) => MethodDecorator & ClassDecorator,
+  TApiResponse extends (options: ApiResponseOptions) => MethodDecorator & ClassDecorator = typeof ApiResponse,
 >(
-  option: Merge<
-    FirstArrayElement<Parameters<TApiResponse>>,
+  option: TMerge<
+    ApiResponseOptions,
     {
       type?: TRecordDto;
       apiResponse?: TApiResponse;
     }
   >,
-  jsendDto: Class<SuccessJsendDto<TRecordDto>> | Class<FailureJsendDto<TRecordDto>> = SuccessJsendDto<TRecordDto>,
+  jsendDto: TClass<SuccessJsendDto<TRecordDto>> | TClass<FailureJsendDto<TRecordDto>> = SuccessJsendDto<TRecordDto>,
 ) => {
   const { type, apiResponse: undefinedApiResponse, ...restOption } = option;
   const apiResponse = undefinedApiResponse ?? ApiResponse;
@@ -124,7 +124,7 @@ export const ApiJsend = <
  * OK 응답(200)에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
  * @param option - 정상적인 응답의 설정 옵션입니다.
  */
-export const ApiOkJsend = (option: SetRequired<FirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
+export const ApiOkJsend = (option: TSetRequired<TFirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
   return ApiJsend(
     {
       ...option,
@@ -137,11 +137,11 @@ export const ApiOkJsend = (option: SetRequired<FirstArrayElement<Parameters<type
 /**
  * Created 응답(201)에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
  */
-export const ApiCreatedJsend = (option: SetRequired<FirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
+export const ApiCreatedJsend = (option: TSetRequired<TFirstArrayElement<Parameters<typeof ApiJsend>>, 'type'>) => {
   return ApiJsend(
     {
       ...option,
-      apiResponse: ApiOkResponse,
+      apiResponse: ApiCreatedResponse,
     },
     SuccessJsendDto,
   );
@@ -150,7 +150,7 @@ export const ApiCreatedJsend = (option: SetRequired<FirstArrayElement<Parameters
 /**
  * No Content 응답(204)에 대해 JsendDto 기반 Swagger 데코레이터를 제공합니다.
  */
-export const ApiNoContentJsend = (option: FirstArrayElement<Parameters<typeof ApiJsend>>) => {
+export const ApiNoContentJsend = (option: TFirstArrayElement<Parameters<typeof ApiJsend>>) => {
   return ApiJsend(
     {
       ...option,

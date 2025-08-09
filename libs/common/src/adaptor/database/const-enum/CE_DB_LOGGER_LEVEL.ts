@@ -1,4 +1,4 @@
-import { type FirstArrayElement } from 'type-fest/source/internal';
+import { type TFirstArrayElement } from '#common/shared/dto/utility.type';
 import type { Logger } from 'typeorm';
 
 /**
@@ -8,7 +8,7 @@ import type { Logger } from 'typeorm';
  * - info: 쿼리 오류, 슬로우 쿼리만 기록
  * - warn: 슬로우 쿼리만 기록
  */
-type TTypeormLoggerLevel = FirstArrayElement<Parameters<Logger['log']>>;
+type TTypeormLoggerLevel = TFirstArrayElement<Parameters<Logger['log']>>;
 
 /**
  * 로그레벨

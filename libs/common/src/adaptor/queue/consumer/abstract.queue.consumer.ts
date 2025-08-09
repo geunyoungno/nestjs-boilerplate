@@ -1,11 +1,11 @@
 import { type IQueueSchema, type TWrapQueueJobPayload } from '#common/adaptor/queue/queue.type';
+import { type TValueOf } from '#common/shared/dto/utility.type';
 import { CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
 import { type LoggerService } from '#framework/logger/logger.service';
 import { WorkerHost } from '@nestjs/bullmq';
 import { type Job, type Worker, type WorkerListener } from 'bullmq';
-import { type ValueOf } from 'type-fest';
 
-export abstract class AbstractQueueConsumer<TJonPayload extends ValueOf<IQueueSchema>> extends WorkerHost<
+export abstract class AbstractQueueConsumer<TJonPayload extends TValueOf<IQueueSchema>> extends WorkerHost<
   Worker<TWrapQueueJobPayload<TJonPayload>>
 > {
   private _loggerService: LoggerService;
@@ -39,7 +39,7 @@ export abstract class AbstractQueueConsumer<TJonPayload extends ValueOf<IQueueSc
   }
 
   private onActive(
-    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, ValueOf<Pick<TJonPayload, 'discriminator'>>>,
+    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, TValueOf<Pick<TJonPayload, 'discriminator'>>>,
     _prev: Parameters<WorkerListener['active']>[1],
   ) {
     if (this.loggingRecord[CE_LOG_DISCRIMINATOR.QUEUE_CONSUMER_ACTIVE] === false) {
@@ -51,7 +51,7 @@ export abstract class AbstractQueueConsumer<TJonPayload extends ValueOf<IQueueSc
   }
 
   private onCompleted(
-    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, ValueOf<Pick<TJonPayload, 'discriminator'>>>,
+    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, TValueOf<Pick<TJonPayload, 'discriminator'>>>,
     result: Parameters<WorkerListener['completed']>[1],
     _prev: Parameters<WorkerListener['completed']>[2],
   ) {
@@ -72,7 +72,7 @@ export abstract class AbstractQueueConsumer<TJonPayload extends ValueOf<IQueueSc
   }
 
   private onFailed(
-    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, ValueOf<Pick<TJonPayload, 'discriminator'>>>,
+    job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, TValueOf<Pick<TJonPayload, 'discriminator'>>>,
     error: Parameters<WorkerListener['failed']>[1],
     _prev: Parameters<WorkerListener['failed']>[2],
   ) {

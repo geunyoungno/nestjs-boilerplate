@@ -1,4 +1,4 @@
-import { type Class } from 'type-fest';
+import { type TClass } from '#common/shared/dto/utility.type';
 
 /**
  * 여러 부모 DTO를 병합하여 DTO를 초기화합니다.
@@ -10,7 +10,7 @@ import { type Class } from 'type-fest';
  */
 export const initDto = <IDto, IEntity>(args: {
   thisDto: ThisType<IDto>;
-  parentDtos: Array<Class<Partial<IDto>>>;
+  parentDtos: Array<TClass<Partial<IDto>>>;
   entity: IEntity;
 }) => {
   const { thisDto, parentDtos, entity } = args;

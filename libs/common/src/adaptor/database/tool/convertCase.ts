@@ -1,7 +1,7 @@
 import { type CE_TABLE_PLURAL } from '#common/adaptor/database/const-enum/CE_TABLE_INFO';
+import { type TCamelCase, type TPascalCase } from '#common/shared/dto/utility.type';
 import { camelCase, pascalCase } from 'change-case-all';
 import pluralize from 'pluralize';
-import { type CamelCase, type PascalCase } from 'type-fest';
 
 const customPascalMap = new Map<string, string>([['Oauth', 'OAuth']]);
 
@@ -11,11 +11,11 @@ const customPascalMap = new Map<string, string>([['Oauth', 'OAuth']]);
  * @param string
  * @returns
  */
-export function toPascal<TStr extends string>(string: TStr): PascalCase<TStr> {
-  const pascaled = pascalCase(string) as PascalCase<TStr>;
+export function toPascal<TStr extends string>(string: TStr): TPascalCase<TStr> {
+  const pascaled = pascalCase(string) as TPascalCase<TStr>;
 
   if (customPascalMap.has(pascaled)) {
-    return customPascalMap.get(pascaled) as PascalCase<TStr>;
+    return customPascalMap.get(pascaled) as TPascalCase<TStr>;
   }
 
   return pascaled;
@@ -27,8 +27,8 @@ export function toPascal<TStr extends string>(string: TStr): PascalCase<TStr> {
  * @param string
  * @returns
  */
-export function toCamel<TStr extends string>(string: TStr): CamelCase<TStr> {
-  return camelCase(string) as CamelCase<TStr>;
+export function toCamel<TStr extends string>(string: TStr): TCamelCase<TStr> {
+  return camelCase(string) as TCamelCase<TStr>;
 }
 export const toPlural = <TStr extends `${string}${keyof typeof CE_TABLE_PLURAL}`>(
   singularString: TStr,
@@ -41,7 +41,7 @@ export const toPlural = <TStr extends `${string}${keyof typeof CE_TABLE_PLURAL}`
 
 export const toPluralCamel = <TStr extends `${string}${keyof typeof CE_TABLE_PLURAL}`>(
   singularString: TStr,
-): CamelCase<ReturnType<typeof toPlural>> => {
+): TCamelCase<ReturnType<typeof toPlural>> => {
   const pluralString = toPlural(singularString);
 
   return toCamel(pluralString);

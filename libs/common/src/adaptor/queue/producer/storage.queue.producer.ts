@@ -2,11 +2,11 @@ import { CE_TRADE_QUEUE_NAME } from '#common/adaptor/queue/const-enum/CE_QUEUE_N
 import { AbstractQueueProducer } from '#common/adaptor/queue/producer/abstract.queue.producer';
 import { IQueueSchema, TQueue } from '#common/adaptor/queue/queue.type';
 import { StorageQueueService } from '#common/adaptor/queue/service/storage.queue.service';
+import { TArrayValues } from '#common/shared/dto/utility.type';
 import { LoggerService } from '#framework/logger/logger.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
-import { ArrayValues } from 'type-fest';
 
 @Injectable()
 export class StorageQueueProducer extends AbstractQueueProducer<
@@ -21,7 +21,7 @@ export class StorageQueueProducer extends AbstractQueueProducer<
     super({ queue, loggerService, clsService });
   }
 
-  isValid(args: ArrayValues<Parameters<typeof this.storageQueueService.isValid>>) {
+  isValid(args: TArrayValues<Parameters<typeof this.storageQueueService.isValid>>) {
     return this.storageQueueService.isValid(args);
   }
 }

@@ -1,5 +1,4 @@
 import { type CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
-import { type LiteralUnion } from 'type-fest';
 
 declare global {
   namespace NodeJS {
@@ -7,7 +6,7 @@ declare global {
     interface ProcessEnv {
       // SECTION - server
       /** 실행환경 설정: local, develop, qa, stage, production 다섯가지 모드가 있다. */
-      RUN_MODE?: LiteralUnion<CE_RUN_MODE, string>;
+      RUN_MODE?: CE_RUN_MODE | string;
       // !SECTION
 
       // SECTION - mysql

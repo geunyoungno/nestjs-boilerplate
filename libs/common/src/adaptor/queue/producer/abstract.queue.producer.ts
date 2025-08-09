@@ -1,22 +1,22 @@
 import { type IQueueSchema, type TWrapQueueJobPayload } from '#common/adaptor/queue/queue.type';
+import { type TValueOf } from '#common/shared/dto/utility.type';
 import { CE_LOG_DISCRIMINATOR } from '#framework/logger/const-enum/CE_LOG_DISCRIMINATOR';
 import { type LoggerService } from '#framework/logger/logger.service';
 import { type BaseJobOptions, type Job, type JobsOptions, type Queue } from 'bullmq';
 import { type ClsService } from 'nestjs-cls';
-import { type ValueOf } from 'type-fest';
 import * as uuid from 'uuid';
 
-export abstract class AbstractQueueProducer<TJonPayload extends ValueOf<IQueueSchema>> {
+export abstract class AbstractQueueProducer<TJonPayload extends TValueOf<IQueueSchema>> {
   private _loggerService: LoggerService;
   private _clsService: ClsService;
 
   private queue: Queue<
     TWrapQueueJobPayload<TJonPayload>,
     unknown,
-    ValueOf<Pick<TJonPayload, 'discriminator'>>,
+    TValueOf<Pick<TJonPayload, 'discriminator'>>,
     TWrapQueueJobPayload<TJonPayload>,
     unknown,
-    ValueOf<Pick<TJonPayload, 'discriminator'>>
+    TValueOf<Pick<TJonPayload, 'discriminator'>>
   >;
   private readonly defaultOption = {
     removeOnComplete: true, // 성공한 작업은 자동으로 삭제
@@ -37,7 +37,7 @@ export abstract class AbstractQueueProducer<TJonPayload extends ValueOf<IQueueSc
     loggerService,
     clsService,
   }: {
-    queue: Queue<TWrapQueueJobPayload<TJonPayload>, unknown, ValueOf<Pick<TJonPayload, 'discriminator'>>>;
+    queue: Queue<TWrapQueueJobPayload<TJonPayload>, unknown, TValueOf<Pick<TJonPayload, 'discriminator'>>>;
     option?: JobsOptions;
     loggerService: LoggerService;
     clsService: ClsService;
@@ -57,7 +57,7 @@ export abstract class AbstractQueueProducer<TJonPayload extends ValueOf<IQueueSc
     return { requestId: this._clsService.get('requestId'), userUuid: this._clsService.get('userUuid') };
   }
 
-  private onAdded(job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, ValueOf<Pick<TJonPayload, 'discriminator'>>>) {
+  private onAdded(job: Job<TWrapQueueJobPayload<TJonPayload>, unknown, TValueOf<Pick<TJonPayload, 'discriminator'>>>) {
     if (this.loggingRecord[CE_LOG_DISCRIMINATOR.QUEUE_PRODUCER_ADDED] === false) {
       return;
     }

@@ -1,12 +1,12 @@
+import { type TMerge } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsArray, IsOptional, IsString, MaxLength } from 'class-validator';
-import { type Merge } from 'type-fest';
 
 export const stringDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }> &
     Pick<ApiPropertyOptions, 'maxLength'>,
 ) => {
   const required = args.required ?? false;
@@ -31,7 +31,7 @@ export const stringDecorator = (
 };
 
 export const stringManyDecorator = (
-  args: Merge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }>,
+  args: TMerge<Required<Pick<ApiPropertyOptions, 'description' | 'required'>>, { required: boolean }>,
 ) => {
   const required = args.required ?? false;
 

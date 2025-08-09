@@ -6,10 +6,10 @@ import {
   type ISearchPaginationBaseDto,
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
+import { type TLiteralUnion, type TReplace, type TSnakeCase, type TSplit } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { camelCase, snakeCase } from 'change-case-all';
 import dayjs from 'dayjs';
-import { type LiteralUnion, type Replace, type SnakeCase, type Split } from 'type-fest';
 import { type SelectQueryBuilder } from 'typeorm';
 
 /** 검색 쿼리 */
@@ -45,9 +45,9 @@ export const getSearchQueryRecord = <
       if (isNotEmpty(createdAt) && Array.isArray(createdAt)) {
         const fieldName = 'created_at';
         Object.values(createdAt).forEach((value) => {
-          const [operator, ...restFieldValue] = value.split(':') as Split<typeof value, ':'>;
+          const [operator, ...restFieldValue] = value.split(':') as TSplit<typeof value, ':'>;
           const fieldValue = restFieldValue.join(':');
-          const key = `${operator.replace('$', '') as Replace<typeof operator, '$', ''>}_${fieldName}`;
+          const key = `${operator.replace('$', '') as TReplace<typeof operator, '$', ''>}_${fieldName}`;
 
           if (operator === '$gte') {
             searchQueryBuilder.andWhere(`${args.alias}.${fieldName} >= :${key}`, { [key]: fieldValue });
@@ -69,9 +69,9 @@ export const getSearchQueryRecord = <
       if (isNotEmpty(updatedAt) && Array.isArray(updatedAt)) {
         const fieldName = 'updated_at';
         Object.values(updatedAt).forEach((value) => {
-          const [operator, ...restFieldValue] = value.split(':') as Split<typeof value, ':'>;
+          const [operator, ...restFieldValue] = value.split(':') as TSplit<typeof value, ':'>;
           const fieldValue = restFieldValue.join(':');
-          const key = `${operator.replace('$', '') as Replace<typeof operator, '$', ''>}_${fieldName}`;
+          const key = `${operator.replace('$', '') as TReplace<typeof operator, '$', ''>}_${fieldName}`;
 
           if (operator === '$gte') {
             searchQueryBuilder.andWhere(`${args.alias}.${fieldName} >= :${key}`, { [key]: fieldValue });
@@ -110,7 +110,7 @@ export const getSearchQueryRecord = <
       condition: TCondition;
       extra?: TExtra;
 
-      alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
+      alias: TLiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
       searchQueryBuilder: SelectQueryBuilder<TEntity>;
     }) => SelectQueryBuilder<TEntity>
   >;
@@ -131,9 +131,9 @@ export const getSearchCloneQueryRecord = <
 
       if (isNotEmpty(sortBy)) {
         sortBy?.forEach((sort) => {
-          const [field, order] = sort.split(':') as Split<typeof sort, ':'>;
+          const [field, order] = sort.split(':') as TSplit<typeof sort, ':'>;
 
-          const fieldName = snakeCase(field) as SnakeCase<typeof field>;
+          const fieldName = snakeCase(field) as TSnakeCase<typeof field>;
 
           sortSearchQueryBuilder.addOrderBy(`${args.alias}.${camelCase(fieldName)}`, order);
         });
@@ -152,7 +152,7 @@ export const getSearchCloneQueryRecord = <
     (args: {
       sort: TSort;
 
-      alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
+      alias: TLiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
       searchQueryBuilder: SelectQueryBuilder<TEntity>;
     }) => SelectQueryBuilder<TEntity>
   >;
@@ -162,7 +162,7 @@ export async function executeSearchQuery<
   TPagination extends ISearchPaginationBaseDto = ISearchPaginationBaseDto,
 >(args: {
   pagination: TPagination;
-  alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
+  alias: TLiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
   totalCountSearchQueryBuilder: SelectQueryBuilder<TEntity>; // 전체 갯수 검색 쿼리 빌러
   sortSearchQueryBuilder: SelectQueryBuilder<TEntity>; // 정렬이 적용된 쿼리 빌더
 }): Promise<{

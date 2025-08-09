@@ -3,6 +3,7 @@ import { CE_COMMON } from '#common/shared/const-enum/CE_COMMON';
 import { CE_CUSTOM_HEADER } from '#common/shared/const-enum/CE_CUSTOM_HEADER';
 import { CE_MASHUP } from '#common/shared/const-enum/CE_MASHUP';
 import { CE_RUN_MODE } from '#common/shared/const-enum/CE_RUN_MODE';
+import { type TClass, type TFirstArrayElement } from '#common/shared/dto/utility.type';
 import { getHost } from '#common/shared/tool/getControllerHost';
 import { getPackageJson } from '#common/shared/tool/getPackageJson';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
@@ -17,8 +18,6 @@ import {
 } from '@nestjs/swagger';
 import { type FastifyRequest } from 'fastify';
 import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
-import { type Class } from 'type-fest';
-import { type FirstArrayElement } from 'type-fest/source/internal';
 
 const packageJson = getPackageJson();
 const version = packageJson.version ?? '0.0.1';
@@ -95,10 +94,10 @@ export const operationIdFactory: SwaggerDocumentOptions['operationIdFactory'] = 
 export const getSwaggerConfig = (args: {
   mashup: CE_MASHUP;
   description: string;
-  include: Array<Class<unknown>>;
+  include: Array<TClass<unknown>>;
   option?: SwaggerCustomOptions;
 }): {
-  path: FirstArrayElement<Parameters<(typeof SwaggerModule)['setup']>>;
+  path: TFirstArrayElement<Parameters<(typeof SwaggerModule)['setup']>>;
   config: Omit<OpenAPIObject, 'paths'>;
   option: SwaggerCustomOptions;
   documentOption: SwaggerDocumentOptions;

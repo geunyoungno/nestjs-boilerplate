@@ -1,4 +1,5 @@
 import { CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
+import { TFirstArrayElement } from '#common/shared/dto/utility.type';
 import { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { type CreateUserBodyBaseDto } from '#user/dto/req/user/create-user.dto';
 import { RemoveUserParamBaseDto } from '#user/dto/req/user/remove-user.dto';
@@ -10,7 +11,6 @@ import { UserRepository } from '#user/repository/user.repository';
 import { IUserRepository } from '#user/repository/user.repository.type';
 import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { type FirstArrayElement } from 'type-fest/source/internal';
 import { Transactional, runInTransaction } from 'typeorm-transactional';
 
 @Injectable()
@@ -23,11 +23,11 @@ export class UserService {
 
   constructor(private userRepository: UserRepository) {}
 
-  async findOrFail(args: FirstArrayElement<Parameters<UserRepository['findOrFail']>>) {
+  async findOrFail(args: TFirstArrayElement<Parameters<UserRepository['findOrFail']>>) {
     return this.userRepository.findOrFail(args);
   }
 
-  async findMany(args: FirstArrayElement<Parameters<UserRepository['findMany']>>) {
+  async findMany(args: TFirstArrayElement<Parameters<UserRepository['findMany']>>) {
     return this.userRepository.findMany(args);
   }
 
@@ -45,7 +45,7 @@ export class UserService {
         fullName: args.body.fullName,
         email: args.body.email,
         password: await this.passwordHash(args.body.password),
-      } satisfies FirstArrayElement<Parameters<UserRepository['create']>>['value'];
+      } satisfies TFirstArrayElement<Parameters<UserRepository['create']>>['value'];
 
       const userResult = await this.userRepository.create({ value: userCreateValue });
 
@@ -64,7 +64,7 @@ export class UserService {
     // step 2. 사용자 수정
     const userUpdateValue = {
       ...args.body,
-    } satisfies FirstArrayElement<Parameters<UserRepository['update']>>['value'];
+    } satisfies TFirstArrayElement<Parameters<UserRepository['update']>>['value'];
 
     await this.userRepository.update({
       condition: { uuid: args.param.userUuid },
@@ -92,8 +92,8 @@ export class UserService {
   }> {
     const searched = await this.userRepository.search<
       Awaited<ReturnType<IUserRepository['search']>>['meta'],
-      FirstArrayElement<Parameters<IUserRepository['search']>>['condition'],
-      FirstArrayElement<Parameters<IUserRepository['search']>>['sort']
+      TFirstArrayElement<Parameters<IUserRepository['search']>>['condition'],
+      TFirstArrayElement<Parameters<IUserRepository['search']>>['sort']
     >({
       condition: args.query,
       pagination: { page: args.query.page ?? this.defaultPage, limit: args.query.limit ?? this.defaultLimit },

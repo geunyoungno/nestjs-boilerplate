@@ -10,6 +10,7 @@ import { toPluralCamel } from '#common/adaptor/database/tool/convertCase';
 import { relationWithDeleted } from '#common/adaptor/database/tool/withDeleted';
 import { typeormMysqlNestDBSymbol } from '#common/adaptor/database/typeorm.provider';
 import { CE_ERROR_CODE } from '#common/shared/const-enum/CE_ERROR_CODE';
+import { TEntries, TFirstArrayElement, TLiteralUnion, TSetRequired } from '#common/shared/dto/utility.type';
 import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { CE_USER_INCLUDE } from '#user/const-enum/CE_USER_INCLUDE';
 import { CE_USER_SEARCH_BY } from '#user/const-enum/CE_USER_SEARCH_BY';
@@ -17,15 +18,13 @@ import { UserAttributeEntity, UserEntity } from '#user/entity/user.entity';
 import { type IUserRepository } from '#user/repository/user.repository.type';
 import { HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
-import { Entries, LiteralUnion, SetRequired } from 'type-fest';
-import { FirstArrayElement } from 'type-fest/source/internal';
 import { DataSource, ObjectLiteral, SelectQueryBuilder } from 'typeorm';
 
 const userRelationRecord = <TEntity extends ObjectLiteral = UserEntity>(): Record<
   CE_USER_INCLUDE,
   (
-    args: SetRequired<FirstArrayElement<Parameters<typeof userRelation<TEntity>>>, 'alias' | 'joinMethod'>,
-  ) => FirstArrayElement<Parameters<typeof userRelation<TEntity>>>['queryBuilder']
+    args: TSetRequired<TFirstArrayElement<Parameters<typeof userRelation<TEntity>>>, 'alias' | 'joinMethod'>,
+  ) => TFirstArrayElement<Parameters<typeof userRelation<TEntity>>>['queryBuilder']
 > => ({
   [CE_USER_INCLUDE.IMAGE_LINKAGES]: (args) => {
     return args.queryBuilder[args.joinMethod as TJoinMethod](
@@ -119,8 +118,8 @@ export class UserRepository extends AbstractRepository<UserEntity, UserAttribute
   protected searchQueryRecord(): Record<
     string,
     (args: {
-      condition: FirstArrayElement<Parameters<IUserRepository['search']>>['condition'];
-      alias: LiteralUnion<typeof CE_TABLE_INFO.USER_ALIAS, TAlias>;
+      condition: TFirstArrayElement<Parameters<IUserRepository['search']>>['condition'];
+      alias: TLiteralUnion<typeof CE_TABLE_INFO.USER_ALIAS, TAlias>;
       searchQueryBuilder: SelectQueryBuilder<UserEntity>;
     }) => SelectQueryBuilder<UserEntity>
   > {
@@ -137,7 +136,7 @@ export class UserRepository extends AbstractRepository<UserEntity, UserAttribute
             Object.entries({
               [CE_USER_SEARCH_BY.FULL_NAME]: `${alias}.full_name LIKE :search`,
               [CE_USER_SEARCH_BY.EMAIL]: `${alias}.email LIKE :search`,
-            }) as Entries<Record<CE_USER_SEARCH_BY, string>>
+            }) as TEntries<Record<CE_USER_SEARCH_BY, string>>
           ).filter(([key]) => {
             //  검색 조건이 없으면은 모든 조건을 검색한다.
             if (isEmpty(searchBy)) {

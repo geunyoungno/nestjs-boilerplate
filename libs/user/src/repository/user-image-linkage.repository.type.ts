@@ -1,7 +1,7 @@
 import { type TExtra } from '#common/adaptor/database/repository/abstract.repository.type';
+import { type TSetRequired } from '#common/shared/dto/utility.type';
 import { type UserImageLinkageEntity } from '#user/entity/user-image-linkage.entity';
 import { type IUserImageLinkageAttributeEntity } from '#user/entity/user-image-linkage.entity.type';
-import { type SetRequired } from 'type-fest';
 import { type InsertResult, type UpdateResult } from 'typeorm';
 
 export interface IUserImageLinkageRepository {
@@ -52,7 +52,7 @@ export interface IUserImageLinkageRepository {
   /** 사용자 이미지 연계 다건 upsert  */
   upsertMany(args: {
     overwrite: Array<'priority' | 'is_default'>;
-    value: Array<SetRequired<Partial<Omit<IUserImageLinkageAttributeEntity, 'id'>>, 'uuid' | 'priority'>>;
+    value: Array<TSetRequired<Partial<Omit<IUserImageLinkageAttributeEntity, 'id'>>, 'uuid' | 'priority'>>;
   }): Promise<{ insertResult: InsertResult }>;
   // !SECTION
 }

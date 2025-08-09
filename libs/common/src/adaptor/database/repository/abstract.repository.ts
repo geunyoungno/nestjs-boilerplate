@@ -22,6 +22,13 @@ import {
   type ISearchSortBaseDto,
 } from '#common/shared/dto/req/search.dto.type';
 import { type ISearchMetaBaseDto } from '#common/shared/dto/res/search.dto.type';
+import {
+  type TAbstractClass,
+  type TCamelCase,
+  type TClass,
+  type TFirstArrayElement,
+  type TLiteralUnion,
+} from '#common/shared/dto/utility.type';
 import { getInsertId } from '#common/shared/tool/getInsertId';
 import isEmpty, { isNotEmpty } from '#common/shared/tool/isEmpty';
 import { createSortById } from '#common/shared/tool/sortArray';
@@ -29,8 +36,6 @@ import { HttpStatus, InternalServerErrorException, NotFoundException } from '@ne
 import BigNumber from 'bignumber.js';
 import { camelCase } from 'change-case-all';
 import { type ClsService } from 'nestjs-cls';
-import type { AbstractClass, CamelCase, Class, LiteralUnion } from 'type-fest';
-import { type FirstArrayElement } from 'type-fest/source/internal';
 import { type DataSource, type Repository, type SelectQueryBuilder, type UpdateResult } from 'typeorm';
 import { type QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
@@ -38,10 +43,10 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   implements IAbstractRepository<TEntity>
 {
   protected readonly _repository: Repository<TEntity>;
-  protected readonly alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
+  protected readonly alias: TLiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
   protected readonly draft: TDraft<TAttribute>;
-  protected readonly entity: AbstractClass<TEntity>;
-  protected readonly attribute: AbstractClass<TAttribute>;
+  protected readonly entity: TAbstractClass<TEntity>;
+  protected readonly attribute: TAbstractClass<TAttribute>;
   protected readonly attributeKeys: string[];
   protected readonly clsService?: ClsService;
   protected readonly errorCodeMap?: Partial<Record<HttpStatus, string>>;
@@ -56,11 +61,11 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
     errorCodeMap,
   }: {
     alias: TAlias;
-    attribute: Class<TAttribute>;
+    attribute: TClass<TAttribute>;
     clsService?: ClsService;
     dataSource: DataSource;
     draft: TDraft<TAttribute>;
-    entity: AbstractClass<TEntity>;
+    entity: TAbstractClass<TEntity>;
     errorCodeMap?: Partial<Record<HttpStatus, string>>;
   }) {
     this._repository = dataSource.getRepository(entity);
@@ -128,7 +133,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   };
 
   async create(
-    args: FirstArrayElement<Parameters<IAbstractRepository<TEntity>['create']>>,
+    args: TFirstArrayElement<Parameters<IAbstractRepository<TEntity>['create']>>,
   ): Promise<Awaited<ReturnType<IAbstractRepository<TEntity>['create']>>> {
     // 값 필터링: id 제외
     const value = Object.fromEntries(
@@ -440,7 +445,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
   // method로 해놓지 않으면 자식 클래스에서 호출할 수 없음
   async upsertMany(
-    args: FirstArrayElement<Parameters<IAbstractRepository<TEntity>['upsertMany']>>,
+    args: TFirstArrayElement<Parameters<IAbstractRepository<TEntity>['upsertMany']>>,
   ): Promise<Awaited<ReturnType<IAbstractRepository<TEntity>['upsertMany']>>> {
     const { overwrite, value } = args;
 
@@ -479,7 +484,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   protected readonly defaultSearchQueryRecord = {
     ...getSearchQueryRecord<
       TEntity,
-      FirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['condition']
+      TFirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['condition']
     >(),
   } as const;
 
@@ -487,10 +492,10 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   protected searchQueryRecord(): Record<
     string,
     (args: {
-      condition: FirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['condition'];
+      condition: TFirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['condition'];
       extra?: { now?: Date } | undefined;
 
-      alias: LiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
+      alias: TLiteralUnion<Extract<CE_TABLE_INFO, `${string}_as`>, `${string}_as`>;
       searchQueryBuilder: SelectQueryBuilder<TEntity>;
     }) => SelectQueryBuilder<TEntity>
   > {
@@ -501,7 +506,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
   protected readonly searchCloneQueryRecord = {
     ...getSearchCloneQueryRecord<
       TEntity,
-      FirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['sort']
+      TFirstArrayElement<Parameters<IAbstractRepository<TEntity>['search']>>['sort']
     >(),
   } as const;
 
@@ -540,7 +545,7 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
       status: TIncludeUnion;
       count: number;
     }>;
-  }): Record<'total' | CamelCase<TIncludeUnion>, number> {
+  }): Record<'total' | TCamelCase<TIncludeUnion>, number> {
     const { statusCounts } = args;
 
     const statusCount = {
@@ -548,12 +553,12 @@ export abstract class AbstractRepository<TEntity extends IEntity, TAttribute ext
 
       ...statusCounts.reduce(
         (statusCounts, statusCount) => {
-          const searchStatus = camelCase(statusCount.status) as CamelCase<typeof statusCount.status>;
+          const searchStatus = camelCase(statusCount.status) as TCamelCase<typeof statusCount.status>;
           statusCounts[searchStatus] = BigNumber(statusCount.count).toNumber();
 
           return statusCounts;
         },
-        {} as Record<CamelCase<TIncludeUnion>, number>,
+        {} as Record<TCamelCase<TIncludeUnion>, number>,
       ),
     };
 
